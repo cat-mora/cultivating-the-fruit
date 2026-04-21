@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Checkout | Cultivating the Fruit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #1F628E;
+      --blue-dark: #174b6d;
+      --pink-soft: #FFE4E5;
+      --coral: #F7838D;
+      --black: #231F20;
+      --off-white: #FFFEFA;
+      --white: #ffffff;
+      --gray-text: #5a5456;
+      --cta-coral: #E8545A;
+      --cta-coral-dark: #D4434A;
+      --font-head: 'Montserrat', sans-serif;
+      --font-body: 'Poppins', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--black);
+      background: var(--off-white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      background: var(--blue-dark);
+      padding: 12px 24px;
+      text-align: center;
+    }
+    .progress-bar p {
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-top: 8px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.5);
+    }
+    .step.active { color: var(--white); }
+    .step.done { color: rgba(255,255,255,0.7); }
+    .step-num {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+    }
+    .step.active .step-num { background: var(--cta-coral); color: white; }
+    .step.done .step-num { background: rgba(255,255,255,0.4); }
+    .step-divider { width: 32px; height: 1px; background: rgba(255,255,255,0.2); margin: 0 4px; }
+
+    /* ── HEADER ── */
+    .page-header {
+      background: var(--white);
+      border-bottom: 1px solid rgba(31,98,142,0.1);
+      padding: 16px 24px;
+      text-align: center;
+    }
+    .page-header img { max-width: 200px; margin: 0 auto; border-radius: 8px; }
+
+    /* ── MAIN ── */
+    .container { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+
+    .intro {
+      background: var(--blue);
+      color: var(--white);
+      padding: 32px 0;
+      text-align: center;
+    }
+    .intro h1 {
+      font-family: var(--font-head);
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .intro p { font-size: 15px; opacity: 0.9; max-width: 480px; margin: 0 auto; }
+
+    /* ── ORDER REVIEW ── */
+    .order-section { padding: 36px 0 0; }
+
+    .order-card {
+      background: var(--white);
+      border: 2px solid rgba(31,98,142,0.15);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .order-card-header {
+      background: linear-gradient(135deg, #f0f7ff 0%, #e8f2fb 100%);
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(31,98,142,0.1);
+    }
+    .order-card-header h2 {
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--blue);
+      margin: 0;
+    }
+
+    .order-lines { padding: 8px 0; }
+    .order-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      font-size: 15px;
+      border-bottom: 1px solid rgba(31,98,142,0.06);
+    }
+    .order-line:last-child { border-bottom: none; }
+    .order-line .item-name { color: var(--black); }
+    .order-line .item-price { font-family: var(--font-head); font-weight: 600; color: var(--blue); }
+    .order-line.total {
+      background: rgba(31,98,142,0.04);
+      font-weight: 700;
+    }
+    .order-line.total .item-name {
+      font-family: var(--font-head);
+      font-size: 16px;
+      color: var(--blue);
+    }
+    .order-line.total .item-price {
+      font-size: 20px;
+      color: var(--blue);
+    }
+
+    /* ── EMAIL FORM ── */
+    .email-section {
+      background: var(--white);
+      border: 2px solid rgba(31,98,142,0.15);
+      border-radius: 16px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .email-section h2 {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 6px;
+    }
+    .email-section p {
+      font-size: 13px;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+    }
+    .email-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid rgba(31,98,142,0.2);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 15px;
+      color: var(--black);
+      background: var(--off-white);
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .email-field:focus { border-color: var(--blue); }
+    .email-field::placeholder { color: rgba(90,84,86,0.5); }
+
+    /* ── CTA ── */
+    .cta-section { margin-bottom: 16px; }
+
+    .cta-btn {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      background: var(--cta-coral);
+      border: 3px solid var(--cta-coral-dark);
+      padding: 20px 40px;
+      text-decoration: none;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      border-radius: 4px;
+      animation: pulse 2.5s ease-in-out infinite;
+      transition: all 0.2s ease;
+      margin-bottom: 10px;
+    }
+    .cta-btn:hover {
+      background: var(--cta-coral-dark);
+      animation: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232,84,90,0.35);
+    }
+    .cta-btn .cta-sub {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      font-family: var(--font-body);
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.012)} }
+
+    .cta-meta {
+      font-size: 12px;
+      color: var(--gray-text);
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    /* ── TRUST BADGES ── */
+    .trust-row {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--gray-text);
+    }
+    .trust-item span.icon { font-size: 16px; }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.5);
+      padding: 24px;
+      font-size: 12px;
+      text-align: center;
+    }
+    .page-footer a { color: rgba(255,255,255,0.5); }
+
+    /* ── LOADING STATE ── */
+    .btn-loading { opacity: 0.75; pointer-events: none; cursor: not-allowed; }
+
+    /* ── ERROR STATE ── */
+    .email-error {
+      display: none;
+      color: var(--cta-coral);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .email-error.visible { display: block; }
+  </style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar">
+  <p>You are almost in. Complete your order below.</p>
+  <div class="progress-steps">
+    <div class="step done">
+      <div class="step-num">✓</div>
+      <span>Choose</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="step done">
+      <div class="step-num">✓</div>
+      <span>Add-ons</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="step active">
+      <div class="step-num">3</div>
+      <span>Checkout</span>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="page-header">
+  <img src="/logo.png" alt="Cultivating the Fruit">
+</div>
+
+<!-- Intro -->
+<div class="intro">
+  <div class="container">
+    <h1>Review Your Order</h1>
+    <p>Enter your email and you will be taken to our secure payment page.</p>
+  </div>
+</div>
+
+<!-- Order + Email -->
+<div class="order-section">
+  <div class="container">
+
+    <!-- Order Summary -->
+    <div class="order-card">
+      <div class="order-card-header">
+        <h2>Your Order</h2>
+      </div>
+      <div class="order-lines" id="order-lines">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Email capture -->
+    <div class="email-section">
+      <h2>Where should we send your confirmation?</h2>
+      <p>Your app access and any guides you purchased will be sent to this address.</p>
+      <input
+        type="email"
+        id="email-input"
+        class="email-field"
+        placeholder="your@email.com"
+        autocomplete="email"
+        inputmode="email"
+      >
+      <div class="email-error" id="email-error">Please enter a valid email address.</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <button id="checkout-btn" class="cta-btn" onclick="handleCheckout()">
+        Go to Secure Payment
+        <span class="cta-sub">You will be redirected to Stripe — takes 2 seconds</span>
+      </button>
+      <p class="cta-meta">🔒 Secure checkout · 256-bit SSL · 30-day money-back guarantee</p>
+    </div>
+
+    <!-- Trust -->
+    <div class="trust-row">
+      <div class="trust-item"><span class="icon">🔒</span> Secure payment</div>
+      <div class="trust-item"><span class="icon">✉️</span> Instant delivery</div>
+      <div class="trust-item"><span class="icon">↩️</span> 30-day guarantee</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+  <p>Cultivating the Fruit · <a href="/privacy">Privacy Policy</a> · <a href="/refunds">Refunds</a> · <a href="/terms">Terms</a></p>
+  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
+</div>
+
+<script>
+  // ── Stripe payment links ──
+  const STRIPE_LINKS = {
+    main:    'https://buy.stripe.com/7sY4gz4vq5Rf4w90xBbo400',
+    bump1:   'https://buy.stripe.com/9B6aEX9PKenL4w91BFbo402',
+    bump2:   'https://buy.stripe.com/aFa28r8LGenL0fTbcfbo403',
+    bundle:  'https://buy.stripe.com/14A5kDge8cfDgeR803bo404'
+  };
+
+  // ── Loops API key ──
+  const LOOPS_API_KEY = 'vck_5ZX1LSNIid4KbmjmPbqhPrqMNgFwUCopAhNmUN8b4F0N31A2aX4G7Ypn';
+
+  // ── Read selection passed from bump page via URL param ──
+  // bump page appends ?selection=main|bump1|bump2|bundle
+  const params = new URLSearchParams(window.location.search);
+  const selection = params.get('selection') || 'main';
+
+  // ── Order line data ──
+  const ORDER_ITEMS = {
+    main:   { label: 'Cultivating the Fruit — 12 months access', price: 79 },
+    bump1:  { label: 'When You Feel the Drift', price: 17 },
+    bump2:  { label: 'Say It With Grace', price: 17 },
+    bundle: { label: 'Both Companion Guides (bundle)', price: 27 }
+  };
+
+  // ── Build order summary ──
+  function buildOrderSummary() {
+    const container = document.getElementById('order-lines');
+    let lines = [];
+    let total = 79;
+
+    // Always include main app
+    lines.push({ label: ORDER_ITEMS.main.label, price: 79 });
+
+    if (selection === 'bump1') {
+      lines.push({ label: ORDER_ITEMS.bump1.label, price: 17 });
+      total = 96;
+    } else if (selection === 'bump2') {
+      lines.push({ label: ORDER_ITEMS.bump2.label, price: 17 });
+      total = 96;
+    } else if (selection === 'bundle') {
+      lines.push({ label: ORDER_ITEMS.bundle.label, price: 27 });
+      total = 106;
+    }
+
+    let html = lines.map(line => `
+      <div class="order-line">
+        <span class="item-name">${line.label}</span>
+        <span class="item-price">AU$${line.price}</span>
+      </div>
+    `).join('');
+
+    html += `
+      <div class="order-line total">
+        <span class="item-name">Total today</span>
+        <span class="item-price">AU$${total} <span style="font-size:12px;font-weight:400;opacity:0.7;">(Approx. US$${Math.round(total * 0.63)})</span></span>
+      </div>
+    `;
+
+    container.innerHTML = html;
+  }
+
+  buildOrderSummary();
+
+  // ── Fire checkout_started event to Loops ──
+  async function fireCheckoutStarted(email) {
+    try {
+      await fetch('https://app.loops.so/api/v1/events/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${LOOPS_API_KEY}`
+        },
+        body: JSON.stringify({
+          eventName: 'checkout_started',
+          email: email,
+          eventProperties: {
+            selection: selection
+          }
+        })
+      });
+    } catch (e) {
+      // Fail silently — don't block checkout
+      console.error('Loops event failed:', e);
+    }
+  }
+
+  // ── Handle checkout button ──
+  async function handleCheckout() {
+    const emailInput = document.getElementById('email-input');
+    const emailError = document.getElementById('email-error');
+    const btn = document.getElementById('checkout-btn');
+    const email = emailInput.value.trim();
+
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      emailError.classList.add('visible');
+      emailInput.focus();
+      return;
+    }
+    emailError.classList.remove('visible');
+
+    // Show loading state
+    btn.classList.add('btn-loading');
+    btn.childNodes[0].textContent = 'Redirecting to payment…';
+
+    // Fire Loops event (don't await — let it run in background)
+    fireCheckoutStarted(email);
+
+    // Store email in sessionStorage so welcome page can use it
+    try { sessionStorage.setItem('ctf_email', email); } catch(e) {}
+
+    // Small delay so Loops has a chance to fire, then redirect
+    setTimeout(() => {
+      window.location.href = STRIPE_LINKS[selection] || STRIPE_LINKS.main;
+    }, 600);
+  }
+
+  // ── Allow Enter key to submit ──
+  document.getElementById('email-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') handleCheckout();
+  });
+
+  // ── Clear error on input ──
+  document.getElementById('email-input').addEventListener('input', function() {
+    document.getElementById('email-error').classList.remove('visible');
+  });
+</script>
+
+</body>
+</html>

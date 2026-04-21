@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One More Thing | Cultivating the Fruit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #1F628E; --blue-dark: #174b6d; --pink-soft: #FFE4E5; --coral: #F7838D;
+      --black: #231F20; --off-white: #FFFEFA; --white: #ffffff; --gray-text: #5a5456;
+      --cta-coral: #E8545A; --cta-coral-dark: #D4434A;
+      --font-head: 'Montserrat', sans-serif; --font-body: 'Poppins', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--black); background: var(--off-white); -webkit-font-smoothing: antialiased; }
+    .progress-bar { background: var(--blue-dark); padding: 10px 24px; text-align: center; }
+    .progress-bar p { color: white; font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .page-header { background: var(--white); border-bottom: 1px solid rgba(31,98,142,0.1); padding: 14px 24px; text-align: center; }
+    .page-header img { max-width: 180px; margin: 0 auto; border-radius: 8px; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+    .confirm-banner { background: #e8f5e9; border-bottom: 2px solid #4caf50; padding: 14px 24px; text-align: center; }
+    .confirm-banner p { font-family: var(--font-head); font-size: 14px; font-weight: 600; color: #2e7d32; margin: 0; }
+    .intro { background: var(--blue); color: white; padding: 32px 0; text-align: center; }
+    .intro .label { font-family: var(--font-head); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--pink-soft); margin-bottom: 10px; }
+    .intro h1 { font-family: var(--font-head); font-size: clamp(20px, 4vw, 28px); font-weight: 700; line-height: 1.25; margin-bottom: 10px; }
+    .intro p { font-size: 15px; opacity: 0.9; max-width: 500px; margin: 0 auto; }
+    .offer-section { padding: 36px 0; }
+    .offer-card { background: var(--white); border: 2px solid rgba(31,98,142,0.15); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(31,98,142,0.08); }
+    .offer-header { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); padding: 20px 28px; display: flex; align-items: center; gap: 20px; }
+    .offer-header img { width: 90px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); flex-shrink: 0; }
+    .offer-header-text h2 { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: white; margin-bottom: 4px; }
+    .offer-header-text p { font-size: 14px; color: rgba(255,255,255,0.85); margin: 0; }
+    .offer-body { padding: 28px; }
+    .offer-body p { font-size: 15px; color: var(--gray-text); margin-bottom: 14px; line-height: 1.7; }
+    .offer-body p:last-of-type { margin-bottom: 0; }
+    .offer-body strong { color: var(--black); }
+    .what-inside { margin: 20px 0; }
+    .what-inside h4 { font-family: var(--font-head); font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 12px; }
+    .inside-list { list-style: none; padding: 0; }
+    .inside-list li { padding: 7px 0 7px 24px; position: relative; font-size: 14px; color: var(--gray-text); border-bottom: 1px solid rgba(31,98,142,0.06); }
+    .inside-list li:last-child { border-bottom: none; }
+    .inside-list li::before { content: '✓'; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
+    .pricing-row { background: var(--pink-soft); border-radius: 10px; padding: 20px; text-align: center; margin: 24px 0; }
+    .price-was { font-size: 14px; color: var(--gray-text); text-decoration: line-through; margin-bottom: 4px; }
+    .price-now { font-family: var(--font-head); font-size: 40px; font-weight: 700; color: var(--blue); line-height: 1; }
+    .price-sub { font-size: 13px; color: var(--gray-text); margin-top: 4px; }
+    .cta-btn { display: block; font-family: var(--font-head); font-size: 17px; font-weight: 700; color: white; background: var(--cta-coral); border: 3px solid var(--cta-coral-dark); padding: 18px 32px; border-radius: 4px; text-decoration: none; text-align: center; animation: pulse 2.5s ease-in-out infinite; transition: all 0.2s; margin-bottom: 10px; }
+    .cta-btn:hover { background: var(--cta-coral-dark); animation: none; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,84,90,0.35); }
+    .cta-sub { display: block; font-size: 13px; font-weight: 400; font-family: var(--font-body); margin-top: 4px; opacity: 0.85; }
+    @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.015)} }
+    .cta-meta { font-size: 12px; color: var(--gray-text); text-align: center; margin-bottom: 16px; }
+    .skip-link { display: block; text-align: center; font-size: 13px; color: var(--gray-text); text-decoration: underline; cursor: pointer; padding-bottom: 32px; }
+    .skip-link:hover { color: var(--blue); }
+    .page-footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 24px; font-size: 12px; text-align: center; }
+    @media(max-width:500px) { .offer-header { flex-direction: column; text-align: center; } .offer-header img { width: 100px; } }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar">
+  <p>✓ Order complete — here is something worth adding</p>
+</div>
+<div class="page-header">
+  <img src="/logo.png" alt="Cultivating the Fruit">
+</div>
+<div class="confirm-banner">
+  <p>✓ Your order is confirmed. Your app access is on its way.</p>
+</div>
+
+<div class="intro">
+  <div class="container">
+    <p class="label">One-time offer — not available later</p>
+    <h1>You are capable, reliable, and present. But you do not feel cherished. You feel useful.</h1>
+    <p>Add this to your order now — this page will not appear again.</p>
+  </div>
+</div>
+
+<div class="offer-section">
+  <div class="container">
+    <div class="offer-card">
+      <div class="offer-header">
+        <img src="/cherished-again-cover.png" alt="Cherished Again">
+        <div class="offer-header-text">
+          <h2>Cherished Again</h2>
+          <p>How to step back from manager mode and make room for husband-and-wife closeness again</p>
+        </div>
+      </div>
+      <div class="offer-body">
+        <p>A marriage can work and still feel thin. You may still handle everything together — the children, the meals, the finances, the schedules. He may appreciate you. He may trust you. He may depend on you completely.</p>
+        <p>But you do not feel cherished. You feel useful.</p>
+        <p>This usually happens a little at a time. Life gets full, somebody has to keep things moving, and a wife who is good at carrying the load slowly becomes the one who runs everything. The husband-wife feel begins to fade. You end up feeling more like the manager of a household than the woman he is meant to enjoy.</p>
+        <p>This guide is honest about how that happens and practical about what helps. It looks at the difference between manager mode and wife mode — what each sounds and feels like, and how to begin moving from one to the other. It covers warmth, affection, the difference between directing and inviting, and the kinds of small shifts that make room for husband-and-wife energy to come back.</p>
+        <p>It does not ask you to become fake, passive, or someone you are not. It asks you to notice where you have gone purely functional, and to bring back warmth, presence, affection, and delight in small, honest ways.</p>
+
+        <div class="what-inside">
+          <h4>What this guide covers</h4>
+          <ul class="inside-list">
+            <li>Why wives stop feeling cherished — and why it is rarely one big thing</li>
+            <li>Manager mode vs wife mode: what each looks like in practice</li>
+            <li>A short self-check to see where you are right now</li>
+            <li>Why warmth opens doors that pressure closes</li>
+            <li>How to invite instead of direct, correct, or carry</li>
+            <li>Affection, desire, and becoming more present again</li>
+            <li>What God's design for marriage actually looks like — including delight</li>
+            <li>A practical one-step-at-a-time plan to begin</li>
+          </ul>
+        </div>
+
+        <p>Being cherished again usually does not begin with one big moment. It often begins when a wife notices where she has drifted into manager mode, decides to stop carrying what is not hers, and starts bringing warmth back in small, clear, honest ways.</p>
+
+        <div class="pricing-row">
+          <p class="price-was">Regular price: AU$87</p>
+          <p class="price-now">AU$67</p>
+          <p class="price-sub">One-time offer · added to your order instantly · (Approx. US$43)</p>
+        </div>
+
+        <a href="https://buy.stripe.com/28E8wPd1WfrPfaNgwzbo406" class="cta-btn">
+          Yes — Add Cherished Again To My Order
+          <span class="cta-sub">AU$67 · one click · instant access</span>
+        </a>
+        <p class="cta-meta">🔒 Secure · charged separately to your main order</p>
+        <a href="/strengthen-wives/welcome" class="skip-link" id="skip-btn">No thanks — take me to my download page</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <p>Cultivating the Fruit · <a href="/privacy" style="color:rgba(255,255,255,0.5);">Privacy</a> · <a href="/refunds" style="color:rgba(255,255,255,0.5);">Refunds</a></p>
+  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
+</div>
+
+<script>
+  // If they came from OTO 1 having purchased it, show bundle offer instead
+  // Pass ?bought=conversations in the URL from OTO 1's yes link to trigger bundle
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('bought') === 'conversations') {
+    // They bought OTO1 - update skip link to go to welcome
+    document.getElementById('skip-btn').href = '/welcome';
+  }
+</script>
+
+</body>
+</html>

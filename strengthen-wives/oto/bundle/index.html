@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Complete the Set | Cultivating the Fruit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #1F628E; --blue-dark: #174b6d; --pink-soft: #FFE4E5; --coral: #F7838D;
+      --black: #231F20; --off-white: #FFFEFA; --white: #ffffff; --gray-text: #5a5456;
+      --cta-coral: #E8545A; --cta-coral-dark: #D4434A;
+      --font-head: 'Montserrat', sans-serif; --font-body: 'Poppins', sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--black); background: var(--off-white); -webkit-font-smoothing: antialiased; }
+    .progress-bar { background: var(--blue-dark); padding: 10px 24px; text-align: center; }
+    .progress-bar p { color: white; font-family: var(--font-head); font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .page-header { background: var(--white); border-bottom: 1px solid rgba(31,98,142,0.1); padding: 14px 24px; text-align: center; }
+    .page-header img { max-width: 180px; margin: 0 auto; border-radius: 8px; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+    .confirm-banner { background: #e8f5e9; border-bottom: 2px solid #4caf50; padding: 14px 24px; text-align: center; }
+    .confirm-banner p { font-family: var(--font-head); font-size: 14px; font-weight: 600; color: #2e7d32; margin: 0; }
+
+    .intro { background: linear-gradient(135deg, var(--blue) 0%, #2a7db5 100%); color: white; padding: 32px 0; text-align: center; }
+    .intro .badge { display: inline-block; background: var(--cta-coral); color: white; font-family: var(--font-head); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; padding: 5px 16px; border-radius: 20px; margin-bottom: 14px; }
+    .intro h1 { font-family: var(--font-head); font-size: clamp(20px, 4vw, 28px); font-weight: 700; line-height: 1.25; margin-bottom: 10px; }
+    .intro p { font-size: 15px; opacity: 0.9; max-width: 500px; margin: 0 auto; }
+
+    .offer-section { padding: 36px 0; }
+    .offer-card { background: var(--white); border: 2px solid rgba(232,84,90,0.3); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(232,84,90,0.1); }
+
+    .bundle-header { background: linear-gradient(135deg, #fff0f0 0%, #fff5f0 100%); padding: 24px 28px; text-align: center; border-bottom: 1px solid rgba(232,84,90,0.15); }
+    .bundle-covers { display: flex; justify-content: center; gap: 12px; margin-bottom: 16px; }
+    .bundle-covers img { width: 90px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+    .bundle-header h2 { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--blue); margin-bottom: 6px; }
+    .bundle-header p { font-size: 14px; color: var(--gray-text); }
+
+    .offer-body { padding: 28px; }
+    .offer-body p { font-size: 15px; color: var(--gray-text); margin-bottom: 14px; line-height: 1.7; }
+    .offer-body strong { color: var(--black); }
+
+    .value-breakdown { background: var(--off-white); border-radius: 10px; padding: 20px; margin: 20px 0; }
+    .value-breakdown h4 { font-family: var(--font-head); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--blue); margin-bottom: 12px; }
+    .value-line { display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-bottom: 1px solid rgba(31,98,142,0.08); color: var(--gray-text); }
+    .value-line:last-child { border-bottom: none; }
+    .value-line .already { color: #4caf50; font-weight: 600; font-size: 13px; }
+    .value-line .adding { color: var(--blue); font-weight: 600; }
+
+    .pricing-row { background: var(--pink-soft); border-radius: 10px; padding: 20px; text-align: center; margin: 24px 0; }
+    .price-label { font-family: var(--font-head); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--coral); margin-bottom: 6px; }
+    .price-now { font-family: var(--font-head); font-size: 40px; font-weight: 700; color: var(--blue); line-height: 1; }
+    .price-sub { font-size: 13px; color: var(--gray-text); margin-top: 4px; }
+
+    .cta-btn { display: block; font-family: var(--font-head); font-size: 17px; font-weight: 700; color: white; background: var(--cta-coral); border: 3px solid var(--cta-coral-dark); padding: 18px 32px; border-radius: 4px; text-decoration: none; text-align: center; animation: pulse 2.5s ease-in-out infinite; transition: all 0.2s; margin-bottom: 10px; }
+    .cta-btn:hover { background: var(--cta-coral-dark); animation: none; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,84,90,0.35); }
+    .cta-sub { display: block; font-size: 13px; font-weight: 400; font-family: var(--font-body); margin-top: 4px; opacity: 0.85; }
+    @keyframes pulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.015)} }
+    .cta-meta { font-size: 12px; color: var(--gray-text); text-align: center; margin-bottom: 16px; }
+    .skip-link { display: block; text-align: center; font-size: 13px; color: var(--gray-text); text-decoration: underline; cursor: pointer; padding-bottom: 32px; }
+    .skip-link:hover { color: var(--blue); }
+    .page-footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 24px; font-size: 12px; text-align: center; }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar">
+  <p>✓ Order complete — one last thing before your download page</p>
+</div>
+<div class="page-header">
+  <img src="/logo.png" alt="Cultivating the Fruit">
+</div>
+<div class="confirm-banner">
+  <p>✓ Your order is confirmed. Your app access is on its way.</p>
+</div>
+
+<div class="intro">
+  <div class="container">
+    <div class="badge">Complete the set — discounted</div>
+    <h1>You already have one. Add the other at a reduced price.</h1>
+    <p>Since you purchased one of the companion guides, you can add the second one now at a special price — this offer will not appear again.</p>
+  </div>
+</div>
+
+<div class="offer-section">
+  <div class="container">
+    <div class="offer-card">
+      <div class="bundle-header">
+        <div class="bundle-covers">
+          <img src="/10-conversations-cover.png" alt="10 Conversations">
+          <img src="/cherished-again-cover.png" alt="Cherished Again">
+        </div>
+        <h2>Both Companion Guides Together</h2>
+        <p>10 Conversations To Feel Close Again + Cherished Again</p>
+      </div>
+
+      <div class="offer-body">
+        <p>You already have one of these guides. The second one covers different ground — together they sit well alongside each other and the app. This is simply an opportunity to add it now at a reduced price, rather than coming back for it later.</p>
+
+        <div class="value-breakdown">
+          <h4>What you are getting</h4>
+          <div class="value-line">
+            <span id="already-have-name">Guide already purchased</span>
+            <span class="already">✓ Already yours</span>
+          </div>
+          <div class="value-line">
+            <span id="adding-name">Second guide</span>
+            <span class="adding" id="adding-price">AU$40</span>
+          </div>
+          <div class="value-line" style="font-weight:600; color: var(--blue);">
+            <span>Bundle total</span>
+            <span>AU$87</span>
+          </div>
+        </div>
+
+        <div class="pricing-row">
+          <p class="price-label">You pay today</p>
+          <p class="price-now" id="bundle-price">AU$40</p>
+          <p class="price-sub" id="price-sub-text">For the second guide · added instantly</p>
+        </div>
+
+        <a href="#" id="bundle-cta" class="cta-btn">
+          Yes — Add the Second Guide
+          <span class="cta-sub">One click · instant access</span>
+        </a>
+        <p class="cta-meta">🔒 Secure · this is the price for the second guide only</p>
+        <a href="/strengthen-wives/welcome" class="skip-link">No thanks — take me to my download page</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-footer">
+  <p>Cultivating the Fruit · <a href="/privacy" style="color:rgba(255,255,255,0.5);">Privacy</a> · <a href="/refunds" style="color:rgba(255,255,255,0.5);">Refunds</a></p>
+  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
+</div>
+
+<script>
+  // Read which guide they already bought from URL param
+  // e.g. /oto/bundle?bought=conversations or /oto/bundle?bought=cherished
+  const params = new URLSearchParams(window.location.search);
+  const bought = params.get('bought');
+
+  if (bought === 'conversations') {
+    document.getElementById('already-have-name').textContent = '10 Conversations To Feel Close Again';
+    document.getElementById('adding-name').textContent = 'Cherished Again (normally AU$67)';
+    document.getElementById('adding-price').textContent = 'AU$40';
+    document.getElementById('bundle-price').textContent = 'AU$40';
+    const btn = document.getElementById('bundle-cta');
+    btn.href = 'https://buy.stripe.com/3cIeVd5zu2F35Ad2FJbo408';
+    btn.innerHTML = 'Yes — Add Cherished Again at the Bundle Price<span class="cta-sub">AU$40 · one click · instant access</span>';
+  } else if (bought === 'cherished') {
+    document.getElementById('already-have-name').textContent = 'Cherished Again';
+    document.getElementById('adding-name').textContent = '10 Conversations To Feel Close Again (normally AU$47)';
+    document.getElementById('adding-price').textContent = 'AU$20';
+    document.getElementById('bundle-price').textContent = 'AU$20';
+    const btn = document.getElementById('bundle-cta');
+    btn.href = 'https://buy.stripe.com/dRm14n7HC3J7geRbcfbo409';
+    btn.innerHTML = 'Yes — Add 10 Conversations at the Bundle Price<span class="cta-sub">AU$20 · one click · instant access</span>';
+  } else {
+    // No param — shouldn't happen, redirect to welcome
+    window.location.href = '/strengthen-wives/welcome';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Last Step | Cultivating the Fruit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #1F628E;
+      --blue-dark: #174b6d;
+      --pink-soft: #FFE4E5;
+      --coral: #F7838D;
+      --black: #231F20;
+      --off-white: #FFFEFA;
+      --white: #ffffff;
+      --gray-text: #5a5456;
+      --cta-coral: #E8545A;
+      --cta-coral-dark: #D4434A;
+      --font-head: 'Montserrat', sans-serif;
+      --font-body: 'Poppins', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--black);
+      background: var(--off-white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── PROGRESS BAR ── */
+    .progress-bar {
+      background: var(--blue-dark);
+      padding: 12px 24px;
+      text-align: center;
+    }
+    .progress-bar p {
+      color: var(--white);
+      font-family: var(--font-head);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      margin-top: 8px;
+    }
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.5);
+    }
+    .step.active { color: var(--white); }
+    .step.done { color: rgba(255,255,255,0.7); }
+    .step-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+    .step.active .step-num { background: var(--cta-coral); color: white; }
+    .step.done .step-num { background: rgba(255,255,255,0.4); }
+    .step-divider {
+      width: 32px;
+      height: 1px;
+      background: rgba(255,255,255,0.2);
+      margin: 0 4px;
+    }
+
+    /* ── HEADER ── */
+    .page-header {
+      background: var(--white);
+      border-bottom: 1px solid rgba(31,98,142,0.1);
+      padding: 16px 24px;
+      text-align: center;
+    }
+    .page-header img { max-width: 200px; margin: 0 auto; border-radius: 8px; }
+
+    /* ── MAIN ── */
+    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
+
+    .intro {
+      background: var(--blue);
+      color: var(--white);
+      padding: 32px 0;
+      text-align: center;
+    }
+    .intro h1 {
+      font-family: var(--font-head);
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+    .intro p {
+      font-size: 16px;
+      opacity: 0.9;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ── BUMP CARDS ── */
+    .bumps-section {
+      padding: 36px 0 0;
+    }
+    .section-label {
+      font-family: var(--font-head);
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--coral);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .bump-card {
+      background: var(--white);
+      border: 2px solid rgba(31,98,142,0.15);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      position: relative;
+    }
+    .bump-card:hover {
+      border-color: var(--blue);
+      box-shadow: 0 4px 16px rgba(31,98,142,0.1);
+    }
+    .bump-card.selected {
+      border-color: var(--blue);
+      box-shadow: 0 4px 20px rgba(31,98,142,0.15);
+      background: #f0f7ff;
+    }
+    .bump-card.bundle-selected {
+      border-color: var(--cta-coral);
+      box-shadow: 0 4px 20px rgba(232,84,90,0.15);
+      background: #fff5f5;
+    }
+
+    .bump-inner {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .bump-checkbox {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border: 2px solid rgba(31,98,142,0.3);
+      border-radius: 6px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2px;
+      transition: all 0.15s;
+    }
+    .bump-card.selected .bump-checkbox,
+    .bump-card.bundle-selected .bump-checkbox {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+    .bump-card.bundle-selected .bump-checkbox { background: var(--cta-coral); border-color: var(--cta-coral); }
+    .bump-checkbox svg { display: none; }
+    .bump-card.selected .bump-checkbox svg,
+    .bump-card.bundle-selected .bump-checkbox svg { display: block; }
+
+    .bump-cover {
+      flex-shrink: 0;
+      width: 70px;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      mix-blend-mode: multiply;
+    }
+    .bump-text { flex: 1; }
+    .bump-text h3 {
+      font-family: var(--font-head);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .bump-text p {
+      font-size: 14px;
+      color: var(--gray-text);
+      margin-bottom: 8px;
+      line-height: 1.5;
+    }
+    .bump-price {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .price-tag {
+      font-family: var(--font-head);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue);
+    }
+    .price-was {
+      font-size: 13px;
+      color: var(--gray-text);
+      text-decoration: line-through;
+    }
+
+    /* ── BUNDLE CARD ── */
+    .bundle-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0 16px;
+    }
+    .bundle-divider::before, .bundle-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(31,98,142,0.15);
+    }
+    .bundle-divider span {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--coral);
+      white-space: nowrap;
+    }
+
+    .bundle-card {
+      background: linear-gradient(135deg, #fff8f0 0%, #fff0f0 100%);
+      border: 2px solid var(--coral);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .bundle-card:hover {
+      box-shadow: 0 4px 20px rgba(247,131,141,0.2);
+    }
+    .bundle-card.selected {
+      background: linear-gradient(135deg, #fff0e8 0%, #ffe8e8 100%);
+      box-shadow: 0 4px 24px rgba(247,131,141,0.25);
+    }
+    .bundle-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--cta-coral);
+      color: white;
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 4px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .bundle-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .bundle-checkbox {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--coral);
+      border-radius: 6px;
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .bundle-card.selected .bundle-checkbox {
+      background: var(--cta-coral);
+      border-color: var(--cta-coral);
+    }
+    .bundle-checkbox svg { display: none; }
+    .bundle-card.selected .bundle-checkbox svg { display: block; }
+
+    .bundle-covers {
+      display: flex;
+      gap: -8px;
+    }
+    .bundle-covers img {
+      width: 50px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      margin-right: -10px;
+      mix-blend-mode: multiply;
+    }
+    .bundle-covers img:last-child { margin-right: 0; }
+    .bundle-text { flex: 1; }
+    .bundle-text h3 {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--cta-coral-dark, #D4434A);
+      margin-bottom: 3px;
+    }
+    .bundle-text p {
+      font-size: 13px;
+      color: var(--gray-text);
+      margin-bottom: 6px;
+    }
+    .bundle-pricing {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .bundle-price-now {
+      font-family: var(--font-head);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--cta-coral);
+    }
+    .bundle-price-was {
+      font-size: 13px;
+      color: var(--gray-text);
+      text-decoration: line-through;
+    }
+    .bundle-saving {
+      font-family: var(--font-head);
+      font-size: 11px;
+      font-weight: 700;
+      background: var(--cta-coral);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .bundle-note {
+      font-size: 12px;
+      color: var(--gray-text);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* ── ORDER SUMMARY ── */
+    .order-summary {
+      background: var(--white);
+      border: 2px solid rgba(31,98,142,0.15);
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 24px 0;
+    }
+    .order-summary h3 {
+      font-family: var(--font-head);
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--blue);
+      margin-bottom: 14px;
+    }
+    .order-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(31,98,142,0.07);
+      font-size: 14px;
+    }
+    .order-line:last-child { border-bottom: none; }
+    .order-line.total {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--blue);
+      padding-top: 12px;
+      margin-top: 4px;
+      border-top: 2px solid rgba(31,98,142,0.15);
+      border-bottom: none;
+    }
+    .order-line span:last-child { font-weight: 600; }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 8px 0 40px;
+      text-align: center;
+    }
+    .cta-btn {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+      background: var(--cta-coral);
+      border: 3px solid var(--cta-coral-dark);
+      padding: 18px 40px;
+      border-radius: 4px;
+      text-decoration: none;
+      cursor: pointer;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      animation: pulse 2.5s ease-in-out infinite;
+      transition: all 0.2s;
+    }
+    .cta-btn:hover {
+      background: var(--cta-coral-dark);
+      animation: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(232,84,90,0.35);
+    }
+    .cta-sub {
+      display: block;
+      font-size: 13px;
+      font-weight: 400;
+      font-family: var(--font-body);
+      margin-top: 4px;
+      opacity: 0.85;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.015); }
+    }
+    .cta-meta {
+      font-size: 12px;
+      color: var(--gray-text);
+      margin-top: 10px;
+    }
+    .skip-link {
+      display: block;
+      margin-top: 16px;
+      font-size: 13px;
+      color: var(--gray-text);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .skip-link:hover { color: var(--blue); }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      background: var(--black);
+      color: rgba(255,255,255,0.5);
+      padding: 24px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    @media (max-width: 500px) {
+      .bump-inner { gap: 12px; }
+      .bump-cover { width: 56px; }
+      .bundle-covers img { width: 42px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-bar">
+  <p>You are almost in. Complete your order below.</p>
+  <div class="progress-steps">
+    <div class="step done">
+      <div class="step-num">✓</div>
+      <span>Choose</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="step active">
+      <div class="step-num">2</div>
+      <span>Add-ons</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <span>Checkout</span>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<div class="page-header">
+  <img src="/logo.png" alt="Cultivating the Fruit">
+</div>
+
+<!-- Intro -->
+<div class="intro">
+  <div class="container">
+    <h1>Before You Check Out — Two Guides Worth Looking At</h1>
+    <p>Both are for those moments in marriage where you can feel something slipping, but do not want to handle it badly. Tick one below to add it to your order.</p>
+  </div>
+</div>
+
+<!-- Bumps -->
+<div class="bumps-section">
+  <div class="container">
+    <p class="section-label">Add to your order</p>
+
+    <!-- Bump 1: When You Feel the Drift -->
+    <div class="bump-card" id="bump1" onclick="toggleBump(1)">
+      <div class="bump-inner">
+        <div class="bump-checkbox" id="check1">
+          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+            <path d="M1 5L5 9L13 1" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <img src="/when-you-feel-the-drift-cover.png" class="bump-cover" alt="When You Feel the Drift cover">
+        <div class="bump-text">
+          <h3>When You Feel the Drift</h3>
+          <p>You can feel the distance, even if he seems perfectly content and nothing looks wrong enough to call a crisis. This guide is for the woman lying awake at night wondering if she is imagining it, overreacting, or already losing something precious by staying silent.</p>
+          <div class="bump-price">
+            <span class="price-tag">AU$17</span>
+            <span class="price-was">AU$27</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bump 2: Say It With Grace -->
+    <div class="bump-card" id="bump2" onclick="toggleBump(2)">
+      <div class="bump-inner">
+        <div class="bump-checkbox" id="check2">
+          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+            <path d="M1 5L5 9L13 1" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <img src="/say-it-with-grace-cover.png" class="bump-cover" alt="Say It With Grace cover">
+        <div class="bump-text">
+          <h3>Say It With Grace</h3>
+          <p>You have things you need to say, but you already know how easily it can come out sounding critical, emotional, or heavier than you meant. This guide helps you say what needs saying without sounding like his mother, starting a fight, or burying it again.</p>
+          <div class="bump-price">
+            <span class="price-tag">AU$17</span>
+            <span class="price-was">AU$27</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bundle -->
+    <div class="bundle-divider"><span>Or save with the bundle</span></div>
+
+    <div class="bundle-card" id="bundle" onclick="toggleBundle()">
+      <div class="bundle-badge">Best Value — Save AU$7</div>
+      <div class="bundle-inner">
+        <div class="bundle-checkbox" id="bundleCheck">
+          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+            <path d="M1 5L5 9L13 1" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="bundle-covers">
+          <img src="/when-you-feel-the-drift-cover.png" alt="When You Feel the Drift">
+          <img src="/say-it-with-grace-cover.png" alt="Say It With Grace">
+        </div>
+        <div class="bundle-text">
+          <h3>Both Companion Guides</h3>
+          <p>One helps you work out what to do with the distance you are feeling. The other helps you bring it up in a way he is far more likely to hear.</p>
+          <div class="bundle-pricing">
+            <span class="bundle-price-now">AU$27</span>
+            <span class="bundle-price-was">AU$34</span>
+            <span class="bundle-saving">Save AU$7</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="bundle-note">Selecting the bundle replaces individual selections above.</p>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <h3>Your Order</h3>
+      <div class="order-line">
+        <span>Cultivating the Fruit — 12 months access</span>
+        <span>AU$79</span>
+      </div>
+      <div class="order-line" id="summary-drift" style="display:none; color: var(--blue);">
+        <span>When You Feel the Drift</span>
+        <span>AU$17</span>
+      </div>
+      <div class="order-line" id="summary-grace" style="display:none; color: var(--blue);">
+        <span>Say It With Grace</span>
+        <span>AU$17</span>
+      </div>
+      <div class="order-line" id="summary-bundle" style="display:none; color: var(--cta-coral);">
+        <span>Both Companion Guides (bundle)</span>
+        <span>AU$27</span>
+      </div>
+      <div class="order-line total">
+        <span>Total</span>
+        <span id="total-price">AU$79</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section">
+      <a id="checkout-btn" href="/checkout?selection=main" class="cta-btn">
+        Complete My Order
+        <span class="cta-sub">Secure checkout — instant access</span>
+      </a>
+      <p class="cta-meta">🔒 Secure checkout · 30-day money-back guarantee · (Approx. US$50+ depending on selection)</p>
+      <span class="skip-link" onclick="skipToCheckout()">No thanks, I just want the app</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="page-footer">
+  <p>Cultivating the Fruit · <a href="/privacy" style="color:rgba(255,255,255,0.5);">Privacy Policy</a> · <a href="/refunds" style="color:rgba(255,255,255,0.5);">Refunds</a> · <a href="/terms" style="color:rgba(255,255,255,0.5);">Terms</a></p>
+  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
+</div>
+
+<script>
+  // ── Stripe payment links — replace PLACEHOLDER values with real links ──
+  const LINKS = {
+    main:    'https://buy.stripe.com/7sY4gz4vq5Rf4w90xBbo400',
+    bump1:   'https://buy.stripe.com/9B6aEX9PKenL4w91BFbo402',
+    bump2:   'https://buy.stripe.com/aFa28r8LGenL0fTbcfbo403',
+    bundle:  'https://buy.stripe.com/14A5kDge8cfDgeR803bo404'
+  };
+
+  let state = { bump1: false, bump2: false, bundle: false };
+
+  function toggleBump(n) {
+    if (state.bundle) {
+      state.bundle = false;
+      document.getElementById('bundle').classList.remove('selected');
+      document.getElementById('bundleCheck').querySelector('svg').style.display = 'none';
+    }
+    state['bump' + n] = !state['bump' + n];
+    const card = document.getElementById('bump' + n);
+    card.classList.toggle('selected', state['bump' + n]);
+    updateUI();
+  }
+
+  function toggleBundle() {
+    state.bundle = !state.bundle;
+    state.bump1 = false;
+    state.bump2 = false;
+    document.getElementById('bump1').classList.remove('selected');
+    document.getElementById('bump2').classList.remove('selected');
+    document.getElementById('bundle').classList.toggle('selected', state.bundle);
+    updateUI();
+  }
+
+  function getSelection() {
+    if (state.bundle) return 'bundle';
+    if (state.bump1 && state.bump2) return 'bundle';
+    if (state.bump1) return 'bump1';
+    if (state.bump2) return 'bump2';
+    return 'main';
+  }
+
+  function updateUI() {
+    document.getElementById('summary-drift').style.display  = (state.bump1 && !state.bundle) ? '' : 'none';
+    document.getElementById('summary-grace').style.display  = (state.bump2 && !state.bundle) ? '' : 'none';
+    document.getElementById('summary-bundle').style.display = state.bundle ? '' : 'none';
+
+    let total = 79;
+    if (state.bundle)      total += 27;
+    else if (state.bump1)  total += 17;
+    else if (state.bump2)  total += 17;
+    if (state.bump1 && state.bump2 && !state.bundle) total += 17;
+    document.getElementById('total-price').textContent = 'AU$' + total;
+
+    // Route through /checkout with selection param
+    const sel = getSelection();
+    document.getElementById('checkout-btn').href = '/checkout?selection=' + sel;
+
+    const btn = document.getElementById('checkout-btn');
+    if (state.bundle || (state.bump1 && state.bump2)) {
+      btn.childNodes[0].textContent = 'Complete My Order — AU$' + total;
+    } else if (state.bump1 || state.bump2) {
+      btn.childNodes[0].textContent = 'Complete My Order — AU$' + total;
+    } else {
+      btn.childNodes[0].textContent = 'Complete My Order';
+    }
+  }
+
+  function skipToCheckout() {
+    window.location.href = '/checkout?selection=main';
+  }
+</script>
+
+</body>
+</html>
