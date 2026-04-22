@@ -627,7 +627,7 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
 
     <!-- CTA -->
     <div class="cta-section">
-      <a id="checkout-btn" href="/checkout?selection=main" class="cta-btn">
+      <a id="checkout-btn" href="/strengthen-wives/checkout?selection=main" class="cta-btn">
         Complete My Order
         <span class="cta-sub">Secure checkout — instant access</span>
       </a>
@@ -697,9 +697,9 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
     if (state.bump1 && state.bump2 && !state.bundle) total += 17;
     document.getElementById('total-price').textContent = 'AU$' + total;
 
-    // Route through /checkout with selection param
+    // Route through /strengthen-wives/checkout with selection param
     const sel = getSelection();
-    document.getElementById('checkout-btn').href = '/checkout?selection=' + sel;
+    document.getElementById('checkout-btn').href = '/strengthen-wives/checkout?selection=' + sel;
 
     const btn = document.getElementById('checkout-btn');
     if (state.bundle || (state.bump1 && state.bump2)) {
@@ -712,7 +712,7 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
   }
 
   function skipToCheckout() {
-    window.location.href = '/checkout?selection=main';
+    window.location.href = '/strengthen-wives/checkout?selection=main';
   }
 </script>
 
