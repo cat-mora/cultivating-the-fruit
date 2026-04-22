@@ -176,26 +176,33 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
   const params = new URLSearchParams(window.location.search);
   const bought = params.get('bought');
 
-  if (bought === 'conversations') {
-    document.getElementById('already-have-name').textContent = '10 Conversations To Feel Close Again';
-    document.getElementById('adding-name').textContent = 'Cherished Again (normally AU$67)';
-    document.getElementById('adding-price').textContent = 'AU$40';
-    document.getElementById('bundle-price').textContent = 'AU$40';
-    const btn = document.getElementById('bundle-cta');
-    btn.href = 'https://buy.stripe.com/3cIeVd5zu2F35Ad2FJbo408';
-    btn.innerHTML = 'Yes — Add Cherished Again at the Bundle Price<span class="cta-sub">AU$40 · one click · instant access</span>';
-  } else if (bought === 'cherished') {
-    document.getElementById('already-have-name').textContent = 'Cherished Again';
-    document.getElementById('adding-name').textContent = '10 Conversations To Feel Close Again (normally AU$47)';
-    document.getElementById('adding-price').textContent = 'AU$20';
-    document.getElementById('bundle-price').textContent = 'AU$20';
-    const btn = document.getElementById('bundle-cta');
-    btn.href = 'https://buy.stripe.com/dRm14n7HC3J7geRbcfbo409';
-    btn.innerHTML = 'Yes — Add 10 Conversations at the Bundle Price<span class="cta-sub">AU$20 · one click · instant access</span>';
-  } else {
-    // No param — shouldn't happen, redirect to welcome
-    window.location.href = '/strengthen-wives/welcome';
-  }
+ const params = new URLSearchParams(window.location.search);
+const bought = params.get('bought');
+
+if (bought === 'conversations') {
+  document.getElementById('already-have-name').textContent = '10 Conversations To Feel Close Again';
+  document.getElementById('adding-name').textContent = 'Cherished Again (normally AU$67)';
+  document.getElementById('adding-price').textContent = 'AU$40';
+  document.getElementById('bundle-price').textContent = 'AU$40';
+  document.getElementById('price-sub-text').textContent = 'Cherished Again · added instantly · (Approx. US$26)';
+  const btn = document.getElementById('bundle-cta');
+  btn.href = 'https://buy.stripe.com/3cIeVd5zu2F35Ad2FJbo408';
+  btn.innerHTML = 'Yes — Add Cherished Again at the Bundle Price<span class="cta-sub">AU$40 · one click · instant access</span>';
+} else if (bought === 'cherished') {
+  document.getElementById('pitch-cover').src = '/10-conversations-cover.png';
+  document.getElementById('pitch-title').textContent = '10 Conversations To Feel Close Again';
+  document.getElementById('pitch-body').innerHTML = '<p style="font-size:15px; color:var(--gray-text); margin-bottom:14px;">Most nights, by the time you finally sit down together, there is nothing left but tiredness and the day\'s leftover admin. These ten guided conversations help you get past kids, calendars, and jobs to the things that made you feel close in the first place.</p><p style="font-size:15px; color:var(--gray-text); margin-bottom:0;">Each one is designed to take about twenty minutes and to feel like a real conversation rather than a counselling exercise. They are built around the kinds of questions that open something up rather than create pressure.</p>';
+  document.getElementById('already-have-name').textContent = 'Cherished Again';
+  document.getElementById('adding-name').textContent = '10 Conversations To Feel Close Again (normally AU$47)';
+  document.getElementById('adding-price').textContent = 'AU$20';
+  document.getElementById('bundle-price').textContent = 'AU$20';
+  document.getElementById('price-sub-text').textContent = '10 Conversations · added instantly · (Approx. US$13)';
+  const btn = document.getElementById('bundle-cta');
+  btn.href = 'https://buy.stripe.com/dRm14n7HC3J7geRbcfbo409';
+  btn.innerHTML = 'Yes — Add 10 Conversations at the Bundle Price<span class="cta-sub">AU$20 · one click · instant access</span>';
+} else {
+  window.location.href = '/strengthen-wives/welcome';
+}
 </script>
 
 </body>
