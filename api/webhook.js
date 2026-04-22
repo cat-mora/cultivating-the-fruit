@@ -75,7 +75,7 @@ export default async function handler(req, res) {
     };
 
     // 1. Create or update contact in Loops
-    await loopsFetch('/contacts/upsert', loopsContactProps);
+    await loopsFetch('/contacts/createOrUpdate', loopsContactProps);
 
     // 2. Send purchase confirmation email (Email 1)
     await loopsFetch('/transactional', {
