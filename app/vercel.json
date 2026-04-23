@@ -1,0 +1,54 @@
+{
+  "buildCommand": "npx expo export -p web",
+  "outputDirectory": "dist",
+  "devCommand": "npx expo start --web",
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "EXPO_PUBLIC_SUPABASE_URL": "@supabase-url",
+    "EXPO_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
+    "EXPO_PUBLIC_WEB_URL": "@web-url",
+    "EXPO_PUBLIC_ENABLE_SUPABASE": "true",
+    "EXPO_PUBLIC_ENABLE_WEB_PLATFORM": "true",
+    "EXPO_PUBLIC_ENABLE_PARTNER_SHARING": "true"
+  }
+}

@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Production builds
+dist/
+build/
+*.tgz
+web-bundles/
+
+# Expo
+.expo/
+.expo-shared/
+web-build/
+
+# Native
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Metro
+.metro-health-check*
+
+# Debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Local env files
+.env*.local
+.env
+
+# OS
+.DS_Store
+*.pem
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Misc
+*.log
+.cache/
+
+# BMad/Claude/AI tools (local only)
+.agents/
+.claude/
+.cursor/
+.gemini/
+_bmad/
+_bmad-output/
+.bmad-core/
+.bmad-infrastructure-devops/

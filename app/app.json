@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "app",
+    "slug": "app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "app",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/images/favicon.png",
+      "plugins": []
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "EXPO_PUBLIC_SUPABASE_URL": "https://onwijddzljigbizsnrpo.supabase.co",
+      "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ud2lqZGR6bGppZ2JpenNucnBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NDA3MTEsImV4cCI6MjA5MjExNjcxMX0.UrJBGCrlWp3ADORy6BnYJuWovConIyU_MUzHHdiIEUU",
+      "EXPO_PUBLIC_WEB_URL": "http://localhost:8081",
+      "EXPO_PUBLIC_ENABLE_SUPABASE": "true",
+      "EXPO_PUBLIC_ENABLE_WEB_PLATFORM": "true",
+      "EXPO_PUBLIC_ENABLE_PARTNER_SHARING": "true",
+      "EXPO_PUBLIC_DEBUG_MODE": "false",
+      "EXPO_PUBLIC_SYNC_INTERVAL_MS": "300000"
+    }
+  }
+}
