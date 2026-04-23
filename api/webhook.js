@@ -2,17 +2,6 @@ import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-// Map Stripe payment link IDs to purchase properties
-// The payment link ID is the part after buy.stripe.com/
-const PAYMENT_LINK_MAP = {
-  '7sY4gz4vq5Rf4w90xBbo400': { product: 'main' },
-  '9B6aEX9PKenL4w91BFbo402': { product: 'bump1', loopsProps: { purchasedDrift: true } },
-  'aFa28r8LGenL0fTbcfbo403': { product: 'bump2', loopsProps: { purchasedGrace: true } },
-  '14A5kDge8cfDgeR803bo404': { product: 'bundle', loopsProps: { purchasedDrift: true, purchasedGrace: true } },
-  'eVq00jbXS5Rf9Qt1BFbo405': { product: 'oto1', loopsProps: { purchasedConversations: true } },
-  '28E8wPd1WfrPfaNgwzbo406': { product: 'oto2', loopsProps: { purchasedCherished: true } },
-};
-
 // Loops transactional email IDs
 const LOOPS_TRANSACTIONAL = {
   purchaseConfirmation: 'cmo6yt6oo000a0i02l6acnv7t', // Email 1 — Purchase Confirmation
@@ -58,13 +47,16 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'No email in session' });
     }
 
-    // Work out which payment link was used
-    const paymentLinkId = session.payment_link
-      ? session.payment_link.split('/').pop()
-      : null;
+    // Read what was purchased from session metadata
+    const bumps = session.metadata?.bumps || 'none';
+    const otos = session.metadata?.otos || 'none';
 
-    const linkData = paymentLinkId ? PAYMENT_LINK_MAP[paymentLinkId] : null;
-    const extraProps = linkData?.loopsProps || {};
+    const extraProps = {
+      ...(bumps === 'drift' || bumps === 'bumpBundle' ? { purchasedDrift: true } : {}),
+      ...(bumps === 'grace' || bumps === 'bumpBundle' ? { purchasedGrace: true } : {}),
+      ...(otos === 'conversations' || otos === 'otoBundle' ? { purchasedConversations: true } : {}),
+      ...(otos === 'cherished' || otos === 'otoBundle' ? { purchasedCherished: true } : {}),
+    };
     const hasGuides = Object.keys(extraProps).length > 0;
 
     // Build the Loops contact properties
@@ -75,7 +67,7 @@ export default async function handler(req, res) {
     };
 
     // 1. Create or update contact in Loops
-    await loopsFetch('/contacts/create', loopsContactProps);
+    await loopsUpsertContact(loopsContactProps);
 
     // 2. Send purchase confirmation email (Email 1)
     await loopsFetch('/transactional', {
@@ -105,10 +97,47 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log(`Processed purchase for ${email} — product: ${linkData?.product || 'unknown'}`);
+    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}`);
   }
 
   return res.status(200).json({ received: true });
+}
+
+async function loopsUpsertContact(props) {
+  const createResponse = await fetch('https://app.loops.so/api/v1/contacts/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
+    },
+    body: JSON.stringify(props),
+  });
+
+  if (createResponse.status === 409) {
+    // Contact already exists, update instead
+    const updateResponse = await fetch('https://app.loops.so/api/v1/contacts/update', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
+      },
+      body: JSON.stringify(props),
+    });
+    if (!updateResponse.ok) {
+      const text = await updateResponse.text();
+      console.error('Loops update contact error:', text);
+      throw new Error(`Loops update error: ${updateResponse.status}`);
+    }
+    return updateResponse.json();
+  }
+
+  if (!createResponse.ok) {
+    const text = await createResponse.text();
+    console.error('Loops create contact error:', text);
+    throw new Error(`Loops create error: ${createResponse.status}`);
+  }
+
+  return createResponse.json();
 }
 
 async function loopsFetch(path, body) {
