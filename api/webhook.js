@@ -1,4 +1,4 @@
-const Stripe = require('stripe');
+import Stripe from 'stripe';
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Loops transactional email IDs
@@ -30,7 +30,7 @@ Download your guide here: https://onwijddzljigbizsnrpo.supabase.co/storage/v1/ob
 For when you have been carrying the mental load so long you have stopped feeling like his wife and started feeling like the one who runs everything. How to step back from that role where it is hurting your marriage and find your way back to each other.`,
 };
 
-module.exports.config = {
+export const config = {
   api: { bodyParser: false },
 };
 
@@ -42,7 +42,7 @@ async function buffer(readable) {
   return Buffer.concat(chunks);
 }
 
-module.exports.default = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
