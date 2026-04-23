@@ -1,7 +1,8 @@
 // /api/create-checkout-session.js
 // Vercel serverless function — creates a Stripe Checkout Session dynamically
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+import Stripe from 'stripe';
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Price IDs for each product
 const PRICE_IDS = {
