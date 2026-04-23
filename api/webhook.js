@@ -8,6 +8,29 @@ const LOOPS_TRANSACTIONAL = {
   guideDelivery: 'cmo6z01kt01un0iypb327bb49',        // Email 2 — Guide Delivery
 };
 
+// Guide content blocks — sent as data variables to Loops
+const GUIDE_CONTENT = {
+  drift: `WHEN YOU FEEL THE DRIFT
+Download your guide here: https://onwijddzljigbizsnrpo.supabase.co/storage/v1/object/public/Guides/strengthen-wives/When_You_Feel_the_Drift_for_Wives.pdf
+
+For the woman who can feel the distance even when nothing looks wrong enough to call a crisis. What is yours to do, what is not yours to carry, and how to take one wise step without panic or over-functioning.`,
+
+  grace: `SAY IT WITH GRACE
+Download your guide here: https://onwijddzljigbizsnrpo.supabase.co/storage/v1/object/public/Guides/strengthen-wives/Say_It_With_Grace_for_Wives.pdf
+
+For when you have things that need saying but they keep coming out too strongly, he reacts poorly, or they stay buried too long. How to say what matters without sounding like his mother, starting a fight, or letting it sit another week.`,
+
+  conversations: `10 CONVERSATIONS TO FEEL CLOSE AGAIN
+Download your guide here: https://onwijddzljigbizsnrpo.supabase.co/storage/v1/object/public/Guides/strengthen-wives/10_Conversations_for_Wives.pdf
+
+Ten guided conversations to help you move past kids, calendars, and logistics and back into real knowing. The kind of closeness that does not come from sharing a life ... it comes from still choosing to know each other in it.`,
+
+  cherished: `CHERISHED AGAIN
+Download your guide here: https://onwijddzljigbizsnrpo.supabase.co/storage/v1/object/public/Guides/strengthen-wives/Cherished_Again_for_Wives.pdf
+
+For when you have been carrying the mental load so long you have stopped feeling like his wife and started feeling like the one who runs everything. How to step back from that role where it is hurting your marriage and find your way back to each other.`,
+};
+
 export const config = {
   api: { bodyParser: false },
 };
@@ -54,107 +77,4 @@ export default async function handler(req, res) {
     const extraProps = {
       ...(bumps === 'drift' || bumps === 'bumpBundle' ? { purchasedDrift: true } : {}),
       ...(bumps === 'grace' || bumps === 'bumpBundle' ? { purchasedGrace: true } : {}),
-      ...(otos === 'conversations' || otos === 'otoBundle' ? { purchasedConversations: true } : {}),
-      ...(otos === 'cherished' || otos === 'otoBundle' ? { purchasedCherished: true } : {}),
-    };
-    const hasGuides = Object.keys(extraProps).length > 0;
-
-    // Build the Loops contact properties
-    const loopsContactProps = {
-      email,
-      firstName,
-      ...extraProps,
-    };
-
-    // 1. Create or update contact in Loops
-    await loopsUpsertContact(loopsContactProps);
-
-    // 2. Send purchase confirmation email (Email 1)
-    await loopsFetch('/transactional', {
-      transactionalId: LOOPS_TRANSACTIONAL.purchaseConfirmation,
-      email,
-      dataVariables: {
-        firstName,
-        purchasedDrift: extraProps.purchasedDrift || false,
-        purchasedGrace: extraProps.purchasedGrace || false,
-        purchasedConversations: extraProps.purchasedConversations || false,
-        purchasedCherished: extraProps.purchasedCherished || false,
-      },
-    });
-
-    // 3. If they bought any guides, send guide delivery email (Email 2)
-    if (hasGuides) {
-      await loopsFetch('/transactional', {
-        transactionalId: LOOPS_TRANSACTIONAL.guideDelivery,
-        email,
-        dataVariables: {
-          firstName,
-          purchasedDrift: extraProps.purchasedDrift || false,
-          purchasedGrace: extraProps.purchasedGrace || false,
-          purchasedConversations: extraProps.purchasedConversations || false,
-          purchasedCherished: extraProps.purchasedCherished || false,
-        },
-      });
-    }
-
-    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}`);
-  }
-
-  return res.status(200).json({ received: true });
-}
-
-async function loopsUpsertContact(props) {
-  const createResponse = await fetch('https://app.loops.so/api/v1/contacts/create', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
-    },
-    body: JSON.stringify(props),
-  });
-
-  if (createResponse.status === 409) {
-    // Contact already exists, update instead
-    const updateResponse = await fetch('https://app.loops.so/api/v1/contacts/update', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
-      },
-      body: JSON.stringify(props),
-    });
-    if (!updateResponse.ok) {
-      const text = await updateResponse.text();
-      console.error('Loops update contact error:', text);
-      throw new Error(`Loops update error: ${updateResponse.status}`);
-    }
-    return updateResponse.json();
-  }
-
-  if (!createResponse.ok) {
-    const text = await createResponse.text();
-    console.error('Loops create contact error:', text);
-    throw new Error(`Loops create error: ${createResponse.status}`);
-  }
-
-  return createResponse.json();
-}
-
-async function loopsFetch(path, body) {
-  const response = await fetch(`https://app.loops.so/api/v1${path}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${process.env.LOOPS_API_KEY}`,
-    },
-    body: JSON.stringify(body),
-  });
-
-  if (!response.ok) {
-    const text = await response.text();
-    console.error(`Loops API error on ${path}:`, text);
-    throw new Error(`Loops API error: ${response.status}`);
-  }
-
-  return response.json();
-}
+      ...(otos === 'conversations' || otos === '
