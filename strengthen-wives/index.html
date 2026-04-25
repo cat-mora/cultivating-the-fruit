@@ -8,6 +8,10 @@
   <meta property="og:title" content="Cultivating the Fruit | You Still Love Each Other. So Why Does It Feel Like You Are Just Sharing a House?">
   <meta property="og:description" content="One small, Scripture-anchored action every day to bring the warmth back, even if he thinks everything is fine.">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.cultivatingthefruit.com/strengthen-wives">
+  <meta property="og:image" content="https://www.cultivatingthefruit.com/woman-phone.png">
+  <link rel="canonical" href="https://www.cultivatingthefruit.com/strengthen-wives">
+  <link rel="icon" href="/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
@@ -32,9 +36,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       font-family: var(--font-body);
       font-size: 17px;
@@ -43,34 +45,25 @@
       background-color: var(--off-white);
       -webkit-font-smoothing: antialiased;
     }
-
     img { max-width: 100%; height: auto; display: block; }
 
-    /* ========== UTILITY ========== */
     .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
     .container-wide { max-width: var(--max-width-wide); margin: 0 auto; padding: 0 24px; }
     .text-center { text-align: center; }
 
-    /* ========== SECTION BASES ========== */
     .section { padding: 64px 0; }
     .section--cream { background-color: var(--pink-soft); }
     .section--white { background-color: var(--white); }
     .section--off-white { background-color: var(--off-white); }
     .section--blue { background-color: var(--blue); color: var(--white); }
     .section--blue a { color: var(--pink-soft); }
+    @media (max-width: 600px) { .section { padding: 40px 0; } }
 
-    @media (max-width: 600px) {
-      .section { padding: 40px 0; }
-    }
-
-    /* ========== TYPOGRAPHY ========== */
     h1, h2, h3, h4, h5 { font-family: var(--font-head); line-height: 1.25; }
-
     h1 { font-size: clamp(28px, 5vw, 42px); font-weight: 700; }
     h2 { font-size: clamp(24px, 4vw, 34px); font-weight: 700; }
     h3 { font-size: clamp(20px, 3.5vw, 26px); font-weight: 600; }
     h4 { font-size: clamp(18px, 3vw, 22px); font-weight: 600; }
-
     p { margin-bottom: 1em; }
     p:last-child { margin-bottom: 0; }
 
@@ -83,12 +76,9 @@
       color: var(--coral);
       margin-bottom: 12px;
     }
-
     .section--blue .label { color: var(--pink-soft); }
 
-    /* ========== CTA BUTTON ========== */
     .cta-block { text-align: center; margin: 36px 0; }
-
     .cta-btn {
       display: inline-block;
       font-family: var(--font-head);
@@ -107,14 +97,12 @@
       border-radius: 4px;
       animation: rocking 2.5s ease-in-out infinite;
     }
-
     .cta-btn:hover {
       background: var(--cta-coral-dark);
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(232,84,90,0.35);
       animation: none;
     }
-
     .cta-btn .cta-sub {
       display: block;
       font-size: 14px;
@@ -124,13 +112,7 @@
       color: var(--white);
       opacity: 0.85;
     }
-
-    .cta-meta {
-      font-size: 13px;
-      color: var(--gray-text);
-      margin-top: 10px;
-    }
-
+    .cta-meta { font-size: 13px; color: var(--gray-text); margin-top: 10px; }
     .section--blue .cta-meta { color: rgba(255,255,255,0.7); }
 
     @keyframes rocking {
@@ -143,22 +125,13 @@
       90% { transform: rotate(0deg); }
     }
 
-    /* ========== HERO / ABOVE THE FOLD ========== */
     .hero {
       background: linear-gradient(180deg, var(--pink-soft) 0%, var(--off-white) 100%);
       padding: 32px 0 48px;
       text-align: center;
     }
-
-    .hero-logo {
-      max-width: 280px;
-      margin: 0 auto 28px;
-    }
-
-    @media (max-width: 600px) {
-      .hero-logo { max-width: 200px; }
-    }
-
+    .hero-logo { max-width: 280px; margin: 0 auto 28px; border-radius: 12px; }
+    @media (max-width: 600px) { .hero-logo { max-width: 200px; } }
     .hero .avatar-line {
       font-family: var(--font-body);
       font-size: 15px;
@@ -168,30 +141,10 @@
       margin: 0 auto 20px;
       line-height: 1.5;
     }
+    .hero h1 { color: var(--blue); margin-bottom: 16px; max-width: 640px; margin-left: auto; margin-right: auto; }
+    .hero .subhead { font-size: 18px; color: var(--black); max-width: 560px; margin: 0 auto 8px; font-weight: 400; }
 
-    .hero h1 {
-      color: var(--blue);
-      margin-bottom: 16px;
-      max-width: 640px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .hero .subhead {
-      font-size: 18px;
-      color: var(--black);
-      max-width: 560px;
-      margin: 0 auto 8px;
-      font-weight: 400;
-    }
-
-    /* ========== RECOGNITION SECTION ========== */
-    .recognition-list {
-      list-style: none;
-      padding: 0;
-      margin: 28px 0;
-    }
-
+    .recognition-list { list-style: none; padding: 0; margin: 28px 0; }
     .recognition-list li {
       position: relative;
       padding: 12px 0 12px 28px;
@@ -199,7 +152,6 @@
       font-size: 16px;
       line-height: 1.6;
     }
-
     .recognition-list li::before {
       content: '';
       position: absolute;
@@ -211,7 +163,6 @@
       border-radius: 50%;
     }
 
-    /* ========== PULL QUOTE ========== */
     .pull-quote {
       background: var(--white);
       border-left: 4px solid var(--coral);
@@ -223,19 +174,9 @@
       color: var(--gray-text);
       border-radius: 0 8px 8px 0;
     }
-
-    .pull-quote cite {
-      display: block;
-      margin-top: 12px;
-      font-style: normal;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--black);
-    }
-
+    .pull-quote cite { display: block; margin-top: 12px; font-style: normal; font-size: 14px; font-weight: 500; color: var(--black); }
     .section--white .pull-quote { background: var(--off-white); }
 
-    /* ========== CALLOUT BOX ========== */
     .callout-box {
       background: var(--pink-soft);
       border: 2px solid var(--coral);
@@ -245,10 +186,8 @@
       font-size: 16px;
       line-height: 1.7;
     }
-
     .section--cream .callout-box { background: var(--white); }
 
-    /* ========== DAILY ARC OPTIONS ========== */
     .option-card {
       background: var(--white);
       border-radius: 8px;
@@ -257,328 +196,51 @@
       border-left: 4px solid var(--blue);
       box-shadow: 0 2px 8px rgba(35,31,32,0.06);
     }
-
-    .option-card strong {
-      font-family: var(--font-head);
-      color: var(--blue);
-      font-size: 15px;
-    }
-
+    .option-card strong { font-family: var(--font-head); color: var(--blue); font-size: 15px; }
     .section--white .option-card { background: var(--off-white); }
 
-    /* ========== WHAT'S INSIDE GRID ========== */
-    .feature-item {
-      display: flex;
-      gap: 16px;
-      align-items: flex-start;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(31,98,142,0.1);
-    }
-
+    .feature-item { display: flex; gap: 16px; align-items: flex-start; padding: 20px 0; border-bottom: 1px solid rgba(31,98,142,0.1); }
     .feature-item:last-child { border-bottom: none; }
-
-    .feature-icon {
-      flex-shrink: 0;
-      width: 44px;
-      height: 44px;
-      background: var(--pink-soft);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-    }
-
+    .feature-icon { flex-shrink: 0; width: 44px; height: 44px; background: var(--pink-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
     .feature-item h4 { margin-bottom: 4px; font-size: 17px; }
     .feature-item p { font-size: 15px; color: var(--gray-text); margin: 0; }
 
-    /* ========== RESEARCH BLOCK ========== */
-    .research-item {
-      padding: 16px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-    }
-
+    .research-item { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.15); }
     .research-item:last-child { border-bottom: none; }
-
     .research-item p { font-size: 15px; margin-bottom: 4px; }
     .research-item .source { font-size: 13px; opacity: 0.7; }
 
-    /* ========== PRICING BOX ========== */
-    .pricing-box {
-      background: var(--white);
-      border: 3px solid var(--blue);
-      border-radius: 12px;
-      padding: 40px 32px;
-      text-align: center;
-      max-width: 520px;
-      margin: 0 auto;
-      box-shadow: 0 8px 32px rgba(31,98,142,0.12);
-    }
-
-    .pricing-box h3 { color: var(--blue); margin-bottom: 8px; }
-
-    .price-big {
-      font-family: var(--font-head);
-      font-size: 56px;
-      font-weight: 700;
-      color: var(--blue);
-      line-height: 1;
-      margin: 16px 0 4px;
-    }
-
-    .price-sub {
-      font-size: 16px;
-      color: var(--gray-text);
-      margin-bottom: 24px;
-    }
-
-    .pricing-list {
-      list-style: none;
-      text-align: left;
-      margin: 20px 0;
-      padding: 0;
-    }
-
-    .pricing-list li {
-      padding: 8px 0;
-      padding-left: 28px;
-      position: relative;
-      font-size: 15px;
-    }
-
-    .pricing-list li::before {
-      content: '✓';
-      position: absolute;
-      left: 0;
-      color: var(--blue);
-      font-weight: 700;
-      font-size: 16px;
-    }
-
-    /* ========== COMPANION GUIDES ========== */
-    .guide-card {
-      background: var(--white);
-      border: 1px solid rgba(31,98,142,0.12);
-      border-radius: 8px;
-      padding: 24px;
-      margin-bottom: 16px;
-    }
-
+    .guide-card { background: var(--white); border: 1px solid rgba(31,98,142,0.12); border-radius: 8px; padding: 24px; margin-bottom: 16px; }
     .guide-card h4 { color: var(--blue); margin-bottom: 6px; }
     .guide-card p { font-size: 15px; color: var(--gray-text); margin-bottom: 8px; }
-    .guide-card img { max-width: 200px; margin: 0 auto 12px; display: block; border-radius: 8px; }
+    .guide-card img { max-width: 200px; margin: 0 auto 12px; display: block; border-radius: 6px; mix-blend-mode: multiply; }
+    @media (max-width: 600px) { .guide-card img { max-width: 160px; } }
+    .guide-tag { display: inline-block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--coral); background: var(--pink-soft); padding: 4px 10px; border-radius: 4px; }
 
-    @media (max-width: 600px) {
-      .guide-card img { max-width: 160px; }
-    }
-
-    .guide-tag {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--coral);
-      background: var(--pink-soft);
-      padding: 4px 10px;
-      border-radius: 4px;
-    }
-
-    /* ========== GUARANTEE ========== */
-    .guarantee-box {
-      background: var(--off-white);
-      border: 2px solid var(--blue);
-      border-radius: 12px;
-      padding: 32px;
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
+    .guarantee-box { background: var(--off-white); border: 2px solid var(--blue); border-radius: 12px; padding: 32px; text-align: center; max-width: 600px; margin: 0 auto; }
     .guarantee-box h3 { color: var(--blue); margin-bottom: 12px; }
 
-    /* ========== FAQ ========== */
-    .faq-item {
-      border-bottom: 1px solid rgba(31,98,142,0.1);
-      padding: 20px 0;
-    }
-
+    .faq-item { border-bottom: 1px solid rgba(31,98,142,0.1); padding: 20px 0; }
     .faq-item:last-child { border-bottom: none; }
-
-    .faq-q {
-      font-family: var(--font-head);
-      font-weight: 600;
-      font-size: 17px;
-      color: var(--blue);
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
-
+    .faq-q { font-family: var(--font-head); font-weight: 600; font-size: 17px; color: var(--blue); margin-bottom: 8px; cursor: pointer; }
     .faq-a { font-size: 15px; color: var(--gray-text); }
 
-    /* ========== CHURCH BLOCK ========== */
-    .church-block {
-      text-align: center;
-      padding: 32px;
-      background: var(--white);
-      border-radius: 12px;
-      border: 1px solid rgba(31,98,142,0.1);
-    }
-
+    .church-block { text-align: center; padding: 32px; background: var(--white); border-radius: 12px; border: 1px solid rgba(31,98,142,0.1); }
     .church-icon { font-size: 36px; margin-bottom: 12px; }
 
-    /* ========== FOUNDER LETTER ========== */
     .founder-section p { font-size: 16px; }
+    .founder-sign { font-family: var(--font-head); font-weight: 600; font-size: 18px; color: var(--blue); margin-top: 20px; }
 
-    .founder-sign {
-      font-family: var(--font-head);
-      font-weight: 600;
-      font-size: 18px;
-      color: var(--blue);
-      margin-top: 20px;
-    }
-
-    /* ========== FOOTER ========== */
-    .site-footer {
-      background: var(--black);
-      color: rgba(255,255,255,0.6);
-      padding: 40px 0;
-      font-size: 13px;
-      text-align: center;
-      line-height: 1.8;
-    }
-
+    .site-footer { background: var(--black); color: rgba(255,255,255,0.6); padding: 40px 0; font-size: 13px; text-align: center; line-height: 1.8; }
     .site-footer a { color: rgba(255,255,255,0.6); text-decoration: underline; }
 
-    /* ========== DIVIDER ========== */
-    .divider {
-      width: 60px;
-      height: 3px;
-      background: var(--coral);
-      margin: 24px auto;
-      border-radius: 2px;
-    }
-
+    .divider { width: 60px; height: 3px; background: var(--coral); margin: 24px auto; border-radius: 2px; }
     .divider--left { margin: 24px 0; }
 
-    /* ========== LOGO ========== */
-    .hero-logo {
-      border-radius: 12px;
-    }
-
-    /* ========== APP SCREENSHOT - remove white bg ========== */
-    .app-img-wrap {
-      display: flex;
-      justify-content: center;
-      margin: 24px auto;
-    }
-    .app-img-wrap img {
-      max-width: 260px;
-      border-radius: 24px;
-      box-shadow: 0 8px 32px rgba(31,98,142,0.18);
-      mix-blend-mode: multiply;
-    }
-
-    /* ========== GUIDE CARD IMAGE FIX ========== */
-    .guide-card img {
-      border-radius: 6px;
-      mix-blend-mode: multiply;
-    }
+    .app-img-wrap { display: flex; justify-content: center; margin: 24px auto; }
+    .app-img-wrap img { max-width: 260px; border-radius: 24px; box-shadow: 0 8px 32px rgba(31,98,142,0.18); mix-blend-mode: multiply; }
 
     /* ========== TIER CARDS ========== */
-    .tier-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 20px;
-      max-width: 900px;
-      margin: 0 auto;
-      align-items: start;
-    }
-
-    .tier-card {
-      background: var(--white);
-      border: 2px solid rgba(31,98,142,0.18);
-      border-radius: 12px;
-      padding: 28px 24px 32px;
-      text-align: center;
-      position: relative;
-    }
-
-    .tier-card--featured {
-      border: 3px solid var(--blue);
-      box-shadow: 0 8px 32px rgba(31,98,142,0.14);
-      transform: translateY(-6px);
-    }
-
-    .tier-badge {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--cta-coral);
-      color: var(--white);
-      font-family: var(--font-head);
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 4px 14px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-
-    .tier-label {
-      font-family: var(--font-head);
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--coral);
-      margin-bottom: 6px;
-    }
-
-    .tier-name {
-      font-family: var(--font-head);
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--blue);
-      margin-bottom: 10px;
-    }
-
-    .tier-price {
-      font-family: var(--font-head);
-      font-size: 44px;
-      font-weight: 700;
-      color: var(--blue);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-
-    .tier-price-sub {
-      font-size: 13px;
-      color: var(--gray-text);
-      margin-bottom: 20px;
-    }
-
-    .cta-btn--tier {
-      display: block;
-      font-size: 16px;
-      padding: 14px 20px;
-      width: 100%;
-      max-width: 100%;
-      margin-top: 20px;
-    }
-
-    @media (max-width: 700px) {
-      .tier-grid {
-        grid-template-columns: 1fr;
-        max-width: 420px;
-      }
-      .tier-card--featured { transform: none; }
-    }
-
-
-    /* ========== PRICING TIERS ========== */
     .tier-grid {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
@@ -620,6 +282,9 @@
     .tier-name { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--blue); margin-bottom: 10px; }
     .tier-price { font-family: var(--font-head); font-size: 40px; font-weight: 700; color: var(--blue); line-height: 1; margin-bottom: 4px; }
     .tier-price-sub { font-size: 12px; color: var(--gray-text); margin-bottom: 20px; line-height: 1.5; }
+    .pricing-list { list-style: none; text-align: left; margin: 20px 0; padding: 0; }
+    .pricing-list li { padding: 8px 0; padding-left: 28px; position: relative; font-size: 15px; }
+    .pricing-list li::before { content: '✓'; position: absolute; left: 0; color: var(--blue); font-weight: 700; font-size: 16px; }
     .tier-card .pricing-list { margin-bottom: 0; }
     .tier-card .pricing-list li { font-size: 13px; padding: 5px 0 5px 22px; }
     .tier-card .pricing-list li::before { font-size: 13px; }
@@ -629,19 +294,14 @@
       .tier-card--featured { transform: none; }
     }
 
-    /* ========== RESPONSIVE ========== */
     @media (max-width: 600px) {
       body { font-size: 16px; }
-      .pricing-box { padding: 28px 20px; }
-      .price-big { font-size: 44px; }
       .pull-quote { padding: 20px; }
       .option-card { padding: 16px 18px; }
     }
   </style>
 </head>
 <body>
-
-
 
 <!-- ============================================================ -->
 <!-- HERO / ABOVE THE FOLD -->
@@ -700,8 +360,7 @@
 
     <img src="/woman-phone.png" alt="Woman using the Cultivating the Fruit app outside a church" style="max-width:100%; margin:24px auto; border-radius:12px; box-shadow: 0 4px 20px rgba(31,98,142,0.1); display:block;" onerror="this.style.display='none'">
 
-        <div class="tier-grid">
-
+    <div class="tier-grid">
       <div class="tier-card">
         <p class="tier-label">Try it out</p>
         <h3 class="tier-name">1 Month</h3>
@@ -718,7 +377,6 @@
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
       <div class="tier-card">
         <p class="tier-label">Build the habit</p>
         <h3 class="tier-name">6 Months</h3>
@@ -735,7 +393,6 @@
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
       <div class="tier-card tier-card--featured">
         <span class="tier-badge">Best Value</span>
         <p class="tier-label">Most popular</p>
@@ -756,7 +413,6 @@
         </a>
         <p class="cta-meta" style="margin-top:12px;">&#128274; Secure · instant access · 30-day guarantee</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -786,46 +442,11 @@
 
     <div class="callout-box">
       <p><strong>You do not have to begin alone.</strong> The app has a partner connection feature. He can join, see your daily theme, and choose his own action for the day. We will give you a simple script for how to invite him in a way that feels like an opportunity rather than a problem to solve.</p>
-      <p>But if he is not ready, you can begin today. This is about being faithful in your part, and knowing you did everything you could, whatever the outcome.</p>
+      <p>But if he is not ready, you can begin today. This is about being faithful in your part, and knowing you showed up with courage and intention, whatever the outcome.</p>
     </div>
 
     <div class="app-img-wrap"><img src="/app-screenshot-day2.png" alt="Cultivating the Fruit app Day 2 — Admiration, Journal prompt"></div>
 
-        <div class="tier-grid tier-grid--compact">
-
-      <div class="tier-card">
-        <h3 class="tier-name">1 Month</h3>
-        <div class="tier-price">AU$19</div>
-        <p class="tier-price-sub">(Approx. US$12)</p>
-        <a href="/strengthen-wives/bump?tier=app_1month" class="cta-btn cta-btn--tier">
-          Start for AU$19
-          <span class="cta-sub">Step 2 of 3</span>
-        </a>
-      </div>
-
-      <div class="tier-card">
-        <h3 class="tier-name">6 Months</h3>
-        <div class="tier-price">AU$45</div>
-        <p class="tier-price-sub">(Approx. US$29)</p>
-        <a href="/strengthen-wives/bump?tier=app_6month" class="cta-btn cta-btn--tier">
-          Start for AU$45
-          <span class="cta-sub">Step 2 of 3</span>
-        </a>
-      </div>
-
-      <div class="tier-card tier-card--featured">
-        <span class="tier-badge">Best Value</span>
-        <h3 class="tier-name">12 Months</h3>
-        <div class="tier-price">AU$79</div>
-        <p class="tier-price-sub">(Approx. US$50)</p>
-        <a href="/strengthen-wives/bump?tier=app_12month" class="cta-btn cta-btn--tier">
-          Get Started · AU$79
-          <span class="cta-sub">Step 2 of 3</span>
-        </a>
-      </div>
-
-    </div>
-    <p class="cta-meta text-center" style="margin-top:12px;">30-day money-back guarantee · instant access</p>
   </div>
 </section>
 
@@ -849,22 +470,18 @@
       <strong>Option 1: You and God</strong>
       <p>A reflection, a journal prompt, or a prayer. Before anything goes toward your marriage today, you spend a moment in your own heart, asking God to work in you, not just through you.</p>
     </div>
-
     <div class="option-card">
       <strong>Option 2: Something you say</strong>
       <p>Something warm and specific to him. A message, a word in person, something that lets him know you see him. An appreciation, an encouragement, an expression of desire. Your voice, offering something good.</p>
     </div>
-
     <div class="option-card">
       <strong>Option 3: Something you do</strong>
       <p>Five minutes. A small practical act that makes his day easier. Not because you have not been doing things for years, but because today you are choosing it consciously, as an act of love, knowing why you are doing it.</p>
     </div>
-
     <div class="option-card">
       <strong>Option 4: A conversation</strong>
       <p>Twenty minutes, with a guided question designed to move you past logistics and back into actual conversation. The kind that used to come easily before life got so full. These prompts are built on research into what actually makes couples feel close: understanding each other's inner world, sharing dreams, revisiting what brought you together, and exploring what you each need to feel loved.</p>
     </div>
-
     <div class="option-card">
       <strong>Option 5: A shared evening</strong>
       <p>At least an hour, designed to move you from side by side to genuinely together. Some nights that means going out. Some nights it means being in the same space with intention instead of habit.</p>
@@ -874,41 +491,6 @@
 
     <div class="app-img-wrap"><img src="/app-screenshot-day1.png" alt="Cultivating the Fruit app Day 1 — Love, Send a flirty message"></div>
 
-        <div class="tier-grid tier-grid--compact">
-
-      <div class="tier-card">
-        <h3 class="tier-name">1 Month</h3>
-        <div class="tier-price">AU$19</div>
-        <p class="tier-price-sub">(Approx. US$12)</p>
-        <a href="/strengthen-wives/bump?tier=app_1month" class="cta-btn cta-btn--tier">
-          Start for AU$19
-          <span class="cta-sub">Step 2 of 3</span>
-        </a>
-      </div>
-
-      <div class="tier-card">
-        <h3 class="tier-name">6 Months</h3>
-        <div class="tier-price">AU$45</div>
-        <p class="tier-price-sub">(Approx. US$29)</p>
-        <a href="/strengthen-wives/bump?tier=app_6month" class="cta-btn cta-btn--tier">
-          Start for AU$45
-          <span class="cta-sub">Step 2 of 3</span>
-        </a>
-      </div>
-
-      <div class="tier-card tier-card--featured">
-        <span class="tier-badge">Best Value</span>
-        <h3 class="tier-name">12 Months</h3>
-        <div class="tier-price">AU$79</div>
-        <p class="tier-price-sub">(Approx. US$50)</p>
-        <a href="/strengthen-wives/bump?tier=app_12month" class="cta-btn cta-btn--tier">
-          Get Started · AU$79
-          <span class="cta-sub">Step 2 of 3</span>
-        </a>
-      </div>
-
-    </div>
-    <p class="cta-meta text-center" style="margin-top:12px;">30-day money-back guarantee · instant access</p>
   </div>
 </section>
 
@@ -942,7 +524,7 @@
 
     <p>I cannot promise this app will save your marriage. What I can tell you is that your choices matter. What you do today shapes what your marriage looks like in six months. The research says so. So does Scripture.</p>
 
-    <p>What I want for you is a marriage that feels alive. One where you dance together and hold hands and look at each other the way you used to. And whatever the outcome, I want you to know you did everything you could.</p>
+    <p>What I want for you is a marriage that feels alive. One where you dance together and hold hands and look at each other the way you used to. And whatever the outcome, I want you to know you showed up with courage and intention.</p>
 
     <p>That is what this is for.</p>
 
@@ -974,7 +556,6 @@
         <p>Each day opens with a Bible verse that sets the tone and theme for your actions. Read it in the app, or open your own Bible to sit with the wider passage. Every action that follows flows from that day's biblical theme.</p>
       </div>
     </div>
-
     <div class="feature-item">
       <div class="feature-icon">✨</div>
       <div>
@@ -982,7 +563,6 @@
         <p>Five specific, practical actions drawn from the Fruit of the Spirit and built for the real texture of marriage. They change daily, small enough to do in the middle of a full day, and specific enough that you will feel the difference in how you move through the week.</p>
       </div>
     </div>
-
     <div class="feature-item">
       <div class="feature-icon">💛</div>
       <div>
@@ -990,7 +570,6 @@
         <p>The app does not demand a specific schedule or a commitment you cannot keep. You choose whichever of the five options fits where you are today. One action. Done. That is the whole daily rhythm.</p>
       </div>
     </div>
-
     <div class="feature-item">
       <div class="feature-icon">🌿</div>
       <div>
@@ -998,7 +577,6 @@
         <p>Daily guided actions designed to bring back tenderness, affection, spark, delight, emotional closeness, and that husband-and-wife energy, for a marriage that is basically okay but could be so much more alive.</p>
       </div>
     </div>
-
     <div class="feature-item">
       <div class="feature-icon">🩹</div>
       <div>
@@ -1006,7 +584,6 @@
         <p>A gentler, more careful daily path for marriages already in a harder or more fragile season. It works the same way, but with more care for marriages that already feel bruised. Included with your subscription.</p>
       </div>
     </div>
-
     <div class="feature-item">
       <div class="feature-icon">🔄</div>
       <div>
@@ -1014,7 +591,6 @@
         <p>Any updates added to the app during your 12 months of access are included. New content, new features, and any new relationship streams if and when they launch.</p>
       </div>
     </div>
-
     <div class="feature-item">
       <div class="feature-icon">👨‍👩‍👧</div>
       <div>
@@ -1025,41 +601,60 @@
 
     <div class="app-img-wrap"><img src="/app-screenshot-day2.png" alt="Cultivating the Fruit app Day 2 — Admiration, Journal prompt"></div>
 
-        <div class="tier-grid tier-grid--compact">
-
+    <div class="tier-grid">
       <div class="tier-card">
+        <p class="tier-label">Try it out</p>
         <h3 class="tier-name">1 Month</h3>
         <div class="tier-price">AU$19</div>
         <p class="tier-price-sub">(Approx. US$12)</p>
+        <ul class="pricing-list">
+          <li>Full app access for 1 month</li>
+          <li>Strengthen &amp; Repair streams</li>
+          <li>Daily Scripture + 5 action options</li>
+          <li>Works for one spouse or both</li>
+        </ul>
         <a href="/strengthen-wives/bump?tier=app_1month" class="cta-btn cta-btn--tier">
           Start for AU$19
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
       <div class="tier-card">
+        <p class="tier-label">Build the habit</p>
         <h3 class="tier-name">6 Months</h3>
         <div class="tier-price">AU$45</div>
         <p class="tier-price-sub">(Approx. US$29)</p>
+        <ul class="pricing-list">
+          <li>Full app access for 6 months</li>
+          <li>Strengthen &amp; Repair streams</li>
+          <li>Daily Scripture + 5 action options</li>
+          <li>Works for one spouse or both</li>
+        </ul>
         <a href="/strengthen-wives/bump?tier=app_6month" class="cta-btn cta-btn--tier">
           Start for AU$45
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
       <div class="tier-card tier-card--featured">
         <span class="tier-badge">Best Value</span>
+        <p class="tier-label">Most popular</p>
         <h3 class="tier-name">12 Months</h3>
         <div class="tier-price">AU$79</div>
-        <p class="tier-price-sub">(Approx. US$50)</p>
+        <p class="tier-price-sub">(Approx. US$50) · less than AU$1.52 a week</p>
+        <ul class="pricing-list">
+          <li>Full app access for 12 months</li>
+          <li>Strengthen &amp; Repair streams</li>
+          <li>Daily Scripture + 5 action options</li>
+          <li>Works for one spouse or both</li>
+          <li>All updates released during your year</li>
+          <li>Parent-child stream when it launches</li>
+        </ul>
         <a href="/strengthen-wives/bump?tier=app_12month" class="cta-btn cta-btn--tier">
-          Get Started · AU$79
+          Get Started for AU$79
           <span class="cta-sub">Step 2 of 3</span>
         </a>
+        <p class="cta-meta">🔒 Secure checkout · instant access · 30-day money-back guarantee</p>
       </div>
-
     </div>
-    <p class="cta-meta text-center" style="margin-top:12px;">30-day money-back guarantee · instant access</p>
   </div>
 </section>
 
@@ -1088,17 +683,14 @@
       <p><strong>One person's behaviour change influences their partner's.</strong> Studies consistently find that when one spouse improves their emotional tone and actions, the other tends to follow over time.</p>
       <p class="source">Homish &amp; Leonard, NIH (2008)</p>
     </div>
-
     <div class="research-item">
       <p><strong>A wife's supportive behaviour predicts lower marital stress twelve months later.</strong> Research measuring couples over time found that wives' supportive behaviour predicted a measurable reduction in their partner's marital stress a year later.</p>
       <p class="source">Fincham &amp; Beach, PMC (2010)</p>
     </div>
-
     <div class="research-item">
       <p><strong>Husbands who accept influence from their wives have happier, more stable marriages.</strong> Gottman's longitudinal research found this to be one of the most consistent predictors of long-term marital satisfaction and stability.</p>
       <p class="source">The Gottman Institute</p>
     </div>
-
     <div class="research-item">
       <p><strong>Wives who regulate their own emotional responses show increased marital satisfaction over time.</strong> A 13-year longitudinal study found that wives who moved out of negativity faster had better communication and higher marital satisfaction.</p>
       <p class="source">Bloch, Haase &amp; Levenson, PMC (2014)</p>
@@ -1119,8 +711,6 @@
     <p class="text-center" style="max-width: 520px; margin: 12px auto 32px; color: var(--gray-text);">For less than the cost of a weekly coffee, you get one clear action each day, already decided for you, so you can stop putting it off and begin.</p>
 
     <div class="tier-grid">
-
-      <!-- 1 Month -->
       <div class="tier-card">
         <p class="tier-label">Try it out</p>
         <h3 class="tier-name">1 Month</h3>
@@ -1137,8 +727,6 @@
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
-      <!-- 6 Months -->
       <div class="tier-card">
         <p class="tier-label">Build the habit</p>
         <h3 class="tier-name">6 Months</h3>
@@ -1155,10 +743,8 @@
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
-      <!-- 12 Months — Best Value -->
       <div class="tier-card tier-card--featured">
-        <p class="tier-badge">Best Value</p>
+        <span class="tier-badge">Best Value</span>
         <p class="tier-label">Most popular</p>
         <h3 class="tier-name">12 Months</h3>
         <div class="tier-price">AU$79</div>
@@ -1177,7 +763,6 @@
         </a>
         <p class="cta-meta">🔒 Secure checkout · instant access · 30-day money-back guarantee</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -1192,28 +777,25 @@
     <p class="text-center" style="color: var(--gray-text); margin-bottom: 32px;">Written for Christian wives, for the specific places where it gets hard.</p>
 
     <div class="guide-card">
-      <img src="/10-conversations-cover.png" alt="10 Conversations To Feel Close Again guide cover" onerror="this.style.display='none'">
+      <img src="/10-conversations-cover.png" alt="10 Conversations To Feel Close Again guide cover">
       <h4>10 Conversations To Feel Close Again</h4>
       <p>Most nights, by the time you finally sit down together, there is nothing left but tiredness and the day's leftover admin. These ten guided conversations help you get past kids, calendars, and jobs to the things that made you feel close in the first place, without making it feel forced, awkward, or like a counselling exercise.</p>
       <span class="guide-tag">Available as add-on</span>
     </div>
-
     <div class="guide-card">
-      <img src="/cherished-again-cover.png" alt="Cherished Again guide cover" onerror="this.style.display='none'">
+      <img src="/cherished-again-cover.png" alt="Cherished Again guide cover">
       <h4>Cherished Again</h4>
       <p>You are carrying the mental load, keeping life moving, and somewhere along the way you stopped feeling like his wife and started feeling like the one who runs everything. This guide helps you step back from that role where it is hurting your marriage, and find your way back to each other as husband and wife, not just two people managing a household.</p>
       <span class="guide-tag">Available as add-on</span>
     </div>
-
     <div class="guide-card">
-      <img src="/say-it-with-grace-cover.png" alt="Say It With Grace guide cover" onerror="this.style.display='none'">
+      <img src="/say-it-with-grace-cover.png" alt="Say It With Grace guide cover">
       <h4>Say It With Grace</h4>
       <p>You have things you need to say, but you already know how easily it can come out sounding critical, emotional, or heavier than you meant. This guide helps you say what needs saying without sounding like his mother, starting a fight, or burying it again.</p>
       <span class="guide-tag">Available as add-on</span>
     </div>
-
     <div class="guide-card">
-      <img src="/when-you-feel-the-drift-cover.png" alt="When You Feel the Drift guide cover" onerror="this.style.display='none'">
+      <img src="/when-you-feel-the-drift-cover.png" alt="When You Feel the Drift guide cover">
       <h4>When You Feel the Drift</h4>
       <p>You can feel the distance, even if he seems perfectly content and nothing looks wrong enough to call a crisis. This guide is for the woman lying awake at night wondering if she is imagining it, overreacting, or already losing something precious by staying silent.</p>
       <span class="guide-tag">Available as add-on</span>
@@ -1244,7 +826,6 @@
       <p>Try the app for 30 days. Use both streams. Choose one action each day. Sit with the daily Scripture. See how it fits into your life.</p>
       <p>If it is not helping and you are not finding it practical, useful, and worth the small daily investment, simply email us and we will refund your purchase in full. No forms. No questions. No hassle.</p>
     </div>
-
     <p style="text-align: center; margin-top: 20px; font-size: 14px; color: var(--gray-text); max-width: 560px; margin-left: auto; margin-right: auto;">Cultivating the Fruit is not counselling, therapy, pastoral care, or a substitute for serious professional support where that is genuinely needed. It is a daily Scripture-based tool for Christian marriages.</p>
   </div>
 </section>
@@ -1263,37 +844,30 @@
       <p class="faq-q">"My husband probably will not do this with me."</p>
       <p class="faq-a">That is okay. The app is designed so that one motivated spouse can start, use it well, and see real benefit without needing the other person to sign up or even know you are using it. If he eventually wants to join, great. You do not have to wait for him to begin.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"We're doing okay. Do we actually need this?"</p>
       <p class="faq-a">This is an everyday tool for marriages that are good but want to be more than good. The marriages most at risk of slow drift are often the ones where nothing seems wrong enough to act on. Strengthening a good marriage is wisdom, not overreaction.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"I have bought Christian marriage resources before and never finished them."</p>
       <p class="faq-a">This is different in structure. There is no programme to work through in order. You open the app, you read the verse, you choose one action, and you go and do it. That is the whole cycle. It is built to be done, not just read.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"I do not want to feel like this is all on me."</p>
       <p class="faq-a">One spouse choosing to begin is not the same as one spouse carrying the whole marriage. You are responsible for your own choices. Your husband is responsible for his. Those choices shape the culture of your home, and they matter deeply. But you are not responsible for controlling the outcome.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"We are actually in a harder place than just 'a bit flat.'"</p>
       <p class="faq-a">The Repair stream is for you. It is inside the same app, with the same daily rhythm: a Scripture anchor, five options, one choice. It works the same way, but with more care for marriages that already feel bruised. Both streams are included with your subscription.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"How do I get the app? Is it in the App Store or Google Play?"</p>
       <p class="faq-a">Cultivating the Fruit is a real app that you download and install on your phone, but it is distributed directly through us rather than through the Apple App Store or Google Play. After purchase you will receive a download link and simple instructions. It installs like any app and works on both iPhone and Android.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"Is this going to replace proper help if we actually need it?"</p>
       <p class="faq-a">This is a practical daily tool for real marriages, and it is honest about what it is. It is not counselling, therapy, or pastoral care. If your situation genuinely needs deeper support, please seek the right kind of help. This app can sit alongside that, but it was built for everyday life, not crisis intervention.</p>
     </div>
-
     <div class="faq-item">
       <p class="faq-q">"My husband is controlling, angry, or unfaithful. Is this really my responsibility?"</p>
       <p class="faq-a">No. This app is for marriages where the goal is greater warmth, wisdom, connection, and strength. It is not meant to help you carry abuse, betrayal, addiction, coercion, chronic deceit, or other serious harmful behaviour on your own. Those situations are not yours to fix through better words, better attitudes, or more effort. If any of those are present, please seek wise outside support from a trusted pastor, counsellor, recovery specialist, or other qualified help. This app is not designed for crisis situations, and using it in place of real professional support could do more harm than good.</p>
@@ -1314,15 +888,11 @@
     <div class="divider"></div>
 
     <p style="max-width: 560px; margin: 0 auto 16px;">Today. In the middle of the actual marriage you have right now. That is when it begins.</p>
-
     <p style="max-width: 560px; margin: 0 auto 16px;">The app gives you one clear, Scripture-based thing to do each day. That is how good intentions become something real.</p>
-
     <p style="max-width: 560px; margin: 0 auto 16px;">You felt the drift first. That is an invitation to begin, with wisdom, with love, and with the confidence that God's Word can shape every step you take.</p>
-
     <p style="max-width: 560px; margin: 0 auto 24px;"><strong>Fruit grows through cultivation. That is what this is for.</strong></p>
 
-            <div class="tier-grid">
-
+    <div class="tier-grid">
       <div class="tier-card">
         <p class="tier-label">Try it out</p>
         <h3 class="tier-name">1 Month</h3>
@@ -1339,7 +909,6 @@
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
       <div class="tier-card">
         <p class="tier-label">Build the habit</p>
         <h3 class="tier-name">6 Months</h3>
@@ -1356,7 +925,6 @@
           <span class="cta-sub">Step 2 of 3</span>
         </a>
       </div>
-
       <div class="tier-card tier-card--featured">
         <span class="tier-badge">Best Value</span>
         <p class="tier-label">Most popular</p>
@@ -1377,7 +945,6 @@
         </a>
         <p class="cta-meta" style="margin-top:12px;">&#128274; Secure · instant access · 30-day guarantee</p>
       </div>
-
     </div>
     <p class="cta-meta text-center" style="margin-top:12px;">Both streams · companion guides as add-ons · 30-day money-back guarantee</p>
   </div>
