@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="icon" href="/favicon.ico">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>One Last Step | Cultivating the Fruit</title>
@@ -453,7 +452,7 @@
     .skip-link {
       display: block;
       margin-top: 16px;
-      font-size: 16px;
+      font-size: 13px;
       color: var(--gray-text);
       text-decoration: underline;
       cursor: pointer;
@@ -475,23 +474,7 @@
       .bundle-covers img { width: 42px; }
     }
   </style>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '4612419208988268');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code --></head>
+</head>
 <body>
 
 <!-- Progress Bar -->
@@ -605,8 +588,8 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
     <div class="order-summary">
       <h3>Your Order</h3>
       <div class="order-line">
-        <span>Cultivating the Fruit — 12 months access</span>
-        <span>AU$79</span>
+        <span id="summary-app-label">Cultivating the Fruit — 12 months access</span>
+        <span id="summary-app-price">AU$79</span>
       </div>
       <div class="order-line" id="summary-drift" style="display:none; color: var(--blue);">
         <span>When You Feel the Drift</span>
@@ -628,11 +611,11 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
 
     <!-- CTA -->
     <div class="cta-section">
-<a id="checkout-btn" href="/strengthen-wives/oto?bumps=none" class="cta-btn">
-  Complete My Order
+      <a id="checkout-btn" href="/strengthen-wives/checkout?tier=app_12month&bumps=none" class="cta-btn">
+        Complete My Order
         <span class="cta-sub">Secure checkout — instant access</span>
       </a>
-      <p class="cta-meta">🔒 Secure checkout · 30-day money-back guarantee · (Approx. US$50+ depending on selection)</p>
+      <p class="cta-meta">🔒 Secure checkout · 30-day money-back guarantee</p>
       <span class="skip-link" onclick="skipToCheckout()">No thanks, I just want the app</span>
     </div>
 
@@ -644,25 +627,36 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
   <p>Cultivating the Fruit · <a href="/privacy" style="color:rgba(255,255,255,0.5);">Privacy Policy</a> · <a href="/refunds" style="color:rgba(255,255,255,0.5);">Refunds</a> · <a href="/terms" style="color:rgba(255,255,255,0.5);">Terms</a></p>
   <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
 </div>
+
 <script>
-let state = { bump1: false, bump2: false, bundle: false };
+  // ── Tier data — matches Stripe price IDs in create-checkout-session.js ──
+  const TIERS = {
+    app_1month:  { label: 'Cultivating the Fruit — 1 month access',  price: 19 },
+    app_6month:  { label: 'Cultivating the Fruit — 6 months access', price: 45 },
+    app_12month: { label: 'Cultivating the Fruit — 12 months access', price: 79 }
+  };
+
+  // ── Read tier from URL param ──
+  const params = new URLSearchParams(window.location.search);
+  const tier = params.get('tier') || 'app_12month';
+  const tierData = TIERS[tier] || TIERS['app_12month'];
+
+  // ── Set app line in order summary on load ──
+  document.getElementById('summary-app-label').textContent = tierData.label;
+  document.getElementById('summary-app-price').textContent = 'AU$' + tierData.price;
+  document.getElementById('total-price').textContent = 'AU$' + tierData.price;
+
+  let state = { bump1: false, bump2: false, bundle: false };
 
   function toggleBump(n) {
     if (state.bundle) {
       state.bundle = false;
       document.getElementById('bundle').classList.remove('selected');
+      document.getElementById('bundleCheck').querySelector('svg').style.display = 'none';
     }
     state['bump' + n] = !state['bump' + n];
     const card = document.getElementById('bump' + n);
     card.classList.toggle('selected', state['bump' + n]);
-    if (state.bump1 && state.bump2) {
-      state.bump1 = false;
-      state.bump2 = false;
-      state.bundle = true;
-      document.getElementById('bump1').classList.remove('selected');
-      document.getElementById('bump2').classList.remove('selected');
-      document.getElementById('bundle').classList.add('selected');
-    }
     updateUI();
   }
 
@@ -676,8 +670,9 @@ let state = { bump1: false, bump2: false, bundle: false };
     updateUI();
   }
 
-  function getBumpSelection() {
+  function getBumps() {
     if (state.bundle) return 'bumpBundle';
+    if (state.bump1 && state.bump2) return 'bumpBundle';
     if (state.bump1) return 'drift';
     if (state.bump2) return 'grace';
     return 'none';
@@ -688,27 +683,25 @@ let state = { bump1: false, bump2: false, bundle: false };
     document.getElementById('summary-grace').style.display  = (state.bump2 && !state.bundle) ? '' : 'none';
     document.getElementById('summary-bundle').style.display = state.bundle ? '' : 'none';
 
-    let total = 79;
+    let total = tierData.price;
     if (state.bundle)     total += 27;
     else if (state.bump1) total += 17;
     else if (state.bump2) total += 17;
     document.getElementById('total-price').textContent = 'AU$' + total;
 
+    const bumps = getBumps();
     const btn = document.getElementById('checkout-btn');
-    const bumps = getBumpSelection();
-    btn.href = '/strengthen-wives/oto?bumps=' + bumps;
+    btn.href = '/strengthen-wives/checkout?tier=' + tier + '&bumps=' + bumps;
 
-    if (state.bundle || state.bump1 || state.bump2) {
-      btn.childNodes[0].textContent = 'Continue — AU$' + total;
-    } else {
-      btn.childNodes[0].textContent = 'Continue to Next Step';
-    }
+    btn.childNodes[0].textContent = (state.bundle || state.bump1 || state.bump2)
+      ? 'Complete My Order — AU$' + total
+      : 'Complete My Order';
   }
 
   function skipToCheckout() {
-    window.location.href = '/strengthen-wives/oto?bumps=none';
+    window.location.href = '/strengthen-wives/checkout?tier=' + tier + '&bumps=none';
   }
 </script>
-  
+
 </body>
 </html>
