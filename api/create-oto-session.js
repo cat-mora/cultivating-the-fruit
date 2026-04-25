@@ -1,7 +1,7 @@
 // /api/create-oto-session.js
 // Vercel serverless function — creates a Stripe Checkout Session for OTO purchases only
 import Stripe from 'stripe';
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const PRICE_IDS = {
   conversations: 'price_1TOBbOEmfa6ZbajN6cbrnCNy',
@@ -18,26 +18,41 @@ export default async function handler(req, res) {
 
   try {
     const { otos, session_id } = req.body;
-    // otos: 'conversations' | 'cherished' | 'otoBundle'
-    // session_id: original purchase session ID — passed through to welcome page
 
     if (!otos || !PRICE_IDS[otos]) {
       return res.status(400).json({ error: 'Invalid OTO selection' });
     }
 
-    const session = await stripe.checkout.sessions.create({
+    // ── Look up customer email from the original Stripe session ──
+    let customerEmail;
+    if (session_id) {
+      try {
+        const originalSession = await stripe.checkout.sessions.retrieve(session_id);
+        customerEmail = originalSession.customer_details?.email;
+      } catch (err) {
+        console.warn('Could not retrieve original session:', err.message);
+      }
+    }
+
+    const sessionParams = {
       mode: 'payment',
       line_items: [
         { price: PRICE_IDS[otos], quantity: 1 }
       ],
-      // Pass original session_id through so welcome page knows full purchase history
       success_url: `${BASE_URL}/strengthen-wives/welcome?session_id=${session_id}&oto_session_id={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${BASE_URL}/strengthen-wives/oto?session_id=${session_id}`,
       metadata: {
-        otos:               otos,
+        otos,
         original_session_id: session_id
       }
-    });
+    };
+
+    // ── Pass customer email if we have it ──
+    if (customerEmail) {
+      sessionParams.customer_email = customerEmail;
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
     return res.status(200).json({ url: session.url });
 
