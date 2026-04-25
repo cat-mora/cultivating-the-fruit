@@ -107,118 +107,8 @@
     }
     .intro p { font-size: 15px; opacity: 0.9; max-width: 480px; margin: 0 auto; }
 
-    /* ── TIER SELECTOR ── */
-    .tier-section { padding: 36px 0 0; }
-
-    .tier-section h2 {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--blue);
-      margin-bottom: 6px;
-    }
-
-    .tier-section p {
-      font-size: 13px;
-      color: var(--gray-text);
-      margin-bottom: 16px;
-    }
-
-    .tier-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-
-    .tier-card {
-      background: var(--white);
-      border: 2px solid rgba(31,98,142,0.15);
-      border-radius: 12px;
-      padding: 16px 20px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      position: relative;
-    }
-    .tier-card:hover { border-color: var(--blue); }
-    .tier-card.selected {
-      border-color: var(--blue);
-      background: #f0f7ff;
-      box-shadow: 0 2px 12px rgba(31,98,142,0.12);
-    }
-    .tier-card.best-value { border-color: var(--cta-coral); }
-    .tier-card.best-value.selected { background: #fff5f5; box-shadow: 0 2px 12px rgba(232,84,90,0.12); }
-
-    .tier-radio {
-      width: 22px; height: 22px;
-      border-radius: 50%;
-      border: 2px solid rgba(31,98,142,0.3);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
-      transition: border-color 0.2s;
-    }
-    .tier-card.selected .tier-radio { border-color: var(--blue); }
-    .tier-card.best-value.selected .tier-radio { border-color: var(--cta-coral); }
-    .tier-radio-dot {
-      width: 12px; height: 12px;
-      border-radius: 50%;
-      background: var(--blue);
-      display: none;
-    }
-    .tier-card.best-value.selected .tier-radio-dot { background: var(--cta-coral); }
-    .tier-card.selected .tier-radio-dot { display: block; }
-
-    .tier-info { flex: 1; }
-    .tier-name {
-      font-family: var(--font-head);
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--black);
-      margin-bottom: 2px;
-    }
-    .tier-desc {
-      font-size: 12px;
-      color: var(--gray-text);
-      line-height: 1.4;
-    }
-
-    .tier-price {
-      text-align: right;
-      flex-shrink: 0;
-    }
-    .tier-price-main {
-      font-family: var(--font-head);
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--blue);
-    }
-    .tier-card.best-value.selected .tier-price-main { color: var(--cta-coral); }
-    .tier-price-sub {
-      font-size: 11px;
-      color: var(--gray-text);
-      display: block;
-    }
-
-    .best-value-badge {
-      position: absolute;
-      top: -10px;
-      right: 16px;
-      background: var(--cta-coral);
-      color: white;
-      font-family: var(--font-head);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 20px;
-    }
-
     /* ── ORDER REVIEW ── */
-    .order-section { padding: 8px 0 0; }
+    .order-section { padding: 36px 0 0; }
 
     .order-card {
       background: var(--white);
@@ -418,55 +308,14 @@
 <!-- Intro -->
 <div class="intro">
   <div class="container">
-    <h1>Almost there — choose your plan</h1>
-    <p>Select how long you would like access, then enter your email to complete your order.</p>
+    <h1>Review Your Order</h1>
+    <p>Enter your email and you will be taken to our secure payment page.</p>
   </div>
 </div>
 
-<!-- Tier Selector -->
-<div class="tier-section">
+<!-- Order + Email -->
+<div class="order-section">
   <div class="container">
-
-    <div class="tier-cards">
-
-      <div class="tier-card" id="tier-1month" onclick="selectTier('app_1month')">
-        <div class="tier-radio"><div class="tier-radio-dot"></div></div>
-        <div class="tier-info">
-          <div class="tier-name">1 Month</div>
-          <div class="tier-desc">Try it for a month. Five daily action options, grounded in Scripture. No automatic renewal.</div>
-        </div>
-        <div class="tier-price">
-          <div class="tier-price-main">AU$19</div>
-          <span class="tier-price-sub">Approx. US$12</span>
-        </div>
-      </div>
-
-      <div class="tier-card" id="tier-6month" onclick="selectTier('app_6month')">
-        <div class="tier-radio"><div class="tier-radio-dot"></div></div>
-        <div class="tier-info">
-          <div class="tier-name">6 Months</div>
-          <div class="tier-desc">Enough time to build a real rhythm. Five options every day. No automatic renewal.</div>
-        </div>
-        <div class="tier-price">
-          <div class="tier-price-main">AU$45</div>
-          <span class="tier-price-sub">Approx. US$29</span>
-        </div>
-      </div>
-
-      <div class="tier-card best-value selected" id="tier-12month" onclick="selectTier('app_12month')">
-        <div class="best-value-badge">Best Value</div>
-        <div class="tier-radio"><div class="tier-radio-dot"></div></div>
-        <div class="tier-info">
-          <div class="tier-name">12 Months</div>
-          <div class="tier-desc">A full year of daily Scripture-anchored actions. Five options every day. No automatic renewal.</div>
-        </div>
-        <div class="tier-price">
-          <div class="tier-price-main">AU$79</div>
-          <span class="tier-price-sub">Approx. US$50</span>
-        </div>
-      </div>
-
-    </div>
 
     <!-- Order Summary -->
     <div class="order-card">
@@ -522,39 +371,34 @@
   // ── Loops API key ──
   const LOOPS_API_KEY = 'vck_5ZX1LSNIid4KbmjmPbqhPrqMNgFwUCopAhNmUN8b4F0N31A2aX4G7Ypn';
 
-  // ── Read params from bump page ──
+  // ── Read tier and bumps from URL params ──
   const params = new URLSearchParams(window.location.search);
+  const tier  = params.get('tier')  || 'app_12month';
   const bumps = params.get('bumps') || 'none';
 
-  // ── Tier state (default 12 months) ──
-  let selectedTier = 'app_12month';
-
-  // ── Tier display data ──
+  // ── Tier data ──
   const TIERS = {
-    app_1month:  { label: 'Cultivating the Fruit — 1 Month',   price: 19 },
-    app_6month:  { label: 'Cultivating the Fruit — 6 Months',  price: 45 },
-    app_12month: { label: 'Cultivating the Fruit — 12 Months', price: 79 },
+    app_1month:  { label: 'Cultivating the Fruit — 1 month access',   price: 19 },
+    app_6month:  { label: 'Cultivating the Fruit — 6 months access',  price: 45 },
+    app_12month: { label: 'Cultivating the Fruit — 12 months access', price: 79 }
   };
 
-  const BUMP_ITEMS = {
-    drift:      { label: 'When You Feel the Drift', price: 17 },
-    grace:      { label: 'Say It With Grace', price: 17 },
-    bumpBundle: { label: 'Both Companion Guides (bundle)', price: 27 },
+  // ── Bump data ──
+  const BUMPS = {
+    drift:      { label: 'When You Feel the Drift',        price: 17 },
+    grace:      { label: 'Say It With Grace',              price: 17 },
+    bumpBundle: { label: 'Both Companion Guides (bundle)', price: 27 }
   };
 
-  // ── Select tier ──
-  function selectTier(tier) {
-    selectedTier = tier;
-    document.querySelectorAll('.tier-card').forEach(c => c.classList.remove('selected'));
-    document.getElementById('tier-' + tier.replace('app_', '')).classList.add('selected');
-    buildOrderSummary();
-  }
+  const tierData = TIERS[tier] || TIERS['app_12month'];
+  const bumpData = BUMPS[bumps] || null;
 
   // ── Build order summary ──
   function buildOrderSummary() {
     const container = document.getElementById('order-lines');
-    const tierData = TIERS[selectedTier];
     let total = tierData.price;
+    if (bumpData) total += bumpData.price;
+
     let html = `
       <div class="order-line">
         <span class="item-name">${tierData.label}</span>
@@ -562,13 +406,11 @@
       </div>
     `;
 
-    if (bumps !== 'none' && BUMP_ITEMS[bumps]) {
-      const bump = BUMP_ITEMS[bumps];
-      total += bump.price;
+    if (bumpData) {
       html += `
         <div class="order-line">
-          <span class="item-name">${bump.label}</span>
-          <span class="item-price">AU$${bump.price}</span>
+          <span class="item-name">${bumpData.label}</span>
+          <span class="item-price">AU$${bumpData.price}</span>
         </div>
       `;
     }
@@ -597,7 +439,7 @@
         body: JSON.stringify({
           eventName: 'checkout_started',
           email: email,
-          eventProperties: { tier: selectedTier, bumps: bumps }
+          eventProperties: { tier: tier, bumps: bumps }
         })
       });
     } catch (e) {
@@ -612,6 +454,7 @@
     const btn = document.getElementById('checkout-btn');
     const email = emailInput.value.trim();
 
+    // Validate email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       emailError.classList.add('visible');
@@ -620,18 +463,22 @@
     }
     emailError.classList.remove('visible');
 
+    // Show loading state
     btn.classList.add('btn-loading');
     btn.childNodes[0].textContent = 'Redirecting to payment…';
 
+    // Fire Loops event in background
     fireCheckoutStarted(email);
 
+    // Store email in sessionStorage so welcome page can use it
     try { sessionStorage.setItem('ctf_email', email); } catch(e) {}
 
+    // Call the API to create a Stripe checkout session
     try {
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, tier: selectedTier, bumps, otos: 'none' })
+        body: JSON.stringify({ tier: tier, bumps: bumps, email: email })
       });
 
       const data = await response.json();
@@ -639,14 +486,13 @@
       if (data.url) {
         window.location.href = data.url;
       } else {
-        throw new Error(data.error || 'No URL returned');
+        throw new Error(data.error || 'No checkout URL returned');
       }
     } catch (err) {
       console.error('Checkout error:', err);
       btn.classList.remove('btn-loading');
       btn.childNodes[0].textContent = 'Go to Secure Payment';
-      emailError.textContent = 'Something went wrong. Please try again.';
-      emailError.classList.add('visible');
+      alert('Something went wrong. Please try again or contact us at info@cultivatingthefruit.com');
     }
   }
 
