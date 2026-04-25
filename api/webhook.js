@@ -75,24 +75,29 @@ export default async function handler(req, res) {
 
     const hasGuides = Object.keys(extraProps).length > 0;
 
+    // ── Detect OTO-only session (no tier in metadata means it came from create-oto-session) ──
+    const isOTOOnly = !session.metadata?.tier;
+
     // ── Upsert contact in Loops ──
     await loopsUpsertContact({ email, firstName, ...extraProps });
 
-    // ── Send purchase confirmation ──
-    await loopsFetch('/transactional', {
-      transactionalId: LOOPS_TRANSACTIONAL.purchaseConfirmation,
-      email,
-      dataVariables: {
-        firstName,
-        purchasedDrift:          extraProps.purchasedDrift          || false,
-        purchasedGrace:          extraProps.purchasedGrace          || false,
-        purchasedConversations:  extraProps.purchasedConversations  || false,
-        purchasedCherished:      extraProps.purchasedCherished      || false,
-      },
-    });
+    // ── Send purchase confirmation only for main purchase, not OTO-only sessions ──
+    if (!isOTOOnly) {
+      await loopsFetch('/transactional', {
+        transactionalId: LOOPS_TRANSACTIONAL.purchaseConfirmation,
+        email,
+        dataVariables: {
+          firstName,
+          purchasedDrift:          extraProps.purchasedDrift          || false,
+          purchasedGrace:          extraProps.purchasedGrace          || false,
+          purchasedConversations:  extraProps.purchasedConversations  || false,
+          purchasedCherished:      extraProps.purchasedCherished      || false,
+        },
+      });
+    }
 
-    // ── Send bump guide email if bumps were purchased ──
-    const hasBumps = extraProps.purchasedDrift || extraProps.purchasedGrace;
+    // ── Send bump guide email only for main purchase sessions ──
+    const hasBumps = !isOTOOnly && (extraProps.purchasedDrift || extraProps.purchasedGrace);
     if (hasBumps) {
       const bumpGuides = [];
       if (extraProps.purchasedDrift)  bumpGuides.push(GUIDES.drift);
