@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import { useDailyContent } from '../../features/content/hooks/use-daily-content';
 import { useStreak } from '../../features/progress/hooks/use-streak';
 import { useUserStore } from '../../store/user-store';
-import { Activity } from '../../features/content/data/journey-content';
+import { Activity, JOURNEY_CONTENT } from '../../features/content/data/journey-content';
 import { Alert as WebAlert } from '../../lib/alert-web';
 
 const Alert = Platform.OS === 'web' ? WebAlert : RNAlert;
@@ -13,23 +13,66 @@ const timeTiers = [5, 15, 30, 60, 120];
 
 export default function DashboardScreen() {
   const router = useRouter();
-  const content = useDailyContent();
   const { completeActivityToday, hasCompletedToday, getStreakInfo } = useStreak();
+  const advanceToNextDay = useUserStore((state) => state.advanceToNextDay);
+  const currentDay = useUserStore((state) => state.currentDay); // Actual progression day
+  const setCurrentDay = useUserStore((state) => state.setCurrentDay);
+  const selectedStream = useUserStore((state) => state.selectedStream);
+  const selectedTranslation = useUserStore((state) => state.selectedTranslation);
+
+  // Local state for which day user is viewing (can be different from currentDay)
+  const [viewingDay, setViewingDay] = useState(currentDay);
   const [selectedTier, setSelectedTier] = useState<number>(15);
   const [isCompleting, setIsCompleting] = useState(false);
+
+  // Sync viewing day with current day when current day changes (after completion)
+  useEffect(() => {
+    setViewingDay(currentDay);
+  }, [currentDay]);
 
   const streak = getStreakInfo();
   const completedToday = hasCompletedToday();
 
+  // Get content for the day we're viewing (not necessarily the current day)
+  const contentList = selectedStream ? JOURNEY_CONTENT[selectedStream] : null;
+  const content = contentList?.find((c) => c.day_number === viewingDay);
+  const scriptureText = content?.bible_text[selectedTranslation] || content?.bible_text['NIV'];
+  const displayContent = content ? { ...content, scriptureText } : null;
+
+  // Calculate max days for the selected stream
+  const maxDays = selectedStream ? contentList?.length || 90 : 90;
+  const canGoPrev = viewingDay > 1;
+  const canGoNext = viewingDay < maxDays;
+  const isPreviewing = viewingDay !== currentDay;
+
+  const handlePrevDay = () => {
+    if (canGoPrev) {
+      setViewingDay(viewingDay - 1);
+    }
+  };
+
+  const handleNextDay = () => {
+    if (canGoNext) {
+      setViewingDay(viewingDay + 1);
+    }
+  };
+
+  const handleBackToCurrent = () => {
+    setViewingDay(currentDay);
+  };
+
   const handleMarkComplete = async () => {
-    if (!content || completedToday) return;
+    if (!displayContent || completedToday || isPreviewing) return;
 
     try {
       setIsCompleting(true);
       await completeActivityToday(
-        content.fruit_theme.toLowerCase() as any,
-        content.day_number
+        displayContent.fruit_theme.toLowerCase() as any,
+        displayContent.day_number
       );
+
+      // Advance to the next day after completing an activity
+      advanceToNextDay();
 
       Alert.alert(
         '🎉 Activity Complete!',
@@ -43,7 +86,7 @@ export default function DashboardScreen() {
     }
   };
 
-  if (!content) {
+  if (!displayContent) {
     return (
       <View className="flex-1 items-center justify-center bg-cream">
         <Text className="text-charcoal/60">Loading your daily ritual...</Text>
@@ -51,17 +94,67 @@ export default function DashboardScreen() {
     );
   }
 
-  const selectedActivity = content.activities.find(a => a.duration_minutes === selectedTier);
+  const selectedActivity = displayContent.activities.find(a => a.duration_minutes === selectedTier);
 
   return (
     <ScrollView className="flex-1 bg-cream p-6" contentContainerStyle={{ paddingBottom: 32 }}>
       {/* Header */}
       <View className="mt-14 mb-6">
-        <View className="flex-row items-center gap-3 mb-1">
-          <Text className="text-3xl">🍇</Text>
-          <Text className="text-3xl font-serif text-wine">{content.fruit_theme}</Text>
+        <View className="flex-row items-center justify-between mb-3">
+          <View className="flex-row items-center gap-3">
+            <Text className="text-3xl">🍇</Text>
+            <Text className="text-3xl font-serif text-wine">{displayContent.fruit_theme}</Text>
+          </View>
+
+          {/* Day Navigation */}
+          <View className="flex-row items-center gap-3">
+            <Pressable
+              onPress={handlePrevDay}
+              disabled={!canGoPrev}
+              className={`w-10 h-10 rounded-full items-center justify-center ${
+                canGoPrev ? 'bg-wine' : 'bg-cream-dark'
+              }`}
+            >
+              <Text className={`text-lg font-bold ${canGoPrev ? 'text-white' : 'text-charcoal/20'}`}>
+                ‹
+              </Text>
+            </Pressable>
+
+            <View className="bg-parchment px-4 py-2 rounded-full border border-cream-dark">
+              <Text className="text-wine font-bold text-sm">
+                Day {displayContent.day_number}
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={handleNextDay}
+              disabled={!canGoNext}
+              className={`w-10 h-10 rounded-full items-center justify-center ${
+                canGoNext ? 'bg-wine' : 'bg-cream-dark'
+              }`}
+            >
+              <Text className={`text-lg font-bold ${canGoNext ? 'text-white' : 'text-charcoal/20'}`}>
+                ›
+              </Text>
+            </Pressable>
+          </View>
         </View>
-        <Text className="text-charcoal/50 text-sm font-semibold ml-1">Day {content.day_number}</Text>
+
+        {isPreviewing && (
+          <Pressable
+            onPress={handleBackToCurrent}
+            className="bg-mint-light p-3 rounded-[16px] border border-mint mb-2 flex-row items-center justify-center gap-2"
+          >
+            <Text className="text-charcoal/60 text-xs text-center">
+              👁️ Previewing Day {displayContent.day_number}
+            </Text>
+            <View className="bg-mint px-3 py-1 rounded-full">
+              <Text className="text-wine text-xs font-bold">
+                Back to Day {currentDay}
+              </Text>
+            </View>
+          </Pressable>
+        )}
       </View>
 
       {/* Streak Badge */}
@@ -78,9 +171,9 @@ export default function DashboardScreen() {
       <View className="bg-rose-dark p-7 rounded-[28px] shadow-lg mb-5">
         <Text className="text-white/40 text-5xl font-serif absolute top-4 left-5">"</Text>
         <Text className="text-white text-xl font-serif text-center leading-8 mt-6 mb-4">
-          {content.scriptureText}
+          {displayContent.scriptureText}
         </Text>
-        <Text className="text-white/70 text-center font-bold text-sm">{content.bible_reference}</Text>
+        <Text className="text-white/70 text-center font-bold text-sm">{displayContent.bible_reference}</Text>
       </View>
 
       {/* Time Tier Selector */}
@@ -117,17 +210,23 @@ export default function DashboardScreen() {
 
           <Pressable
             onPress={handleMarkComplete}
-            disabled={isCompleting || completedToday}
+            disabled={isCompleting || completedToday || isPreviewing}
             className={`p-4 rounded-full items-center shadow-md ${
-              completedToday
+              isPreviewing
+                ? 'bg-cream-dark'
+                : completedToday
                 ? 'bg-sage/50'
                 : isCompleting
                 ? 'bg-sage/70'
                 : 'bg-sage'
             }`}
           >
-            <Text className="text-white text-lg font-bold">
-              {completedToday
+            <Text className={`text-lg font-bold ${
+              isPreviewing ? 'text-charcoal/40' : 'text-white'
+            }`}>
+              {isPreviewing
+                ? '👁️ Preview Only'
+                : completedToday
                 ? '✓ Completed Today'
                 : isCompleting
                 ? 'Recording...'

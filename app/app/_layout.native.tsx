@@ -20,6 +20,7 @@ import { initializeAuth } from '../store/auth-store';
 import { logFeatureFlags } from '../lib/feature-flags';
 import { startBackgroundSync } from '../lib/data/sync-service';
 import { promptMigrationIfNeeded } from '../lib/migration/migrate-to-supabase';
+import { PWAInstallPrompt } from '../components/pwa-install-prompt';
 
 import { useColorScheme } from '@/components/useColorScheme';
 
@@ -140,6 +141,9 @@ function RootLayoutNav() {
         />
       </Stack>
       {hasOnboarded === false && <Redirect href="/onboarding" />}
+
+      {/* PWA Install Prompt - shows on first load for web users */}
+      <PWAInstallPrompt />
     </ThemeProvider>
   );
 }

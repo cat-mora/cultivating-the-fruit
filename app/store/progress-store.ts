@@ -3,10 +3,40 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { syncProgress, syncFruitProgress } from '../lib/data/sync-service';
 import { Platform } from 'react-native';
+import { JOURNEY_CONTENT } from '../features/content/data/journey-content';
 
 export type FruitType =
   | 'love' | 'joy' | 'peace' | 'patience' | 'kindness'
   | 'goodness' | 'faithfulness' | 'gentleness' | 'self-control';
+
+/**
+ * Calculate how many times each fruit appears in the content
+ * This ensures we mark fruits as complete based on actual occurrences
+ */
+const calculateFruitOccurrences = (): Map<FruitType, number> => {
+  const occurrences = new Map<FruitType, number>();
+
+  // Count occurrences across all streams
+  Object.values(JOURNEY_CONTENT).forEach(stream => {
+    stream.forEach(day => {
+      // Normalize fruit names to match FruitType enum (lowercase and replace spaces with hyphens)
+      const normalizedFruit = day.fruit_theme.toLowerCase().replace(/\s+/g, '-');
+
+      // Only count fruits that match our FruitType enum
+      const validFruits: FruitType[] = ['love', 'joy', 'peace', 'patience', 'kindness', 'goodness', 'faithfulness', 'gentleness', 'self-control'];
+
+      if (validFruits.includes(normalizedFruit as FruitType)) {
+        const fruit = normalizedFruit as FruitType;
+        occurrences.set(fruit, (occurrences.get(fruit) || 0) + 1);
+      }
+      // Skip non-standard fruits like 'Admiration', 'Unity', etc.
+    });
+  });
+
+  return occurrences;
+};
+
+const FRUIT_OCCURRENCES = calculateFruitOccurrences();
 
 export interface FruitProgress {
   fruitTheme: FruitType;
@@ -142,9 +172,12 @@ export const useProgressStore = create<ProgressState>()(
               current.firstCompletedDate = new Date().toISOString();
             }
 
-            // Check if all 90 days of this fruit are completed (or majority)
-            // Fruits appear multiple times in the 90-day cycle
-            if (current.completedDays.length >= 10) {
+            // Check if fruit is completed based on actual occurrences in content
+            // Mark as complete when user has finished 80% of that fruit's days
+            const totalOccurrences = FRUIT_OCCURRENCES.get(fruit) || 0;
+            const completionThreshold = Math.ceil(totalOccurrences * 0.8);
+
+            if (current.completedDays.length >= completionThreshold) {
               current.isCompleted = true;
             }
           }
@@ -216,7 +249,7 @@ export const useProgressStore = create<ProgressState>()(
           typeof persistedState === 'object' &&
           'fruitProgress' in persistedState
         ) {
-          const fruitMap = new Map(
+          const fruitMap = new Map<FruitType, FruitProgress>(
             (persistedState as any).fruitProgress || []
           );
           return {

@@ -35,6 +35,7 @@ export async function syncUserProfile(userId: string, profileData: {
   stream: 'strengthen' | 'repair' | 'family';
   translation: 'NIV' | 'ESV' | 'KJV' | 'NLT' | 'NKJV';
   onboarding_date: string;
+  current_day?: number; // Current day in the journey (activity-based progression)
   device_id?: string;
   email?: string;
 }) {

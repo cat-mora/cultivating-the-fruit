@@ -11,10 +11,13 @@ interface UserState {
   hasOnboarded: boolean;
   selectedStream: JourneyStream | null;
   selectedTranslation: BibleTranslation;
-  onboardingDate: string | null; // ISO date string
+  onboardingDate: string | null; // ISO date string (kept for backward compatibility)
+  currentDay: number; // Current day in the journey (1-90), advances with activity completion
   setStream: (stream: JourneyStream) => void;
   setTranslation: (translation: BibleTranslation) => void;
   completeOnboarding: () => void;
+  advanceToNextDay: () => void; // Move to the next day after completing an activity
+  setCurrentDay: (day: number) => void; // For navigation (viewing different days)
   syncToSupabase: () => Promise<void>;
 }
 
@@ -25,6 +28,7 @@ export const useUserStore = create<UserState>()(
       selectedStream: null,
       selectedTranslation: 'NIV',
       onboardingDate: null,
+      currentDay: 1,
 
       setStream: (stream) => {
         set({ selectedStream: stream });
@@ -48,13 +52,31 @@ export const useUserStore = create<UserState>()(
 
       completeOnboarding: () => {
         const onboardingDate = new Date().toISOString().split('T')[0];
-        set({ hasOnboarded: true, onboardingDate });
+        set({ hasOnboarded: true, onboardingDate, currentDay: 1 });
         // Sync to Supabase after state update
         if (Platform.OS === 'web') {
           // Web: immediate sync
           get().syncToSupabase();
         }
         // Native: background sync will handle it
+      },
+
+      advanceToNextDay: () => {
+        const { currentDay } = get();
+        // Cap at 90 days (or whatever the max is for the selected stream)
+        const nextDay = Math.min(currentDay + 1, 90);
+        set({ currentDay: nextDay });
+        // Sync to Supabase after state update
+        if (Platform.OS === 'web') {
+          get().syncToSupabase();
+        }
+      },
+
+      setCurrentDay: (day: number) => {
+        // Allow navigating to any day between 1 and 90
+        const validDay = Math.max(1, Math.min(day, 90));
+        set({ currentDay: validDay });
+        // Note: We don't sync navigation to Supabase - only actual progression (advanceToNextDay)
       },
 
       syncToSupabase: async () => {
@@ -70,6 +92,7 @@ export const useUserStore = create<UserState>()(
             stream: state.selectedStream,
             translation: state.selectedTranslation,
             onboarding_date: state.onboardingDate,
+            current_day: state.currentDay,
             device_id: Platform.OS !== 'web' ? 'device-id' : null,
             email: null, // Will be set from auth if linked
           });
