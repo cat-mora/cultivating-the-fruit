@@ -94,28 +94,26 @@ export default async function handler(req, res) {
     // ── Send bump guide email if bumps were purchased ──
     const hasBumps = extraProps.purchasedDrift || extraProps.purchasedGrace;
     if (hasBumps) {
+      const bumpGuides = [];
+      if (extraProps.purchasedDrift)  bumpGuides.push(GUIDES.drift);
+      if (extraProps.purchasedGrace)  bumpGuides.push(GUIDES.grace);
       await loopsFetch('/transactional', {
         transactionalId: LOOPS_TRANSACTIONAL.bumpGuideDelivery,
         email,
-        dataVariables: {
-          firstName,
-          driftUrl:  extraProps.purchasedDrift  ? GUIDES.drift.url  : '',
-          graceUrl:  extraProps.purchasedGrace  ? GUIDES.grace.url  : '',
-        },
+        dataVariables: { firstName, guides: bumpGuides },
       });
     }
 
     // ── Send OTO guide email if OTOs were purchased ──
     const hasOTOs = extraProps.purchasedConversations || extraProps.purchasedCherished;
     if (hasOTOs) {
+      const otoGuides = [];
+      if (extraProps.purchasedConversations) otoGuides.push(GUIDES.conversations);
+      if (extraProps.purchasedCherished)     otoGuides.push(GUIDES.cherished);
       await loopsFetch('/transactional', {
         transactionalId: LOOPS_TRANSACTIONAL.otoGuideDelivery,
         email,
-        dataVariables: {
-          firstName,
-          conversationsUrl: extraProps.purchasedConversations ? GUIDES.conversations.url : '',
-          cherishedUrl:     extraProps.purchasedCherished     ? GUIDES.cherished.url     : '',
-        },
+        dataVariables: { firstName, guides: otoGuides },
       });
     }
 
