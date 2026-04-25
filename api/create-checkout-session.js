@@ -23,17 +23,15 @@ const TIER_MONTHS = {
   app_12month: 12,
 };
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://cultivatingthefruit.com';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    const { email, tier, bumps, otos } = req.body;
-
-    // tier: 'app_1month' | 'app_6month' | 'app_12month'
-    // bumps: 'none' | 'drift' | 'grace' | 'bumpBundle'
-    // otos:  'none' | 'conversations' | 'cherished' | 'otoBundle'
+    const { email, tier, bumps } = req.body;
 
     // Validate tier
     const tierKey = tier && PRICE_IDS[tier] ? tier : 'app_12month';
@@ -46,22 +44,18 @@ export default async function handler(req, res) {
     if (bumps === 'grace')      lineItems.push({ price: PRICE_IDS.grace, quantity: 1 });
     if (bumps === 'bumpBundle') lineItems.push({ price: PRICE_IDS.bumpBundle, quantity: 1 });
 
-    if (otos === 'conversations') lineItems.push({ price: PRICE_IDS.conversations, quantity: 1 });
-    if (otos === 'cherished')     lineItems.push({ price: PRICE_IDS.cherished, quantity: 1 });
-    if (otos === 'otoBundle')     lineItems.push({ price: PRICE_IDS.otoBundle, quantity: 1 });
-
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       customer_email: email,
       line_items: lineItems,
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://cultivatingthefruit.com'}/strengthen-wives/welcome?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL || 'https://cultivatingthefruit.com'}/strengthen-wives/checkout`,
+      // ── Success goes to OTO page, not welcome ──
+      success_url: `${BASE_URL}/strengthen-wives/oto?session_id={CHECKOUT_SESSION_ID}&tier=${tierKey}&bumps=${bumps || 'none'}`,
+      cancel_url:  `${BASE_URL}/strengthen-wives/checkout`,
       metadata: {
-        tier: tierKey,
+        tier:        tierKey,
         tier_months: TIER_MONTHS[tierKey],
-        bumps: bumps || 'none',
-        otos: otos || 'none',
-        email: email
+        bumps:       bumps || 'none',
+        email:       email
       }
     });
 
