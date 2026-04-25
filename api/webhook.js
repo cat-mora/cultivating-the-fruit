@@ -3,7 +3,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const LOOPS_TRANSACTIONAL = {
   purchaseConfirmation: 'cmo6yt6oo000a0i02l6acnv7t',
-  guideDelivery: 'cmo6z01kt01un0iypb327bb49',
+  bumpGuideDelivery: 'cmo6z01kt01un0iypb327bb49',
+  otoGuideDelivery:  'cmoe2l9sx12360iwea6ym9kpz',
 };
 
 // ── Guide metadata — title, description, and hosted PDF URL ──
@@ -90,21 +91,30 @@ export default async function handler(req, res) {
       },
     });
 
-    // ── Send guide delivery email with guides array ──
-    if (hasGuides) {
-      // Build array of only the purchased guides, in a consistent order
-      const guides = [];
-      if (extraProps.purchasedDrift)         guides.push(GUIDES.drift);
-      if (extraProps.purchasedGrace)         guides.push(GUIDES.grace);
-      if (extraProps.purchasedConversations) guides.push(GUIDES.conversations);
-      if (extraProps.purchasedCherished)     guides.push(GUIDES.cherished);
-
+    // ── Send bump guide email if bumps were purchased ──
+    const hasBumps = extraProps.purchasedDrift || extraProps.purchasedGrace;
+    if (hasBumps) {
       await loopsFetch('/transactional', {
-        transactionalId: LOOPS_TRANSACTIONAL.guideDelivery,
+        transactionalId: LOOPS_TRANSACTIONAL.bumpGuideDelivery,
         email,
         dataVariables: {
           firstName,
-          guides, // array of { title, description, url }
+          driftUrl:  extraProps.purchasedDrift  ? GUIDES.drift.url  : '',
+          graceUrl:  extraProps.purchasedGrace  ? GUIDES.grace.url  : '',
+        },
+      });
+    }
+
+    // ── Send OTO guide email if OTOs were purchased ──
+    const hasOTOs = extraProps.purchasedConversations || extraProps.purchasedCherished;
+    if (hasOTOs) {
+      await loopsFetch('/transactional', {
+        transactionalId: LOOPS_TRANSACTIONAL.otoGuideDelivery,
+        email,
+        dataVariables: {
+          firstName,
+          conversationsUrl: extraProps.purchasedConversations ? GUIDES.conversations.url : '',
+          cherishedUrl:     extraProps.purchasedCherished     ? GUIDES.cherished.url     : '',
         },
       });
     }
