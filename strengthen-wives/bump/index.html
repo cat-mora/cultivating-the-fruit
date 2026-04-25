@@ -511,6 +511,14 @@
   </div>
 </div>
 
+<!-- Tier confirmation -->
+<div style="background: var(--white); border-bottom: 1px solid rgba(31,98,142,0.1); padding: 12px 24px; text-align: center;">
+  <p style="font-family: var(--font-head); font-size: 13px; color: var(--blue); margin: 0;">
+    Your plan: <strong id="tier-confirm-label">Cultivating the Fruit — 12 months</strong> &nbsp;·&nbsp; <strong id="tier-confirm-price">AU$79</strong>
+    &nbsp;<a href="/strengthen-wives#pricing" style="font-size: 12px; color: var(--gray-text); text-decoration: underline;">Change</a>
+  </p>
+</div>
+
 <!-- Bumps -->
 <div class="bumps-section">
   <div class="container">
@@ -645,6 +653,11 @@
   document.getElementById('summary-app-label').textContent = tierData.label;
   document.getElementById('summary-app-price').textContent = 'AU$' + tierData.price;
   document.getElementById('total-price').textContent = 'AU$' + tierData.price;
+
+  // ── Set tier confirmation bar ──
+  const tierNames = { app_1month: '1 month', app_6month: '6 months', app_12month: '12 months' };
+  document.getElementById('tier-confirm-label').textContent = 'Cultivating the Fruit — ' + (tierNames[tier] || '12 months');
+  document.getElementById('tier-confirm-price').textContent = 'AU$' + tierData.price;
 
   let state = { bump1: false, bump2: false, bundle: false };
 
