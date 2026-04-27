@@ -480,19 +480,18 @@
     // Store email in sessionStorage so welcome page can use it
     try { sessionStorage.setItem('ctf_email', email); } catch(e) {}
 
-    // Small delay so Loops has a chance to fire, then call API to create Stripe session
+    // Small delay so Loops has a chance to fire, then call API
     setTimeout(async () => {
       try {
         const res = await fetch('/api/create-checkout-session', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tier, bumps: selection, email })
+          body: JSON.stringify({ tier, bumps: ({ bump1: 'drift', bump2: 'grace', bundle: 'bumpBundle', main: 'none' })[selection] || 'none', email })
         });
         const data = await res.json();
         if (data.url) {
           window.location.href = data.url;
         } else {
-          console.error('No URL in response', data);
           btn.classList.remove('btn-loading');
           btn.childNodes[0].textContent = 'Go to Secure Payment';
         }
