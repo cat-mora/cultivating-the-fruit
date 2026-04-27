@@ -589,7 +589,7 @@
       <h3>Your Order</h3>
       <div class="order-line">
         <span id="tier-label">Cultivating the Fruit — 12 months access</span>
-        <span>AU$79</span>
+        <span id="tier-price">AU$79</span>
       </div>
       <div class="order-line" id="summary-drift" style="display:none; color: var(--blue);">
         <span>When You Feel the Drift</span>
@@ -611,11 +611,11 @@
 
     <!-- CTA -->
     <div class="cta-section">
-      <a id="checkout-btn" href="/checkout?selection=main" class="cta-btn">
+      <a id="checkout-btn" href="/strengthen-wives/checkout?selection=main" class="cta-btn">
         Complete My Order
         <span class="cta-sub">Secure checkout — instant access</span>
       </a>
-      <p class="cta-meta">🔒 Secure checkout · 30-day money-back guarantee · (Approx. US$50+ depending on selection)</p>
+      <p class="cta-meta">🔒 Secure checkout · 30-day money-back guarantee · Final total shown before payment</p>
       <span class="skip-link" onclick="skipToCheckout()">No thanks, I just want the app</span>
     </div>
 
@@ -678,27 +678,30 @@
 
   // Set tier label in order summary
   document.getElementById('tier-label').textContent = 'Cultivating the Fruit — ' + (TIER_LABELS[_tier] || '12 months access');
+  document.getElementById('tier-price').textContent = 'AU$' + basePrice;
 
   function updateUI() {
-    document.getElementById('summary-drift').style.display  = (state.bump1 && !state.bundle) ? '' : 'none';
-    document.getElementById('summary-grace').style.display  = (state.bump2 && !state.bundle) ? '' : 'none';
-    document.getElementById('summary-bundle').style.display = state.bundle ? '' : 'none';
+    const isBundleSelection = state.bundle || (state.bump1 && state.bump2);
 
     let total = basePrice;
-    if (state.bundle)      total += 27;
-    else if (state.bump1)  total += 17;
-    else if (state.bump2)  total += 17;
-    if (state.bump1 && state.bump2 && !state.bundle) total += 17;
+    if (isBundleSelection) {
+      total += 27;
+    } else if (state.bump1 || state.bump2) {
+      total += 17;
+    }
+
+    document.getElementById('summary-drift').style.display  = (state.bump1 && !isBundleSelection) ? '' : 'none';
+    document.getElementById('summary-grace').style.display  = (state.bump2 && !isBundleSelection) ? '' : 'none';
+    document.getElementById('summary-bundle').style.display = isBundleSelection ? '' : 'none';
+
     document.getElementById('total-price').textContent = 'AU$' + total;
 
     // Route through /checkout with tier + selection params
     const sel = getSelection();
-    document.getElementById('checkout-btn').href = '/checkout?tier=' + _tier + '&selection=' + sel;
+    document.getElementById('checkout-btn').href = '/strengthen-wives/checkout?tier=' + _tier + '&selection=' + sel;
 
     const btn = document.getElementById('checkout-btn');
-    if (state.bundle || (state.bump1 && state.bump2)) {
-      btn.childNodes[0].textContent = 'Complete My Order — AU$' + total;
-    } else if (state.bump1 || state.bump2) {
+    if (isBundleSelection || state.bump1 || state.bump2) {
       btn.childNodes[0].textContent = 'Complete My Order — AU$' + total;
     } else {
       btn.childNodes[0].textContent = 'Complete My Order';
@@ -706,7 +709,7 @@
   }
 
   function skipToCheckout() {
-    window.location.href = '/checkout?tier=' + _tier + '&selection=main';
+    window.location.href = '/strengthen-wives/checkout?tier=' + _tier + '&selection=main';
   }
 
   // Initialise on page load
