@@ -588,7 +588,7 @@
     <div class="order-summary">
       <h3>Your Order</h3>
       <div class="order-line">
-        <span>Cultivating the Fruit — 12 months access</span>
+        <span id="tier-label">Cultivating the Fruit — 12 months access</span>
         <span>AU$79</span>
       </div>
       <div class="order-line" id="summary-drift" style="display:none; color: var(--blue);">
@@ -673,7 +673,11 @@
   const _params = new URLSearchParams(window.location.search);
   const _tier = _params.get('tier') || 'app_12month';
   const TIER_PRICES = { app_1month: 19, app_6month: 45, app_12month: 79 };
+  const TIER_LABELS = { app_1month: '1 month access', app_6month: '6 months access', app_12month: '12 months access' };
   const basePrice = TIER_PRICES[_tier] || 79;
+
+  // Set tier label in order summary
+  document.getElementById('tier-label').textContent = 'Cultivating the Fruit — ' + (TIER_LABELS[_tier] || '12 months access');
 
   function updateUI() {
     document.getElementById('summary-drift').style.display  = (state.bump1 && !state.bundle) ? '' : 'none';
@@ -704,6 +708,9 @@
   function skipToCheckout() {
     window.location.href = '/checkout?tier=' + _tier + '&selection=main';
   }
+
+  // Initialise on page load
+  updateUI();
 </script>
 
 </body>
