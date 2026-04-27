@@ -7,6 +7,26 @@ const LOOPS_TRANSACTIONAL = {
   otoGuideDelivery:  'cmoe2l9sx12360iwea6ym9kpz',
 };
 
+// ── Invite codes — add more here when stock runs low ──
+const INVITE_CODES = [
+  'XZ9Z9Q','DSHMNF','R2QHM3','9LNKZL','ABDVP5','SQWAPF','B73M6V','4GZVKS',
+  'EWTRM5','CRM9QU','PQHB4K','CS4TME','UE35FK','79ESC8','Y6EYBL','DKSJF7',
+  'BCB8ES','ZRMFVV','URUDKY','UF5U7Z','XRVTFB','SSFHME','UE24C7','PWPBBU',
+  '8WXJMV','QJPCHM','M2D4CS','K5E227','46U4JF','68S8XR','3HDX7R','KRCUXT',
+  'TPV8SR','XXD5LW','SJKRCM','AKWVWR','DWCME6','Z566FD','GB5F5N','7GW54L',
+  'LHLBT8','PRHP9M','RCM26W','LU22XH','H8F7D5','7YVLZV'
+];
+
+// Assigns a consistent code per email using a hash
+function assignInviteCode(email) {
+  let hash = 0;
+  for (let i = 0; i < email.length; i++) {
+    hash = ((hash << 5) - hash) + email.charCodeAt(i);
+    hash |= 0;
+  }
+  return INVITE_CODES[Math.abs(hash) % INVITE_CODES.length];
+}
+
 // ── Guide metadata — title, description, and hosted PDF URL ──
 const GUIDES = {
   drift: {
@@ -65,38 +85,50 @@ export default async function handler(req, res) {
     const bumps = session.metadata?.bumps || 'none';
     const otos  = session.metadata?.otos  || 'none';
 
+    // ── Assign invite code and build app URLs ──
+    const inviteCode = assignInviteCode(email);
+    const getAppUrl  = `https://www.cultivatingthefruit.com/strengthen-wives/get-the-app?code=${inviteCode}`;
+    const welcomeUrl = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?code=${inviteCode}`;
+
     // ── Work out which guides were purchased ──
     const extraProps = {
-      ...(bumps === 'drift'      || bumps === 'bumpBundle' ? { purchasedDrift: true }          : {}),
-      ...(bumps === 'grace'      || bumps === 'bumpBundle' ? { purchasedGrace: true }          : {}),
-      ...(otos  === 'conversations' || otos === 'otoBundle' ? { purchasedConversations: true } : {}),
-      ...(otos  === 'cherished'     || otos === 'otoBundle' ? { purchasedCherished: true }     : {}),
+      ...(bumps === 'drift'         || bumps === 'bumpBundle' ? { purchasedDrift: true }          : {}),
+      ...(bumps === 'grace'         || bumps === 'bumpBundle' ? { purchasedGrace: true }          : {}),
+      ...(otos  === 'conversations' || otos  === 'otoBundle'  ? { purchasedConversations: true }  : {}),
+      ...(otos  === 'cherished'     || otos  === 'otoBundle'  ? { purchasedCherished: true }      : {}),
     };
 
-    const hasGuides = Object.keys(extraProps).length > 0;
-
-    // ── Detect OTO-only session (no tier in metadata means it came from create-oto-session) ──
+    // ── Detect OTO-only session ──
     const isOTOOnly = !session.metadata?.tier;
 
-    // ── Upsert contact in Loops ──
-    await loopsUpsertContact({ email, firstName, ...extraProps });
+    // ── Upsert contact in Loops with invite code and app URL ──
+    await loopsUpsertContact({
+      email,
+      firstName,
+      inviteCode,
+      getAppUrl,
+      welcomeUrl,
+      ...extraProps,
+    });
 
-    // ── Send purchase confirmation only for main purchase, not OTO-only sessions ──
+    // ── Send purchase confirmation (main purchase only) ──
     if (!isOTOOnly) {
       await loopsFetch('/transactional', {
         transactionalId: LOOPS_TRANSACTIONAL.purchaseConfirmation,
         email,
         dataVariables: {
           firstName,
-          purchasedDrift:          extraProps.purchasedDrift          || false,
-          purchasedGrace:          extraProps.purchasedGrace          || false,
-          purchasedConversations:  extraProps.purchasedConversations  || false,
-          purchasedCherished:      extraProps.purchasedCherished      || false,
+          inviteCode,
+          getAppUrl,
+          purchasedDrift:         extraProps.purchasedDrift         || false,
+          purchasedGrace:         extraProps.purchasedGrace         || false,
+          purchasedConversations: extraProps.purchasedConversations  || false,
+          purchasedCherished:     extraProps.purchasedCherished      || false,
         },
       });
     }
 
-    // ── Send bump guide email only for main purchase sessions ──
+    // ── Send bump guide email (main purchase only) ──
     const hasBumps = !isOTOOnly && (extraProps.purchasedDrift || extraProps.purchasedGrace);
     if (hasBumps) {
       const bumpGuides = [];
@@ -109,7 +141,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // ── Send OTO guide email if OTOs were purchased ──
+    // ── Send OTO guide email ──
     const hasOTOs = extraProps.purchasedConversations || extraProps.purchasedCherished;
     if (hasOTOs) {
       const otoGuides = [];
@@ -122,7 +154,7 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}`);
+    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}, code: ${inviteCode}`);
   }
 
   return res.status(200).json({ received: true });
