@@ -33,8 +33,18 @@ export default async function handler(req, res) {
   try {
     const { email, tier, bumps } = req.body;
 
-    // Validate tier
-    const tierKey = tier && PRICE_IDS[tier] ? tier : 'app_12month';
+            // Validate email server-side
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        return res.status(400).json({ error: 'Invalid or missing email' });
+            }
+
+            // Validate tier — do not silently default to 12 months
+            if (!tier || !TIER_MONTHS[tier] || !PRICE_IDS[tier]) {
+                        return res.status(400).json({ error: 'Invalid or missing tier' });
+            }
+
+            const tierKey = tier;
+
 
     const lineItems = [
       { price: PRICE_IDS[tierKey], quantity: 1 }
