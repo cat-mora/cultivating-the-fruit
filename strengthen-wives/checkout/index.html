@@ -371,49 +371,53 @@
   // ── Loops API key ──
   const LOOPS_API_KEY = 'vck_5ZX1LSNIid4KbmjmPbqhPrqMNgFwUCopAhNmUN8b4F0N31A2aX4G7Ypn';
 
-  // ── Read tier and bumps from URL params ──
+  // ── Read URL params passed from bump page ──
   const params = new URLSearchParams(window.location.search);
-  const tier  = params.get('tier')  || 'app_12month';
-  const bumps = params.get('bumps') || 'none';
+  const tier      = params.get('tier')      || 'app_12month';
+  const selection = params.get('selection') || 'main';
 
-  // ── Tier data ──
+  // ── Tier data (prices in AUD) ──
   const TIERS = {
-    app_1month:  { label: 'Cultivating the Fruit — 1 month access',   price: 19 },
-    app_6month:  { label: 'Cultivating the Fruit — 6 months access',  price: 45 },
-    app_12month: { label: 'Cultivating the Fruit — 12 months access', price: 79 }
+    app_1month:  { label: 'Cultivating the Fruit — 1 month access',  price: 19, stripeId: 'price_1TPwm9Emfa6ZbajN13Q15HiF' },
+    app_6month:  { label: 'Cultivating the Fruit — 6 months access', price: 45, stripeId: 'price_1TPwmsEmfa6ZbajNFSyqAKue' },
+    app_12month: { label: 'Cultivating the Fruit — 12 months access',price: 79, stripeId: 'price_1TPwpcEmfa6ZbajNxCEFdD6m' },
   };
 
   // ── Bump data ──
   const BUMPS = {
-    drift:      { label: 'When You Feel the Drift',        price: 17 },
-    grace:      { label: 'Say It With Grace',              price: 17 },
-    bumpBundle: { label: 'Both Companion Guides (bundle)', price: 27 }
+    bump1:  { label: 'When You Feel the Drift', price: 17, stripeId: 'price_1TOsUhEmfa6ZbajNlKbpx41K' },
+    bump2:  { label: 'Say It With Grace',       price: 17, stripeId: 'price_1TOsX6EmfE6ZbajNJmAkcRvS' },
+    bundle: { label: 'Both Companion Guides (bundle)', price: 27, stripeId: 'price_1TOsY1Emfa6ZbajNW2kCZsoi' },
   };
 
-  const tierData = TIERS[tier] || TIERS['app_12month'];
-  const bumpData = BUMPS[bumps] || null;
+  const selectedTier = TIERS[tier] || TIERS['app_12month'];
 
   // ── Build order summary ──
   function buildOrderSummary() {
     const container = document.getElementById('order-lines');
-    let total = tierData.price;
-    if (bumpData) total += bumpData.price;
+    let lines = [];
+    let total = selectedTier.price;
 
-    let html = `
-      <div class="order-line">
-        <span class="item-name">${tierData.label}</span>
-        <span class="item-price">AU$${tierData.price}</span>
-      </div>
-    `;
+    // Tier line
+    lines.push({ label: selectedTier.label, price: selectedTier.price });
 
-    if (bumpData) {
-      html += `
-        <div class="order-line">
-          <span class="item-name">${bumpData.label}</span>
-          <span class="item-price">AU$${bumpData.price}</span>
-        </div>
-      `;
+    if (selection === 'bump1') {
+      lines.push({ label: BUMPS.bump1.label, price: 17 });
+      total += 17;
+    } else if (selection === 'bump2') {
+      lines.push({ label: BUMPS.bump2.label, price: 17 });
+      total += 17;
+    } else if (selection === 'bundle') {
+      lines.push({ label: BUMPS.bundle.label, price: 27 });
+      total += 27;
     }
+
+    let html = lines.map(line => `
+      <div class="order-line">
+        <span class="item-name">${line.label}</span>
+        <span class="item-price">AU$${line.price}</span>
+      </div>
+    `).join('');
 
     html += `
       <div class="order-line total">
@@ -439,10 +443,13 @@
         body: JSON.stringify({
           eventName: 'checkout_started',
           email: email,
-          eventProperties: { tier: tier, bumps: bumps }
+          eventProperties: {
+            selection: selection
+          }
         })
       });
     } catch (e) {
+      // Fail silently — don't block checkout
       console.error('Loops event failed:', e);
     }
   }
@@ -467,33 +474,34 @@
     btn.classList.add('btn-loading');
     btn.childNodes[0].textContent = 'Redirecting to payment…';
 
-    // Fire Loops event in background
+    // Fire Loops event (don't await — let it run in background)
     fireCheckoutStarted(email);
 
     // Store email in sessionStorage so welcome page can use it
     try { sessionStorage.setItem('ctf_email', email); } catch(e) {}
 
-    // Call the API to create a Stripe checkout session
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier: tier, bumps: bumps, email: email })
-      });
-
-      const data = await response.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || 'No checkout URL returned');
+    // Small delay so Loops has a chance to fire, then call API to create Stripe session
+    setTimeout(async () => {
+      try {
+        const res = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tier, bumps: selection, email })
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          console.error('No URL in response', data);
+          btn.classList.remove('btn-loading');
+          btn.childNodes[0].textContent = 'Go to Secure Payment';
+        }
+      } catch (e) {
+        console.error('Checkout error', e);
+        btn.classList.remove('btn-loading');
+        btn.childNodes[0].textContent = 'Go to Secure Payment';
       }
-    } catch (err) {
-      console.error('Checkout error:', err);
-      btn.classList.remove('btn-loading');
-      btn.childNodes[0].textContent = 'Go to Secure Payment';
-      alert('Something went wrong. Please try again or contact us at info@cultivatingthefruit.com');
-    }
+    }, 600);
   }
 
   // ── Allow Enter key to submit ──
