@@ -70,9 +70,11 @@ export default async function handler(req, res) {
     const getAppUrl  = `https://www.cultivatingthefruit.com/strengthen-wives/get-the-app?code=${inviteCode}`;
     const welcomeUrl = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?session_id=${session.id}`;
 
-    // ── Build tier label for email ──
+    // ── Build tier label and price for email ──
     const tierMonths = session.metadata?.tier_months;
     const tierLabel  = tierMonths === '1' ? '1 month' : tierMonths === '6' ? '6 months' : '12 months';
+    const TIER_PRICES = { app_1month: 'AU$19', app_6month: 'AU$45', app_12month: 'AU$79' };
+    const tierPrice  = TIER_PRICES[session.metadata?.tier] || 'AU$79';
 
     // ── Work out which guides were purchased ──
     const extraProps = {
@@ -105,6 +107,7 @@ export default async function handler(req, res) {
           inviteCode,
           getAppUrl,
           tierLabel,
+          tierPrice,
           purchasedDrift:         extraProps.purchasedDrift         || false,
           purchasedGrace:         extraProps.purchasedGrace         || false,
           purchasedConversations: extraProps.purchasedConversations  || false,
