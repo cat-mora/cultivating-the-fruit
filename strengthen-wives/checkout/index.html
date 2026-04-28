@@ -368,9 +368,6 @@
 </div>
 
 <script>
-  // ── Loops API key ──
-  const LOOPS_API_KEY = 'vck_5ZX1LSNIid4KbmjmPbqhPrqMNgFwUCopAhNmUN8b4F0N31A2aX4G7Ypn';
-
   // ── Read URL params passed from bump page ──
   const params = new URLSearchParams(window.location.search);
   const tier      = params.get('tier')      || 'app_12month';
@@ -386,7 +383,7 @@
   // ── Bump data ──
   const BUMPS = {
     bump1:  { label: 'When You Feel the Drift', price: 17, stripeId: 'price_1TOsUhEmfa6ZbajNlKbpx41K' },
-    bump2:  { label: 'Say It With Grace',       price: 17, stripeId: 'price_1TOsX6EmfE6ZbajNJmAkcRvS' },
+    bump2:  { label: 'Say It With Grace',       price: 17, stripeId: 'price_1TOsX6Emfa6ZbajNJmAkcRvS' },
     bundle: { label: 'Both Companion Guides (bundle)', price: 27, stripeId: 'price_1TOsY1Emfa6ZbajNW2kCZsoi' },
   };
 
@@ -431,22 +428,13 @@
 
   buildOrderSummary();
 
-  // ── Fire checkout_started event to Loops ──
+  // ── Fire checkout_started event to Loops (via server to keep API key off client) ──
   async function fireCheckoutStarted(email) {
     try {
-      await fetch('https://app.loops.so/api/v1/events/send', {
+      await fetch('/api/track-checkout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LOOPS_API_KEY}`
-        },
-        body: JSON.stringify({
-          eventName: 'checkout_started',
-          email: email,
-          eventProperties: {
-            selection: selection
-          }
-        })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, selection })
       });
     } catch (e) {
       // Fail silently — don't block checkout
@@ -474,13 +462,13 @@
     btn.classList.add('btn-loading');
     btn.childNodes[0].textContent = 'Redirecting to payment…';
 
-    // Fire Loops event (don't await — let it run in background)
-    fireCheckoutStarted(email);
-
     // Store email in sessionStorage so welcome page can use it
     try { sessionStorage.setItem('ctf_email', email); } catch(e) {}
 
-    // Small delay so Loops has a chance to fire, then call API
+    // Fire Loops event and await it — returns 200 even if Loops fails so won't block checkout
+    await fireCheckoutStarted(email);
+
+    // Call Stripe API
     setTimeout(async () => {
       try {
         const res = await fetch('/api/create-checkout-session', {
