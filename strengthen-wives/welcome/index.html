@@ -97,9 +97,9 @@
     </div>
 
     <!-- INVITE CODE -->
-    <div class="code-section">
+    <div class="code-section" id="codeSection">
       <div class="code-label">Your Invite Code</div>
-      <div class="code-display" id="inviteCode">{{invite_code}}</div>
+      <div class="code-display" id="inviteCode">Loading...</div>
       <div class="code-note">You will need this when you create your account in the app.</div>
       <br>
       <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy Code</button>
@@ -109,7 +109,14 @@
     <div class="app-cta">
       <h2>Ready to Install the App?</h2>
       <p>Tap the button below for step-by-step instructions to add Cultivating the Fruit to your phone's home screen. It only takes a minute and works on any phone.</p>
-      <a href="/get-the-app?code={{invite_code}}" class="btn-primary" id="getAppBtn">Get the App</a>
+      <a href="/strengthen-wives/get-the-app" class="btn-primary" id="getAppBtn">Get the App</a>
+    </div>
+
+    <!-- DESKTOP/MOBILE BOX (shown only on desktop) -->
+    <div id="desktopMobileBox" style="display:none; background:var(--blue-light); border:1px solid rgba(31,98,142,0.2); border-radius:16px; padding:24px 28px; margin-bottom:28px; text-align:center;">
+      <h2 style="font-family:var(--font-head); font-size:18px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Opening this on your computer?</h2>
+      <p style="font-size:14px; color:var(--gray); margin-bottom:12px;">The app is designed for your phone. Open your confirmation email on your phone, or scan this QR code with your phone camera to continue on mobile.</p>
+      <img id="qrCode" alt="QR code to open app instructions on your phone" style="width:180px; height:180px; margin:12px auto; display:block; border-radius:8px;">
     </div>
 
     <!-- WHAT TO DO INSIDE -->
@@ -166,6 +173,7 @@
 <script>
   function copyCode() {
     const code = document.getElementById('inviteCode').textContent.trim();
+    if (!code || code === 'Loading...' || code === 'Check your email') return;
     navigator.clipboard.writeText(code).then(() => {
       const btn = document.getElementById('copyBtn');
       btn.textContent = 'Copied!';
@@ -177,14 +185,49 @@
     });
   }
 
-  // Read invite code from URL param: /welcome?code=XXXXXX
-  const params = new URLSearchParams(window.location.search);
-  const code = params.get('code');
-  if (code) {
+  function updateDesktopMobileBox() {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const box = document.getElementById('desktopMobileBox');
+    const qr = document.getElementById('qrCode');
+    if (!isMobile && box && qr) {
+      box.style.display = 'block';
+      const appUrl = new URL(document.getElementById('getAppBtn').getAttribute('href'), window.location.origin).href;
+      qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(appUrl);
+    }
+  }
+
+  function applyCode(code) {
+    if (!code) return;
     const upper = code.toUpperCase();
     document.getElementById('inviteCode').textContent = upper;
-    // Also update the Get the App button link with the code
-    document.getElementById('getAppBtn').href = '/get-the-app?code=' + upper;
+    document.getElementById('getAppBtn').href = '/strengthen-wives/get-the-app?code=' + encodeURIComponent(upper);
+    updateDesktopMobileBox();
+  }
+
+  function showCodeError() {
+    document.getElementById('codeSection').style.display = 'none';
+    const notice = document.querySelector('.email-notice');
+    notice.innerHTML = '<p>\uD83D\uDCE7 <strong>Your invite code has been sent to your email.</strong></p><p>Open your confirmation email on your phone to install the app and create your account.</p>';
+    document.getElementById('getAppBtn').href = '/strengthen-wives/get-the-app';
+    updateDesktopMobileBox();
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+
+  if (sessionId) {
+    fetch('/api/get-invite-code?session_id=' + encodeURIComponent(sessionId))
+      .then(r => r.json())
+      .then(data => {
+        if (data.invite_code) {
+          applyCode(data.invite_code);
+        } else {
+          showCodeError();
+        }
+      })
+      .catch(() => showCodeError());
+  } else {
+    showCodeError();
   }
 </script>
 
