@@ -116,7 +116,7 @@
     <div id="desktopMobileBox" style="display:none; background:var(--blue-light); border:1px solid rgba(31,98,142,0.2); border-radius:16px; padding:24px 28px; margin-bottom:28px; text-align:center;">
       <h2 style="font-family:var(--font-head); font-size:18px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Opening this on your computer?</h2>
       <p style="font-size:14px; color:var(--gray); margin-bottom:12px;">The app is designed for your phone. Open your confirmation email on your phone, or scan this QR code with your phone camera to continue on mobile.</p>
-      <img id="qrCode" alt="QR code to open app instructions on your phone" style="width:180px; height:180px; margin:12px auto; display:block; border-radius:8px;">
+      <div id="qrCode" style="width:180px; height:180px; margin:12px auto; display:flex; align-items:center; justify-content:center;"></div>
     </div>
 
     <!-- WHAT TO DO INSIDE -->
@@ -188,11 +188,25 @@
   function updateDesktopMobileBox() {
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     const box = document.getElementById('desktopMobileBox');
-    const qr = document.getElementById('qrCode');
-    if (!isMobile && box && qr) {
+    const qrContainer = document.getElementById('qrCode');
+    if (!isMobile && box && qrContainer) {
       box.style.display = 'block';
-      const appUrl = new URL(document.getElementById('getAppBtn').getAttribute('href'), window.location.origin).href;
-      qr.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(appUrl);
+      const href = document.getElementById('getAppBtn').getAttribute('href') || '';
+      const appUrl = href.startsWith('http') ? href : 'https://www.cultivatingthefruit.com' + href;
+      qrContainer.innerHTML = '';
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+      script.onload = function() {
+        new QRCode(qrContainer, {
+          text: appUrl,
+          width: 180,
+          height: 180,
+          colorDark: '#1F628E',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      };
+      document.head.appendChild(script);
     }
   }
 
