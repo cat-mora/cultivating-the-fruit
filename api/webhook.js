@@ -87,18 +87,17 @@ export default async function handler(req, res) {
     // ── Detect OTO-only session ──
     const isOTOOnly = !session.metadata?.tier;
 
-    // ── Upsert contact in Loops (must complete before firing event) ──
-    await loopsUpsertContact({
-      email,
-      firstName,
-      inviteCode,
-      getAppUrl,
-      welcomeUrl,
-      ...extraProps,
-    });
-
-    // ── Fire purchase_completed event to trigger Day 1 and Day 3 loops ──
+    // ── For main purchases only: upsert contact and fire onboarding sequence ──
     if (!isOTOOnly) {
+      await loopsUpsertContact({
+        email,
+        firstName,
+        inviteCode,
+        getAppUrl,
+        welcomeUrl,
+        ...extraProps,
+      });
+
       await loopsFetch('/events/send', {
         eventName: 'purchase_completed',
         email,
@@ -110,10 +109,7 @@ export default async function handler(req, res) {
           getAppUrl,
         },
       });
-    }
 
-    // ── Send purchase confirmation (main purchase only) ──
-    if (!isOTOOnly) {
       await loopsFetch('/transactional', {
         transactionalId: LOOPS_TRANSACTIONAL.purchaseConfirmation,
         email,
@@ -129,22 +125,22 @@ export default async function handler(req, res) {
           purchasedCherished:     extraProps.purchasedCherished      || false,
         },
       });
+
+      // ── Send bump guide email ──
+      const hasBumps = extraProps.purchasedDrift || extraProps.purchasedGrace;
+      if (hasBumps) {
+        const bumpGuides = [];
+        if (extraProps.purchasedDrift)  bumpGuides.push(GUIDES.drift);
+        if (extraProps.purchasedGrace)  bumpGuides.push(GUIDES.grace);
+        await loopsFetch('/transactional', {
+          transactionalId: LOOPS_TRANSACTIONAL.bumpGuideDelivery,
+          email,
+          dataVariables: { firstName, guides: bumpGuides },
+        });
+      }
     }
 
-    // ── Send bump guide email (main purchase only) ──
-    const hasBumps = !isOTOOnly && (extraProps.purchasedDrift || extraProps.purchasedGrace);
-    if (hasBumps) {
-      const bumpGuides = [];
-      if (extraProps.purchasedDrift)  bumpGuides.push(GUIDES.drift);
-      if (extraProps.purchasedGrace)  bumpGuides.push(GUIDES.grace);
-      await loopsFetch('/transactional', {
-        transactionalId: LOOPS_TRANSACTIONAL.bumpGuideDelivery,
-        email,
-        dataVariables: { firstName, guides: bumpGuides },
-      });
-    }
-
-    // ── Send OTO guide email ──
+    // ── Send OTO guide email (only fires if OTO guides were purchased) ──
     const hasOTOs = extraProps.purchasedConversations || extraProps.purchasedCherished;
     if (hasOTOs) {
       const otoGuides = [];
@@ -157,7 +153,7 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}, code: ${inviteCode}, tier: ${tierLabel}`);
+    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}, tier: ${isOTOOnly ? 'OTO-only (no code)' : tierLabel + ' code: ' + inviteCode}`);
   }
 
   return res.status(200).json({ received: true });
