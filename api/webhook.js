@@ -7,26 +7,6 @@ const LOOPS_TRANSACTIONAL = {
   otoGuideDelivery:  'cmoe2l9sx12360iwea6ym9kpz',
 };
 
-// ── Invite codes — add more here when stock runs low ──
-const INVITE_CODES = [
-  'XZ9Z9Q','DSHMNF','R2QHM3','9LNKZL','ABDVP5','SQWAPF','B73M6V','4GZVKS',
-  'EWTRM5','CRM9QU','PQHB4K','CS4TME','UE35FK','79ESC8','Y6EYBL','DKSJF7',
-  'BCB8ES','ZRMFVV','URUDKY','UF5U7Z','XRVTFB','SSFHME','UE24C7','PWPBBU',
-  '8WXJMV','QJPCHM','M2D4CS','K5E227','46U4JF','68S8XR','3HDX7R','KRCUXT',
-  'TPV8SR','XXD5LW','SJKRCM','AKWVWR','DWCME6','Z566FD','GB5F5N','7GW54L',
-  'LHLBT8','PRHP9M','RCM26W','LU22XH','H8F7D5','7YVLZV'
-];
-
-// Assigns a consistent code per email using a hash
-function assignInviteCode(email) {
-  let hash = 0;
-  for (let i = 0; i < email.length; i++) {
-    hash = ((hash << 5) - hash) + email.charCodeAt(i);
-    hash |= 0;
-  }
-  return INVITE_CODES[Math.abs(hash) % INVITE_CODES.length];
-}
-
 // ── Guide metadata — title, description, and hosted PDF URL ──
 const GUIDES = {
   drift: {
@@ -85,10 +65,14 @@ export default async function handler(req, res) {
     const bumps = session.metadata?.bumps || 'none';
     const otos  = session.metadata?.otos  || 'none';
 
-    // ── Assign invite code and build app URLs ──
-    const inviteCode = assignInviteCode(email);
+    // ── Read invite code from Stripe metadata (set by create-checkout-session.js) ──
+    const inviteCode = session.metadata?.invite_code || '';
     const getAppUrl  = `https://www.cultivatingthefruit.com/strengthen-wives/get-the-app?code=${inviteCode}`;
-    const welcomeUrl = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?code=${inviteCode}`;
+    const welcomeUrl = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?session_id=${session.id}`;
+
+    // ── Build tier label for email ──
+    const tierMonths = session.metadata?.tier_months;
+    const tierLabel  = tierMonths === '1' ? '1 month' : tierMonths === '6' ? '6 months' : '12 months';
 
     // ── Work out which guides were purchased ──
     const extraProps = {
@@ -101,7 +85,7 @@ export default async function handler(req, res) {
     // ── Detect OTO-only session ──
     const isOTOOnly = !session.metadata?.tier;
 
-    // ── Upsert contact in Loops with invite code and app URL ──
+    // ── Upsert contact in Loops ──
     await loopsUpsertContact({
       email,
       firstName,
@@ -120,6 +104,7 @@ export default async function handler(req, res) {
           firstName,
           inviteCode,
           getAppUrl,
+          tierLabel,
           purchasedDrift:         extraProps.purchasedDrift         || false,
           purchasedGrace:         extraProps.purchasedGrace         || false,
           purchasedConversations: extraProps.purchasedConversations  || false,
@@ -154,7 +139,7 @@ export default async function handler(req, res) {
       });
     }
 
-    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}, code: ${inviteCode}`);
+    console.log(`Processed purchase for ${email} — bumps: ${bumps}, otos: ${otos}, code: ${inviteCode}, tier: ${tierLabel}`);
   }
 
   return res.status(200).json({ received: true });
