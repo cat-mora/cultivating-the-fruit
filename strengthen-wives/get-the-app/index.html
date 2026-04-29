@@ -65,6 +65,8 @@
     .step-content h3 { font-family: var(--font-head); font-size: 15px; font-weight: 600; color: var(--blue); margin-bottom: 3px; letter-spacing: 0.02em; }
     .step-content p { font-size: 14px; color: var(--gray); margin: 0; line-height: 1.6; }
     .step-tag { display: inline-block; background: rgba(31,98,142,0.08); border-radius: 6px; padding: 2px 8px; font-size: 13px; font-weight: 600; color: var(--blue); margin-top: 6px; }
+    .step-warning { display: block; margin-top: 10px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #856404; font-weight: 600; }
+    .signup-link { display: inline-block; margin-top: 12px; background: var(--coral); color: white; font-family: var(--font-head); font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 10px 24px; border-radius: 6px; text-decoration: none; }
 
     /* CTA BUTTON */
     .cta-section { margin: 28px 0 36px; text-align: center; }
@@ -125,7 +127,7 @@
     <!-- INVITE CODE -->
     <div class="code-section">
       <div class="code-label">Your Invite Code</div>
-<div class="code-display" id="inviteCode">Check your email</div>
+      <div class="code-display" id="inviteCode">Check your email</div>
       <div class="code-note">You will need this when you create your account in the app. Keep it handy.</div>
       <br>
       <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy Code</button>
@@ -176,13 +178,15 @@
         <div class="step-row">
           <div class="step-num">4</div>
           <div class="step-content">
-            <h3>Open the app from your home screen</h3>
-            <p>The Cultivating the Fruit icon will appear on your home screen just like any other app. Tap it to open, then create your account using your invite code above.</p>
+            <h3>Open the app and tap Sign Up</h3>
+            <p>Tap the Cultivating the Fruit icon on your home screen to open the app. You will see a Sign In screen — you do not have an account yet, so do not tap Sign In.</p>
+            <span class="step-warning">⚠ Tap "Don't have an account? Sign Up" at the bottom of the screen.</span>
+            <p style="margin-top:10px;">Enter your email address, choose a password, and enter your invite code above when prompted.</p>
           </div>
         </div>
         <div class="cta-section">
           <p class="cta-note">Tap below to open the app in Safari, then follow the steps above.</p>
-          <a href="https://app.cultivatingthefruit.com" class="btn-primary">Open the App</a>
+          <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Open the App</a>
         </div>
       </div>
 
@@ -215,13 +219,15 @@
         <div class="step-row">
           <div class="step-num">4</div>
           <div class="step-content">
-            <h3>Open the app from your home screen</h3>
-            <p>The Cultivating the Fruit icon will appear on your home screen just like any other app. Tap it to open, then create your account using your invite code above.</p>
+            <h3>Open the app and tap Sign Up</h3>
+            <p>Tap the Cultivating the Fruit icon on your home screen to open the app. You will see a Sign In screen — you do not have an account yet, so do not tap Sign In.</p>
+            <span class="step-warning">⚠ Tap "Don't have an account? Sign Up" at the bottom of the screen.</span>
+            <p style="margin-top:10px;">Enter your email address, choose a password, and enter your invite code above when prompted.</p>
           </div>
         </div>
         <div class="cta-section">
           <p class="cta-note">Tap below to open the app in Chrome, then follow the steps above.</p>
-          <a href="https://app.cultivatingthefruit.com" class="btn-primary">Open the App</a>
+          <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Open the App</a>
         </div>
       </div>
     </div>
