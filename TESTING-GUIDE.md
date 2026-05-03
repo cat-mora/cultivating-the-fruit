@@ -141,13 +141,13 @@ Once testing is complete:
 
 Go to: https://vercel.com/[your-project]/settings/environment-variables
 
-**Add/Update these (PRODUCTION values)**:
+**Add/Update these (PRODUCTION values - get from client)**:
 ```
 NEXT_PUBLIC_SUPABASE_URL=https://onwijddzljigbizsnrpo.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-STRIPE_SECRET_KEY=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
-STRIPE_WEBHOOK_SECRET=whsec_DsCtN9HpOlwzZB7V7uhSyg12sx8uEYG
-LOOPS_API_KEY=3f9948606642830be493589594034Abd
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGci... (get from Supabase dashboard)
+STRIPE_SECRET_KEY=sk_live_... (get from client's Stripe account)
+STRIPE_WEBHOOK_SECRET=whsec_... (get from Stripe webhook settings)
+LOOPS_API_KEY=... (get from client's Loops account)
 NEXT_PUBLIC_APP_URL=https://app.cultivatingthefruits.com
 NEXT_PUBLIC_BASE_URL=https://cultivatingthefruit.com
 ```
