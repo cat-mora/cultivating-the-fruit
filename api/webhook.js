@@ -1,5 +1,19 @@
 import Stripe from 'stripe';
+import { createClient } from '@supabase/supabase-js';
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// Initialize Supabase client with service role key (has admin privileges)
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  {
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false
+    }
+  }
+);
 
 const LOOPS_TRANSACTIONAL = {
   purchaseConfirmation: 'cmo6yt6oo000a0i02l6acnv7t',
@@ -67,8 +81,18 @@ export default async function handler(req, res) {
 
     // ── Read invite code from Stripe metadata (set by create-checkout-session.js) ──
     const inviteCode = session.metadata?.invite_code || '';
-    const getAppUrl  = `https://www.cultivatingthefruit.com/strengthen-wives/get-the-app?code=${inviteCode}`;
-    const welcomeUrl = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?session_id=${session.id}`;
+
+    // ── Save invite code to Supabase (only for main purchases, not OTO-only) ──
+    const isOTOOnly = !session.metadata?.tier;
+    if (inviteCode && !isOTOOnly) {
+      const tierMonths = parseInt(session.metadata?.tier_months || '12', 10);
+      await saveInviteCodeToSupabase(inviteCode, email, tierMonths);
+    }
+
+    // ── Build app signup URL with pre-filled email and code ──
+    const appSignupUrl = `${process.env.NEXT_PUBLIC_APP_URL}/(web)/auth/sign-up?email=${encodeURIComponent(email)}&code=${inviteCode}`;
+    const getAppUrl    = `https://www.cultivatingthefruit.com/strengthen-wives/get-the-app?code=${inviteCode}`; // Legacy URL
+    const welcomeUrl   = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?session_id=${session.id}`;
 
     // ── Build tier label and price for email ──
     const tierMonths = session.metadata?.tier_months;
@@ -84,16 +108,14 @@ export default async function handler(req, res) {
       ...(otos  === 'cherished'     || otos  === 'otoBundle'  ? { purchasedCherished: true }      : {}),
     };
 
-    // ── Detect OTO-only session ──
-    const isOTOOnly = !session.metadata?.tier;
-
     // ── For main purchases only: upsert contact and fire onboarding sequence ──
     if (!isOTOOnly) {
       await loopsUpsertContact({
         email,
         firstName,
         inviteCode,
-        getAppUrl,
+        getAppUrl,        // Legacy URL (keep for existing templates)
+        appSignupUrl,     // NEW: Direct signup URL with pre-filled email/code
         welcomeUrl,
         ...extraProps,
       });
@@ -107,6 +129,7 @@ export default async function handler(req, res) {
           tierPrice,
           inviteCode,
           getAppUrl,
+          appSignupUrl,   // NEW: Direct signup URL
         },
       });
 
@@ -116,7 +139,8 @@ export default async function handler(req, res) {
         dataVariables: {
           firstName,
           inviteCode,
-          getAppUrl,
+          getAppUrl,        // Legacy URL (keep for existing templates)
+          appSignupUrl,     // NEW: Direct signup URL with pre-filled email/code
           tierLabel,
           tierPrice,
           purchasedDrift:         extraProps.purchasedDrift         || false,
@@ -157,6 +181,63 @@ export default async function handler(req, res) {
   }
 
   return res.status(200).json({ received: true });
+}
+
+/**
+ * Save invite code to Supabase signup_invites table
+ * @param {string} inviteCode - The 6-character invite code
+ * @param {string} email - Customer email (for logging/tracking)
+ * @param {number} tierMonths - Number of months of access (1, 6, or 12)
+ * @returns {Promise<boolean>} - true if saved successfully
+ */
+async function saveInviteCodeToSupabase(inviteCode, email, tierMonths = 12) {
+  if (!inviteCode) {
+    console.error('No invite code provided to save');
+    return false;
+  }
+
+  if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.error('⚠️  SUPABASE_SERVICE_ROLE_KEY not set - invite code NOT saved to database!');
+    console.log('   Get the service role key from: https://supabase.com/dashboard/project/onwijddzljigbizsnrpo/settings/api');
+    return false;
+  }
+
+  try {
+    // Calculate expiration based on tier months
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + (tierMonths * 30)); // Approximate months as days
+
+    const inviteData = {
+      invite_code: inviteCode.toUpperCase(),
+      created_by: '00000000-0000-0000-0000-000000000000', // System-generated user
+      expires_at: expiresAt.toISOString(),
+      status: 'pending',
+    };
+
+    const { data, error } = await supabase
+      .from('signup_invites')
+      .insert(inviteData)
+      .select()
+      .single();
+
+    if (error) {
+      // Check if it's a duplicate code error
+      if (error.code === '23505') {
+        console.warn(`Invite code ${inviteCode} already exists in database (duplicate). This is OK - code can still be used.`);
+        return true; // Return true because the code exists and can be used
+      }
+
+      console.error('Error saving invite code to Supabase:', error);
+      return false;
+    }
+
+    console.log(`✅ Invite code ${inviteCode} saved to Supabase for ${email} (expires: ${expiresAt.toLocaleDateString()})`);
+    return true;
+
+  } catch (err) {
+    console.error('Exception saving invite code to Supabase:', err);
+    return false;
+  }
 }
 
 async function loopsUpsertContact(props) {
