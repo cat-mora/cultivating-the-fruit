@@ -209,7 +209,7 @@ async function saveInviteCodeToSupabase(inviteCode, email, tierMonths = 12) {
 
     const inviteData = {
       invite_code: inviteCode.toUpperCase(),
-      created_by: '00000000-0000-0000-0000-000000000000', // System-generated user
+      created_by: null, // System-generated codes don't have a user
       expires_at: expiresAt.toISOString(),
       status: 'pending',
     };
