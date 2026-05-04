@@ -120,7 +120,7 @@
   <div class="container">
     <div class="hero-tick">✓</div>
     <h1>Your App is Ready</h1>
-    <p>Read these three steps first, then tap the button below.</p>
+    <p>Choose your phone type below, read the steps, then tap the button.</p>
   </div>
 </div>
 
@@ -137,37 +137,91 @@
     </div>
 
 <!-- STEPS -->
-<div class="steps-section">
-  <div class="steps-heading">Before you tap the button</div>
-  <div class="steps-sub">Three quick steps — read them first.</div>
+<div class="platform-section">
+  <div class="section-heading">Before you tap the button</div>
+  <div class="section-sub">Choose your phone type for step-by-step instructions.</div>
 
-  <div class="step-row">
-    <div class="step-num">1</div>
-    <div class="step-content">
-      <h3>Open the signup page</h3>
-      <p>Tap "Get the App" below. It will open in your browser.</p>
+  <div class="platform-tabs">
+    <button class="platform-tab active" onclick="showPlatform('ios')" id="tab-ios">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      iPhone
+    </button>
+    <button class="platform-tab" onclick="showPlatform('android')" id="tab-android">
+      <svg viewBox="0 0 24 24"><path d="M17.523 15.341A5.44 5.44 0 0 1 12 20.78a5.44 5.44 0 0 1-5.523-5.439V9.22A5.44 5.44 0 0 1 12 3.78a5.44 5.44 0 0 1 5.523 5.44v6.121zM8.06 1.459L6.937.336a.28.28 0 0 0-.396 0 .28.28 0 0 0 0 .396l1.201 1.201A7.185 7.185 0 0 0 4.8 7.2h14.4a7.185 7.185 0 0 0-2.942-5.267l1.201-1.201a.28.28 0 0 0 0-.396.28.28 0 0 0-.396 0L15.94 1.459A7.14 7.14 0 0 0 12 .48a7.14 7.14 0 0 0-3.94.979zM9.6 5.28a.72.72 0 1 1 0-1.44.72.72 0 0 1 0 1.44zm4.8 0a.72.72 0 1 1 0-1.44.72.72 0 0 1 0 1.44z"/></svg>
+      Android
+    </button>
+  </div>
+
+  <!-- iOS STEPS -->
+  <div class="steps-panel active" id="panel-ios">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Open the signup page in Safari</h3>
+        <p>Tap "Get the App" below. It will open in Safari. If it opens in another browser, copy the link and paste it into Safari.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Activate your account — do not try to log in</h3>
+        <p>You do not have an account yet. Tap Activate, enter your email, the code above, and a password you will remember.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Log in</h3>
+        <p>You will be taken to the login screen. Enter your email and the password you just created. You will only need to do this once.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Add to your home screen</h3>
+        <p>Tap the Share button at the bottom of the Safari screen, then tap "Add to Home Screen."</p>
+      </div>
+    </div>
+    <div class="cta-section">
+      <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Get the App</a>
     </div>
   </div>
 
-  <div class="step-row">
-    <div class="step-num">2</div>
-    <div class="step-content">
-      <h3>Activate your account — do not try to log in</h3>
-      <p>You do not have an account yet. Tap Activate, enter your email, the code above, and a password you will remember.</p>
+  <!-- ANDROID STEPS -->
+  <div class="steps-panel" id="panel-android">
+    <div class="step-row">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Open the signup page in Chrome</h3>
+        <p>Tap "Get the App" below. It will open in Chrome. If it opens in another browser, copy the link and paste it into Chrome.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Activate your account — do not try to log in</h3>
+        <p>You do not have an account yet. Tap Activate, enter your email, the code above, and a password you will remember.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Log in</h3>
+        <p>You will be taken to the login screen. Enter your email and the password you just created. You will only need to do this once.</p>
+      </div>
+    </div>
+    <div class="step-row">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Add to your home screen</h3>
+        <p>Tap the three-dot menu in the top right corner, then tap "Add to Home Screen." A window will appear — tap "Install App."</p>
+      </div>
+    </div>
+    <div class="cta-section">
+      <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Get the App</a>
     </div>
   </div>
 
-  <div class="step-row">
-    <div class="step-num">3</div>
-    <div class="step-content">
-      <h3>Add to your home screen</h3>
-      <p>Add the app to your home screen so you can open it any time like a normal app.</p>
-    </div>
-  </div>
-
-  <div class="cta-section">
-    <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Get the App</a>
-  </div>
 </div>
 
     <!-- TROUBLESHOOTING -->
