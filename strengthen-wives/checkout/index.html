@@ -275,6 +275,19 @@
       margin-top: 6px;
     }
     .email-error.visible { display: block; }
+    /* ── SPAM WARNING ── */
+.email-spam-warning {
+  display: none;
+  margin-top: 8px;
+  padding: 10px 14px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #856404;
+  line-height: 1.5;
+}
+.email-spam-warning.visible { display: block; }
   </style>
 </head>
 <body>
@@ -340,6 +353,9 @@
         inputmode="email"
       >
       <div class="email-error" id="email-error">Please enter a valid email address.</div>
+      <div class="email-spam-warning" id="email-spam-warning">
+  ⚠ <strong>Heads up:</strong> Hotmail, Outlook, Yahoo, and similar providers often send our emails straight to spam. If you don't see your confirmation and guides after checkout, check your spam folder and mark us as Not Spam so future emails reach you (and other women) properly.
+</div>
     </div>
 
     <!-- CTA -->
@@ -496,10 +512,22 @@
     if (e.key === 'Enter') handleCheckout();
   });
 
-  // ── Clear error on input ──
-  document.getElementById('email-input').addEventListener('input', function() {
-    document.getElementById('email-error').classList.remove('visible');
-  });
+  // ── Spam domain warning ──
+const SPAM_DOMAINS = ['hotmail.com','hotmail.com.au','outlook.com','outlook.com.au','live.com','live.com.au','msn.com','yahoo.com','yahoo.com.au','yahoo.co.uk','bigpond.com','bigpond.net.au','icloud.com','me.com'];
+document.getElementById('email-input').addEventListener('blur', function() {
+  const val = this.value.trim().toLowerCase();
+  const domain = val.split('@')[1] || '';
+  const warn = document.getElementById('email-spam-warning');
+  if (SPAM_DOMAINS.includes(domain)) {
+    warn.classList.add('visible');
+  } else {
+    warn.classList.remove('visible');
+  }
+});
+document.getElementById('email-input').addEventListener('input', function() {
+  document.getElementById('email-spam-warning').classList.remove('visible');
+  document.getElementById('email-error').classList.remove('visible');
+});
 </script>
 
 </body>
