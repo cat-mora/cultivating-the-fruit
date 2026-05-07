@@ -89,10 +89,24 @@ export default async function handler(req, res) {
       await saveInviteCodeToSupabase(inviteCode, email, tierMonths);
     }
 
-    // ── Build app signup URL with pre-filled email and code ──
-    const appSignupUrl = `${process.env.NEXT_PUBLIC_APP_URL}/(web)/auth/sign-up?email=${encodeURIComponent(email)}&code=${inviteCode}`;
-    const getAppUrl    = `https://www.cultivatingthefruit.com/strengthen-wives/get-the-app?code=${inviteCode}`; // Legacy URL
-    const welcomeUrl   = `https://www.cultivatingthefruit.com/strengthen-wives/welcome?session_id=${session.id}`;
+    // ── Build app/signup URLs using the public web routes ──
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://cultivatingthefruit.com';
+    const appBaseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://app.cultivatingthefruit.com';
+
+    const appSignupUrl = new URL('/auth/sign-up', appBaseUrl);
+    appSignupUrl.searchParams.set('email', email);
+    if (inviteCode) {
+      appSignupUrl.searchParams.set('code', inviteCode);
+    }
+
+    const getAppUrl = new URL('/strengthen-wives/get-the-app', baseUrl);
+    getAppUrl.searchParams.set('email', email);
+    if (inviteCode) {
+      getAppUrl.searchParams.set('code', inviteCode);
+    }
+
+    const welcomeUrl = new URL('/strengthen-wives/welcome', baseUrl);
+    welcomeUrl.searchParams.set('session_id', session.id);
 
     // ── Build tier label and price for email ──
     const tierMonths = session.metadata?.tier_months;
@@ -114,9 +128,9 @@ export default async function handler(req, res) {
         email,
         firstName,
         inviteCode,
-        getAppUrl,        // Legacy URL (keep for existing templates)
-        appSignupUrl,     // NEW: Direct signup URL with pre-filled email/code
-        welcomeUrl,
+        getAppUrl: getAppUrl.toString(),
+        appSignupUrl: appSignupUrl.toString(),
+        welcomeUrl: welcomeUrl.toString(),
         ...extraProps,
       });
 
@@ -128,8 +142,8 @@ export default async function handler(req, res) {
           tierLabel,
           tierPrice,
           inviteCode,
-          getAppUrl,
-          appSignupUrl,   // NEW: Direct signup URL
+          getAppUrl: getAppUrl.toString(),
+          appSignupUrl: appSignupUrl.toString(),
         },
       });
 
@@ -139,8 +153,8 @@ export default async function handler(req, res) {
         dataVariables: {
           firstName,
           inviteCode,
-          getAppUrl,        // Legacy URL (keep for existing templates)
-          appSignupUrl,     // NEW: Direct signup URL with pre-filled email/code
+          getAppUrl: getAppUrl.toString(),
+          appSignupUrl: appSignupUrl.toString(),
           tierLabel,
           tierPrice,
           purchasedDrift:         extraProps.purchasedDrift         || false,

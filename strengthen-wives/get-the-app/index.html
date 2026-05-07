@@ -186,7 +186,7 @@
         </div>
         <div class="cta-section">
           <p class="cta-note">Tap below to open the app in Safari, then follow the steps above.</p>
-          <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Open the App</a>
+          <a href="https://app.cultivatingthefruit.com" class="btn-primary app-open-link" target="_blank">Open the App</a>
         </div>
       </div>
 
@@ -227,7 +227,7 @@
         </div>
         <div class="cta-section">
           <p class="cta-note">Tap below to open the app in Chrome, then follow the steps above.</p>
-          <a href="https://app.cultivatingthefruit.com" class="btn-primary" target="_blank">Open the App</a>
+          <a href="https://app.cultivatingthefruit.com" class="btn-primary app-open-link" target="_blank">Open the App</a>
         </div>
       </div>
     </div>
@@ -243,7 +243,7 @@
         <div class="trouble-item">
           <h4>I don't use Safari (iPhone) or Chrome (Android)</h4>
           <p>No problem. Copy the app link below and paste it into whichever browser you prefer. Once it loads, follow the same steps above — most modern browsers on both iPhone and Android support "Add to Home Screen." Look for the Share button or your browser's menu.</p>
-          <a class="trouble-link" href="https://app.cultivatingthefruit.com">https://app.cultivatingthefruit.com</a>
+          <a class="trouble-link app-open-link" href="https://app.cultivatingthefruit.com">https://app.cultivatingthefruit.com</a>
         </div>
 
         <div class="trouble-item">
@@ -254,7 +254,7 @@
         <div class="trouble-item">
           <h4>I'm on a computer, not a phone</h4>
           <p>The app is designed for phone use, but you can still access it from any browser on your computer. Go to the link below and sign up with your invite code. You won't be able to add it to a home screen, but you can bookmark it and use it from your browser.</p>
-          <a class="trouble-link" href="https://app.cultivatingthefruit.com">https://app.cultivatingthefruit.com</a>
+          <a class="trouble-link app-open-link" href="https://app.cultivatingthefruit.com">https://app.cultivatingthefruit.com</a>
         </div>
 
         <div class="trouble-item">
@@ -319,12 +319,38 @@
     });
   }
 
-  // Read invite code from URL param: /get-the-app?code=XXXXXX
+  const appBaseUrl = 'https://app.cultivatingthefruit.com';
+
+  function updateAppLinks(inviteCode, email) {
+    let appHref = appBaseUrl;
+
+    if (inviteCode) {
+      const signupUrl = new URL('/auth/sign-up', appBaseUrl);
+      signupUrl.searchParams.set('code', inviteCode.toUpperCase());
+
+      if (email) {
+        signupUrl.searchParams.set('email', email);
+      }
+
+      appHref = signupUrl.toString();
+    }
+
+    document.querySelectorAll('.app-open-link').forEach((link) => {
+      link.setAttribute('href', appHref);
+      if (link.textContent && link.textContent.includes('app.cultivatingthefruit.com')) {
+        link.textContent = appHref;
+      }
+    });
+  }
+
+  // Read invite code from URL params: /get-the-app?code=XXXXXX&email=user@example.com
   const params = new URLSearchParams(window.location.search);
   const code = params.get('code');
+  const email = params.get('email');
   if (code) {
     document.getElementById('inviteCode').textContent = code.toUpperCase();
   }
+  updateAppLinks(code, email);
 </script>
 
 </body>
