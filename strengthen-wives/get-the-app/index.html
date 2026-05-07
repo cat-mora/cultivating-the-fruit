@@ -24,18 +24,22 @@
       --font-body: 'Open Sans', sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--black); background: var(--off-white); -webkit-font-smoothing: antialiased; }
-
+    body {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--black);
+      background: var(--off-white);
+      -webkit-font-smoothing: antialiased;
+    }
     .page-header { background: var(--white); border-bottom: 1px solid rgba(31,98,142,0.1); padding: 16px 24px; text-align: center; }
     .page-header img { max-width: 180px; }
     .container { max-width: 660px; margin: 0 auto; padding: 0 20px; }
-
     /* HERO */
     .hero { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); padding: 52px 0 44px; text-align: center; color: white; }
     .hero-tick { width: 68px; height: 68px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 30px; }
     .hero h1 { font-family: var(--font-head); font-size: clamp(24px, 5vw, 36px); font-weight: 700; letter-spacing: 0.02em; margin-bottom: 12px; line-height: 1.2; text-transform: uppercase; }
     .hero p { font-size: 16px; opacity: 0.9; max-width: 480px; margin: 0 auto; }
-
     /* INVITE CODE */
     .code-section { background: var(--white); border: 2px solid var(--blue); border-radius: 16px; padding: 32px 28px; margin: 36px 0 28px; text-align: center; }
     .code-label { font-family: var(--font-head); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
@@ -44,11 +48,9 @@
     .copy-btn { margin-top: 14px; background: none; border: 1.5px solid var(--blue); color: var(--blue); font-family: var(--font-head); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 20px; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: inline-block; }
     .copy-btn:hover { background: var(--blue); color: white; }
     .copy-btn.copied { background: var(--green); border-color: var(--green); color: white; }
-
     /* SECTION HEADINGS */
     .section-heading { font-family: var(--font-head); font-size: 20px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blue); text-align: center; margin-bottom: 8px; }
     .section-sub { text-align: center; font-size: 14px; color: var(--gray); margin-bottom: 24px; }
-
     /* PLATFORM TABS */
     .platform-section { margin: 36px 0 0; }
     .platform-tabs { display: flex; border: 1.5px solid rgba(31,98,142,0.2); border-radius: 10px; overflow: hidden; margin-bottom: 24px; }
@@ -56,7 +58,6 @@
     .platform-tab:first-child { border-right: 1.5px solid rgba(31,98,142,0.2); }
     .platform-tab.active { background: var(--blue); color: white; }
     .platform-tab svg { width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
-
     /* STEPS */
     .steps-panel { display: none; }
     .steps-panel.active { display: block; }
@@ -67,14 +68,32 @@
     .step-tag { display: inline-block; background: rgba(31,98,142,0.08); border-radius: 6px; padding: 2px 8px; font-size: 13px; font-weight: 600; color: var(--blue); margin-top: 6px; }
     .step-warning { display: block; margin-top: 10px; background: #fff3cd; border: 1px solid #ffc107; border-radius: 6px; padding: 8px 12px; font-size: 13px; color: #856404; font-weight: 600; }
     .signup-link { display: inline-block; margin-top: 12px; background: var(--coral); color: white; font-family: var(--font-head); font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 10px 24px; border-radius: 6px; text-decoration: none; }
-
+    .steps-section { margin: 8px 0 0; }
+    .steps-heading { font-family: var(--font-head); font-size: 20px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blue); text-align: center; margin-bottom: 8px; }
+    .steps-sub { text-align: center; font-size: 14px; color: var(--gray); margin-bottom: 24px; }
     /* CTA BUTTON */
     .cta-section { margin: 28px 0 36px; text-align: center; }
     .cta-note { font-size: 13px; color: var(--gray); margin-bottom: 16px; }
-    .btn-primary { display: inline-block; background: var(--coral); color: white; font-family: var(--font-head); font-size: 17px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 16px 40px; border-radius: 8px; text-decoration: none; animation: pulse 2.4s infinite; transition: background 0.2s; }
+    .btn-primary {
+      display: inline-block;
+      background: var(--coral);
+      color: white;
+      font-family: var(--font-head);
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 16px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      animation: pulse 2.4s infinite;
+      transition: background 0.2s;
+    }
     .btn-primary:hover { background: var(--coral-dark); animation: none; }
-    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(232,84,90,0.4); } 50% { box-shadow: 0 0 0 10px rgba(232,84,90,0); } }
-
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(232,84,90,0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(232,84,90,0); }
+    }
     /* TROUBLESHOOTING */
     .trouble-section { margin: 0 0 36px; }
     .trouble-toggle { width: 100%; background: none; border: 1.5px solid rgba(31,98,142,0.2); border-radius: 10px; padding: 14px 20px; font-family: var(--font-head); font-size: 15px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blue); cursor: pointer; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s; }
@@ -90,18 +109,18 @@
     .trouble-item p:last-child { margin-bottom: 0; }
     .trouble-item a { color: var(--blue); }
     .trouble-link { display: inline-block; margin-top: 8px; font-size: 14px; color: var(--blue); text-decoration: underline; word-break: break-all; }
-
+    /* SPAM NOTE */
+    .spam-note { margin: 0 0 28px; padding: 14px 18px; background: var(--blue-light); border-left: 3px solid var(--blue); border-radius: 6px; font-size: 13px; color: var(--gray); line-height: 1.5; }
+    .spam-note strong { color: var(--blue); }
     /* WHAT HAPPENS NEXT */
     .next-section { background: var(--blue); color: white; border-radius: 16px; padding: 32px 28px; margin-bottom: 32px; text-align: center; }
     .next-section h2 { font-family: var(--font-head); font-size: 20px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 12px; }
     .next-section p { font-size: 14px; opacity: 0.9; margin-bottom: 8px; }
     .next-section p:last-child { margin: 0; }
-
     /* SUPPORT */
     .support { padding: 0 0 48px; text-align: center; }
     .support p { font-size: 14px; color: var(--gray); }
     .support a { color: var(--blue); }
-
     /* FOOTER */
     .page-footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 24px; font-size: 12px; text-align: center; }
     .page-footer a { color: rgba(255,255,255,0.5); }
@@ -117,7 +136,7 @@
   <div class="container">
     <div class="hero-tick">✓</div>
     <h1>Your App is Ready</h1>
-    <p>Follow the steps below to add Cultivating the Fruit to your phone's home screen — it only takes a minute.</p>
+    <p>Choose your phone type below, read the steps, then tap the button.</p>
   </div>
 </div>
 
@@ -128,14 +147,19 @@
     <div class="code-section">
       <div class="code-label">Your Invite Code</div>
       <div class="code-display" id="inviteCode">Check your email</div>
-      <div class="code-note">You will need this when you create your account in the app. Keep it handy.</div>
+      <div class="code-note">You will need this when you activate your account. Keep it handy.</div>
       <br>
       <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy Code</button>
     </div>
 
-    <!-- PLATFORM STEPS -->
+    <!-- SPAM NOTE -->
+    <div class="spam-note">
+      <strong>One quick favour.</strong> If your emails from us land in spam or promotions, please mark them as <strong>Not Spam</strong> and add us to your contacts. It helps every email reach the inbox properly for the women coming after you.
+    </div>
+
+    <!-- STEPS -->
     <div class="platform-section">
-      <div class="section-heading">Add to Your Home Screen</div>
+      <div class="section-heading">Before you tap the button</div>
       <div class="section-sub">Choose your phone type for step-by-step instructions.</div>
 
       <div class="platform-tabs">
@@ -154,39 +178,34 @@
         <div class="step-row">
           <div class="step-num">1</div>
           <div class="step-content">
-            <h3>Open the app link in Safari</h3>
-            <p>This only works in Safari on iPhone. If you are reading this in another browser (Chrome, Firefox, etc.), copy the link below and paste it into Safari.</p>
-            <span class="step-tag">app.cultivatingthefruit.com</span>
+            <h3>Open the signup page in Safari</h3>
+            <p>Tap "Get the App" below. It will open in Safari. If it opens in another browser, copy the link and paste it into Safari.</p>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">2</div>
           <div class="step-content">
-            <h3>Tap the Share button</h3>
-            <p>At the bottom of the Safari screen, tap the Share icon — it looks like a box with an arrow pointing upward out of it.</p>
-            <span class="step-tag">⬆ Share</span>
+            <h3>Activate your account &mdash; do not try to log in</h3>
+            <p>You do not have an account yet. Tap Activate, enter your email, the code above, and a password you will remember.</p>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">3</div>
           <div class="step-content">
-            <h3>Tap "Add to Home Screen"</h3>
-            <p>Scroll down in the Share menu until you see "Add to Home Screen". Tap it, then tap "Add" in the top right corner to confirm.</p>
-            <span class="step-tag">+ Add to Home Screen</span>
+            <h3>Log in</h3>
+            <p>You will be taken to the login screen. Enter your email and the password you just created. You will only need to do this once.</p>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">4</div>
           <div class="step-content">
-            <h3>Open the app and tap Sign Up</h3>
-            <p>Tap the Cultivating the Fruit icon on your home screen to open the app. You will see a Sign In screen — you do not have an account yet, so do not tap Sign In.</p>
-            <span class="step-warning">⚠ Tap "Don't have an account? Sign Up" at the bottom of the screen.</span>
-            <p style="margin-top:10px;">Enter your email address, choose a password, and enter your invite code above when prompted.</p>
+            <h3>Add to your home screen</h3>
+            <p>Tap the Share button at the bottom of the Safari screen, then tap "Add to Home Screen."</p>
           </div>
         </div>
+
         <div class="cta-section">
-          <p class="cta-note">Tap below to open the app in Safari, then follow the steps above.</p>
-          <a href="https://app.cultivatingthefruit.com" class="btn-primary app-open-link" target="_blank">Open the App</a>
+          <a href="https://app.cultivatingthefruit.com" class="btn-primary app-open-link" target="_blank">Get the App</a>
         </div>
       </div>
 
@@ -195,39 +214,34 @@
         <div class="step-row">
           <div class="step-num">1</div>
           <div class="step-content">
-            <h3>Open the app link in Chrome</h3>
-            <p>This works best in Chrome on Android. If you prefer not to use Chrome, see the "Having trouble?" section below for other options.</p>
-            <span class="step-tag">app.cultivatingthefruit.com</span>
+            <h3>Open the signup page in Chrome</h3>
+            <p>Tap "Get the App" below. It will open in Chrome. If it opens in another browser, copy the link and paste it into Chrome.</p>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">2</div>
           <div class="step-content">
-            <h3>Tap the three-dot menu</h3>
-            <p>Tap the three dots (⋮) in the top right corner of Chrome to open the browser menu.</p>
-            <span class="step-tag">⋮ Menu</span>
+            <h3>Activate your account &mdash; do not try to log in</h3>
+            <p>You do not have an account yet. Tap Activate, enter your email, the code above, and a password you will remember.</p>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">3</div>
           <div class="step-content">
-            <h3>Tap "Add to Home Screen" or "Install App"</h3>
-            <p>You may see either option depending on your Android version. Tap it, then tap "Add" to confirm.</p>
-            <span class="step-tag">+ Add to Home Screen</span>
+            <h3>Log in</h3>
+            <p>You will be taken to the login screen. Enter your email and the password you just created. You will only need to do this once.</p>
           </div>
         </div>
         <div class="step-row">
           <div class="step-num">4</div>
           <div class="step-content">
-            <h3>Open the app and tap Sign Up</h3>
-            <p>Tap the Cultivating the Fruit icon on your home screen to open the app. You will see a Sign In screen — you do not have an account yet, so do not tap Sign In.</p>
-            <span class="step-warning">⚠ Tap "Don't have an account? Sign Up" at the bottom of the screen.</span>
-            <p style="margin-top:10px;">Enter your email address, choose a password, and enter your invite code above when prompted.</p>
+            <h3>Add to your home screen</h3>
+            <p>Tap the three-dot menu in the top right corner, then tap "Add to Home Screen." A window will appear &mdash; tap "Install App."</p>
           </div>
         </div>
+
         <div class="cta-section">
-          <p class="cta-note">Tap below to open the app in Chrome, then follow the steps above.</p>
-          <a href="https://app.cultivatingthefruit.com" class="btn-primary app-open-link" target="_blank">Open the App</a>
+          <a href="https://app.cultivatingthefruit.com" class="btn-primary app-open-link" target="_blank">Get the App</a>
         </div>
       </div>
     </div>
@@ -236,38 +250,37 @@
     <div class="trouble-section">
       <button class="trouble-toggle" onclick="toggleTrouble(this)" id="troubleToggle">
         <span>Having trouble? Alternative options</span>
-        <span class="arrow">▼</span>
+        <span class="arrow">&#9660;</span>
       </button>
       <div class="trouble-body" id="troubleBody">
-
+        <div class="trouble-item">
+          <h4>How do I add it to my home screen?</h4>
+          <p><strong>iPhone (Safari):</strong> Tap the Share button at the bottom of the screen, then tap "Add to Home Screen."</p>
+          <p><strong>Android (Chrome):</strong> Tap the three-dot menu in the top right corner, then tap "Add to Home Screen" then "Install App."</p>
+        </div>
         <div class="trouble-item">
           <h4>I don't use Safari (iPhone) or Chrome (Android)</h4>
-          <p>No problem. Copy the app link below and paste it into whichever browser you prefer. Once it loads, follow the same steps above — most modern browsers on both iPhone and Android support "Add to Home Screen." Look for the Share button or your browser's menu.</p>
+          <p>No problem. Copy the app link below and paste it into whichever browser you prefer. Once it loads, follow the same steps above &mdash; most modern browsers on both iPhone and Android support "Add to Home Screen." Look for the Share button or your browser's menu.</p>
           <a class="trouble-link app-open-link" href="https://app.cultivatingthefruit.com">https://app.cultivatingthefruit.com</a>
         </div>
-
         <div class="trouble-item">
           <h4>I can't find "Add to Home Screen" in my browser menu</h4>
           <p>Some browsers handle this differently. Try looking for "Install App", "Add Shortcut", or a small download/install icon in your browser's address bar. If you still cannot find it, open the link in Safari (iPhone) or Chrome (Android) where the option is most reliable.</p>
         </div>
-
         <div class="trouble-item">
           <h4>I'm on a computer, not a phone</h4>
-          <p>The app is designed for phone use, but you can still access it from any browser on your computer. Go to the link below and sign up with your invite code. You won't be able to add it to a home screen, but you can bookmark it and use it from your browser.</p>
+          <p>The app is designed for phone use, but you can still access it from any browser on your computer. Go to the link below and activate your account with your invite code. You won't be able to add it to a home screen, but you can bookmark it and use it from your browser.</p>
           <a class="trouble-link app-open-link" href="https://app.cultivatingthefruit.com">https://app.cultivatingthefruit.com</a>
         </div>
-
         <div class="trouble-item">
           <h4>My invite code isn't working</h4>
-          <p>Make sure you are entering the code exactly as shown above — it is case-sensitive and contains only letters and numbers. If you are still having trouble, email us and we will sort it out straight away.</p>
+          <p>Make sure you are entering the code exactly as shown above &mdash; it is case-sensitive and contains only letters and numbers. If you are still having trouble, email us and we will sort it out straight away.</p>
           <p><a href="mailto:hello@cultivatingthefruit.com">hello@cultivatingthefruit.com</a></p>
         </div>
-
         <div class="trouble-item">
           <h4>Something else isn't working</h4>
           <p>Email us at <a href="mailto:hello@cultivatingthefruit.com">hello@cultivatingthefruit.com</a> and tell us what device and browser you are using. We will get back to you within one business day.</p>
         </div>
-
       </div>
     </div>
 
@@ -289,8 +302,8 @@
 </div>
 
 <div class="page-footer">
-  <p>Cultivating the Fruit · <a href="/privacy">Privacy Policy</a> · <a href="/refunds">Refunds</a> · <a href="/terms">Terms</a></p>
-  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
+  <p>Cultivating the Fruit &middot; <a href="/privacy">Privacy Policy</a> &middot; <a href="/refunds">Refunds</a> &middot; <a href="/terms">Terms</a></p>
+  <p style="margin-top:8px;">&copy; 2026. All Rights Reserved.</p>
 </div>
 
 <script>
@@ -312,10 +325,7 @@
       const btn = document.getElementById('copyBtn');
       btn.textContent = 'Copied!';
       btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy Code';
-        btn.classList.remove('copied');
-      }, 2500);
+      setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2500);
     });
   }
 
