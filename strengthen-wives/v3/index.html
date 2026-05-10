@@ -85,7 +85,7 @@
 
     .hero{position:relative;overflow:hidden;background:linear-gradient(180deg,var(--pink) 0%,var(--cream) 100%);padding:24px 0 34px}
     .hero .container{position:relative;z-index:2}
-    .hero-logo{height:80px;width:auto;margin:0 auto 18px;}
+    .hero-logo{width:174px;margin:0 auto 18px;border-radius:10px}
     .eyebrow{font-size:14px;font-style:italic;color:var(--muted);text-align:center}
     .hero-sub{font-size:17px;line-height:1.55;text-align:center;max-width:560px;margin:0 auto 14px}
     .app-screens{display:flex;gap:12px;justify-content:center;align-items:flex-start;margin:20px auto 6px}
@@ -140,14 +140,14 @@
     .faq-q{font-family:var(--font-head);font-size:16px;font-weight:700;color:var(--blue);margin:0 0 8px}
     .faq-a{font-size:14px;color:var(--muted);line-height:1.55}
     .founder{display:flex;gap:14px;align-items:center;margin-top:18px}
-    .founder img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--blue)}
+    .founder img{width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--blue);flex-shrink:0}
     footer{background:var(--ink);color:rgba(255,255,255,.68);text-align:center;padding:34px 0;font-size:12px;line-height:1.6}
     footer a{color:rgba(255,255,255,.78)}
     @media (min-width:760px){
       body{font-size:17px}
       .section{padding:58px 0}
       .hero{padding:30px 0 46px}
-      .hero-logo{height:80px;width:auto;}
+      .hero-logo{width:220px}
       .thoughts{display:grid;grid-template-columns:1fr 1fr;gap:0 24px}
       .thoughts li:nth-last-child(2){border-bottom:0}
       .stat-grid{grid-template-columns:repeat(3,1fr)}
@@ -173,7 +173,7 @@
 
 <section class="hero" id="top">
   <div class="container">
-    <img src="../../logo-pink.webp" alt="Cultivating the Fruit" class="hero-logo" width="160" height="80">
+    <img src="../../logo-pink.webp" alt="Cultivating the Fruit" class="hero-logo" width="174" height="60">
     <p class="eyebrow">For the Christian wife who still loves her husband, but misses feeling close to him.</p>
     <h1 class="center">The Marriage Is Fine.<br>He Thinks So Too.</h1>
     <p class="hero-sub">Maybe your marriage is not terrible. Maybe he is a good man. Maybe you still laugh sometimes, manage the house, show up for church, work, kids and life.</p>
