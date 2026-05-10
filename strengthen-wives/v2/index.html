@@ -495,17 +495,24 @@
   .deliv-item p { font-size: 13px; line-height: 1.5; margin: 0; color: var(--ink-soft); }
 
   /* ============ FOUNDER ============ */
+  .founder-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 22px 0 0;
+  }
   .founder-img {
-    max-width: 160px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    margin: 0 auto 20px;
+    object-fit: cover;
+    border: 3px solid var(--blue);
+    flex-shrink: 0;
   }
   .founder-sig {
-    text-align: center;
-    margin-top: 20px;
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 15px;
     color: var(--blue);
   }
   .founder-sig span {
@@ -986,8 +993,10 @@
     <p class="eyebrow">Why we built this</p>
     <h2 class="section-heading">From the Desk of the Founder</h2>
 
-    <img src="../../founder.webp" alt="Cathryn, founder of Cultivating the Fruit" class="founder-img" width="160" height="160" loading="lazy">
-
+    <div class="founder-block">
+      <img src="../../founder.webp" alt="Cathryn, founder of Cultivating the Fruit" class="founder-img" width="60" height="60" loading="lazy">
+      <div class="founder-sig">Cathryn<span>Founder, Cultivating the Fruit</span></div>
+    </div>
     <p class="body-text">I have watched marriages fall apart my entire life. Including my own.</p>
     <p class="body-text">I grew up Catholic, deeply believing. In my teenage years I found a Christian church that felt like home. Then life happened: university, travel, the years of being young and busy. I slowly moved away from my faith.</p>
     <p class="body-text">I got married. It ended. There were reasons, as there always are, but the way I could see it from where I stood: we had become housemates. Functional, polite, doing life together. But something essential was gone, and by the time I understood what had happened, it was already too late to find our way back.</p>
@@ -1002,7 +1011,6 @@
 
     <p class="body-text">What I want for you is a marriage that feels alive. One where you dance together and hold hands and look at each other the way you used to. And whatever the outcome, I want you to know you showed up with courage and intention. That is what this is for.</p>
 
-    <div class="founder-sig">Cathryn<span>Founder, Cultivating the Fruit</span></div>
   </div>
 </section>
 
