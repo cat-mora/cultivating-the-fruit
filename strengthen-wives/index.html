@@ -1,20 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cultivating the Fruit</title>
 <script>
   (function() {
-    var count = parseInt(localStorage.getItem('ctf_ab_count') || '0');
+    function getCookie(name) {
+      var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+      return match ? parseInt(decodeURIComponent(match[1])) : 0;
+    }
+    function setCookie(name, value) {
+      var expires = new Date();
+      expires.setFullYear(expires.getFullYear() + 1);
+      document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires.toUTCString() + '; path=/';
+    }
+    var count = getCookie('ctf_ab_count');
     count++;
-    localStorage.setItem('ctf_ab_count', count);
+    setCookie('ctf_ab_count', count);
     var dest = (count % 2 === 1)
       ? '/strengthen-wives/v2/'
       : '/strengthen-wives/v3/';
     window.location.replace(dest);
   })();
 </script>
-</head>
-<body></body>
-</html>
