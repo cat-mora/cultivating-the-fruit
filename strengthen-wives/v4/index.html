@@ -106,9 +106,10 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"/></
   .cta-btn .sub{display:block;font-family:Arial,sans-serif;font-size:11px;font-weight:400;opacity:.9;margin-top:3px}
   .skip{display:block;text-align:center;font-size:13px;color:var(--blue);text-decoration:underline;margin:4px 0 14px}
 
-  .full-img{width:100%;border-radius:12px;box-shadow:0 6px 20px rgba(31,98,142,.12);display:block;margin:16px 0}
-  .app-screens{display:flex;gap:12px;justify-content:center;margin:16px 0}
-  .app-screens img{width:46%;max-width:180px;border-radius:18px;box-shadow:0 6px 20px rgba(31,98,142,.16)}
+  .full-img{width:100%;height:auto;border-radius:12px;box-shadow:0 6px 20px rgba(31,98,142,.12);display:block;margin:16px 0}
+  .app-screens{display:flex;flex-direction:column;align-items:center;gap:16px;margin:16px 0}
+  .app-screens img{width:80%;max-width:280px;border-radius:18px;box-shadow:0 6px 20px rgba(31,98,142,.16)}
+  @media(min-width:520px){.app-screens{flex-direction:row;justify-content:center}.app-screens img{width:46%;max-width:200px}}
 
   .option{background:var(--white);border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:14px 16px;margin:8px 0}
   .option h4{color:var(--blue);font-size:14px;margin-bottom:6px}
@@ -252,7 +253,7 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"/></
   <div class="note">
     <p>This isn't about becoming the perfect wife. It's about choosing one faithful action today, from the part of the marriage you can influence.</p>
   </div>
-  <img src="../../woman-phone.webp" alt="Woman using the Cultivating the Fruit app" class="full-img" width="640" height="427" loading="lazy">
+  <img src="../../woman-phone.webp" alt="Woman using the Cultivating the Fruit app" class="full-img" width="640" height="auto" loading="lazy">
 </div>
 
 <!-- HOW IT WORKS -->
@@ -446,7 +447,7 @@ src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"/></
 
 <!-- FINAL -->
 <div class="section white center">
-  <img src="../../couple-lifestyle.webp" alt="A couple sharing a warm moment" class="full-img" width="640" height="427" loading="lazy">
+  <img src="../../couple-lifestyle.webp" alt="A couple sharing a warm moment" class="full-img" width="640" height="auto" loading="lazy">
   <h2>Your Marriage Doesn't Need to Be in Crisis to Be Worth Tending.</h2>
   <div class="divider center"></div>
   <p>You can't control him. You can't force closeness back into the room.</p>
