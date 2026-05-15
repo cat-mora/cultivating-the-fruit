@@ -4,47 +4,63 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cultivating the Fruit</title>
+
   <script>
     (function() {
+      var COOKIE_NAME = 'ctf_wives_ab_variant_3way';
+
       function getCookie(name) {
         var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
         return match ? decodeURIComponent(match[1]) : null;
       }
+
       function setCookie(name, value) {
         var expires = new Date();
         expires.setFullYear(expires.getFullYear() + 1);
-        document.cookie = name + '=' + encodeURIComponent(value) +
+
+        document.cookie =
+          name + '=' + encodeURIComponent(value) +
           '; expires=' + expires.toUTCString() +
           '; path=/; SameSite=Lax';
       }
 
+      function isValidVariant(value) {
+        return value === 'v2' || value === 'v3' || value === 'v4';
+      }
+
+      var variants = ['v2', 'v3', 'v4'];
       var urlParams = new URLSearchParams(window.location.search);
       var override = urlParams.get('v');
       var variant;
 
-      if (override === 'v2' || override === 'v3' || override === 'v4') {
+      // Manual testing override, eg:
+      // /strengthen-wives/?v=v4
+      // This does NOT set the cookie, so your testing does not affect the real split.
+      if (isValidVariant(override)) {
         variant = override;
       } else {
-        variant = getCookie('ctf_ab_variant');
-        if (variant !== 'v2' && variant !== 'v3' && variant !== 'v4') {
-          var count = parseInt(getCookie('ctf_visit_count') || '0', 10);
-          var variants = ['v2', 'v3', 'v4'];
-          variant = variants[count % 3];
-          setCookie('ctf_visit_count', String(count + 1));
-          setCookie('ctf_ab_variant', variant);
+        variant = getCookie(COOKIE_NAME);
+
+        if (!isValidVariant(variant)) {
+          variant = variants[Math.floor(Math.random() * variants.length)];
+          setCookie(COOKIE_NAME, variant);
         }
       }
 
+      // Keep UTMs and other ad parameters, but remove the manual v override.
       urlParams.delete('v');
       var query = urlParams.toString();
+
       var dest = '/strengthen-wives/' + variant + '/' + (query ? '?' + query : '');
+
       window.location.replace(dest);
     })();
   </script>
 </head>
+
 <body>
   <noscript>
-    <p>Please enable JavaScript or <a href="/strengthen-wives/v2/">continue here</a>.</p>
+    <p>Please enable JavaScript or <a href="/strengthen-wives/v4/">continue here</a>.</p>
   </noscript>
 </body>
 </html>
