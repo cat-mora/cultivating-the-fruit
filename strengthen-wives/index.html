@@ -18,25 +18,24 @@
           '; path=/; SameSite=Lax';
       }
 
-      // Manual override for testing: ?v=v2 or ?v=v3 forces a specific variant
-      // (handy for sharing a specific page link with someone)
       var urlParams = new URLSearchParams(window.location.search);
       var override = urlParams.get('v');
       var variant;
 
-      if (override === 'v2' || override === 'v3') {
+      if (override === 'v2' || override === 'v3' || override === 'v4') {
         variant = override;
       } else {
-        // Check for existing assignment so return visitors are sticky
         variant = getCookie('ctf_ab_variant');
-        // New visitor → assign randomly 50/50
-        if (variant !== 'v2' && variant !== 'v3') {
-          variant = Math.random() < 0.5 ? 'v2' : 'v3';
+        if (variant !== 'v2' && variant !== 'v3' && variant !== 'v4') {
+          // 3-way counter rotation using a separate cookie
+          var count = parseInt(getCookie('ctf_visit_count') || '0', 10);
+          var variants = ['v2', 'v3', 'v4'];
+          variant = variants[count % 3];
+          setCookie('ctf_visit_count', String(count + 1));
           setCookie('ctf_ab_variant', variant);
         }
       }
 
-      // Preserve any other query params (UTM tags, fbclid, etc.) for downstream attribution
       urlParams.delete('v');
       var query = urlParams.toString();
       var dest = '/strengthen-wives/' + variant + '/' + (query ? '?' + query : '');
