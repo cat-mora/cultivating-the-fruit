@@ -8,6 +8,6 @@ export default async function handler(req, res) {
     hasSupabaseUrl: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
     hasAppUrl: !!process.env.NEXT_PUBLIC_APP_URL,
     hasBaseUrl: !!process.env.NEXT_PUBLIC_BASE_URL,
-    nodeVersion: process.version
+    nodeVersion: process.version,
   });
 }

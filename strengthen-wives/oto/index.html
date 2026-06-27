@@ -1,554 +1,831 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <link rel="icon" href="/favicon.ico">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>One Optional Next Step | Cultivating the Fruit</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --blue: #1F628E;
-      --blue-dark: #174b6d;
-      --pink-soft: #FFE4E5;
-      --coral: #F7838D;
-      --black: #231F20;
-      --off-white: #FFFEFA;
-      --white: #ffffff;
-      --gray-text: #5a5456;
-      --cta-coral: #E8545A;
-      --cta-coral-dark: #D4434A;
-      --font-head: 'Montserrat', sans-serif;
-      --font-body: 'Poppins', sans-serif;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: var(--font-body);
-      font-size: 16px;
-      line-height: 1.7;
-      color: var(--black);
-      background: var(--off-white);
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* ORDER COMPLETE BAR */
-    .order-complete-bar {
-      background: #2e7d32;
-      color: white;
-      padding: 10px 24px;
-      text-align: center;
-      font-family: var(--font-head);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-    }
-    .order-complete-bar span {
-      opacity: 0.85;
-      font-weight: 400;
-      margin-left: 8px;
-    }
-
-    /* HEADER */
-    .page-header {
-      background: var(--white);
-      border-bottom: 1px solid rgba(31,98,142,0.1);
-      padding: 16px 24px;
-      text-align: center;
-    }
-    .page-header img { max-width: 200px; margin: 0 auto; border-radius: 8px; }
-
-    .container { max-width: 680px; margin: 0 auto; padding: 0 20px; }
-
-    /* INTRO */
-    .intro {
-      background: var(--blue);
-      color: var(--white);
-      padding: 32px 0;
-      text-align: center;
-    }
-    .intro h1 {
-      font-family: var(--font-head);
-      font-size: clamp(20px, 4vw, 28px);
-      font-weight: 700;
-      line-height: 1.25;
-      margin-bottom: 10px;
-    }
-    .intro p { font-size: 15px; opacity: 0.9; max-width: 520px; margin: 0 auto; }
-
-    /* OTO CARDS */
-    .otos-section { padding: 36px 0 0; }
-    .section-label {
-      font-family: var(--font-head);
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--coral);
-      margin-bottom: 16px;
-      text-align: center;
-    }
-
-    .oto-card {
-      background: var(--white);
-      border: 2px solid rgba(31,98,142,0.15);
-      border-radius: 12px;
-      margin-bottom: 16px;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      overflow: hidden;
-    }
-    .oto-card:hover { border-color: var(--blue); box-shadow: 0 4px 16px rgba(31,98,142,0.1); }
-    .oto-card.selected {
-      border-color: var(--blue);
-      box-shadow: 0 4px 20px rgba(31,98,142,0.15);
-      background: #f0f7ff;
-    }
-
-    .oto-card-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      padding: 20px 20px 0;
-    }
-    .oto-checkbox {
-      flex-shrink: 0;
-      width: 28px; height: 28px;
-      border: 2px solid rgba(31,98,142,0.3);
-      border-radius: 6px;
-      background: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      margin-top: 2px;
-      transition: all 0.15s;
-    }
-    .oto-card.selected .oto-checkbox { background: var(--blue); border-color: var(--blue); }
-    .oto-checkbox svg { display: none; }
-    .oto-card.selected .oto-checkbox svg { display: block; }
-
-    .oto-cover {
-      flex-shrink: 0;
-      width: 70px;
-      border-radius: 6px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-    }
-    .oto-text { flex: 1; }
-    .oto-text h3 {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--blue);
-      margin-bottom: 4px;
-      line-height: 1.3;
-    }
-    .oto-price-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 6px;
-    }
-    .price-tag { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--blue); }
-    .price-was { font-size: 13px; color: var(--gray-text); text-decoration: line-through; }
-
-    .oto-card-body { padding: 12px 20px 20px 20px; }
-    .oto-card-body p { font-size: 14px; color: var(--gray-text); line-height: 1.6; margin-bottom: 10px; }
-    .oto-card-body p:last-child { margin-bottom: 0; }
-
-    .inside-list { list-style: none; padding: 0; margin-top: 10px; }
-    .inside-list li {
-      padding: 5px 0 5px 22px;
-      position: relative;
-      font-size: 13px;
-      color: var(--gray-text);
-      border-bottom: 1px solid rgba(31,98,142,0.06);
-    }
-    .inside-list li:last-child { border-bottom: none; }
-    .inside-list li::before { content: '✓'; position: absolute; left: 0; color: var(--blue); font-weight: 700; }
-
-    /* BUNDLE */
-    .bundle-divider {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 8px 0 16px;
-    }
-    .bundle-divider::before, .bundle-divider::after {
-      content: ''; flex: 1; height: 1px; background: rgba(31,98,142,0.15);
-    }
-    .bundle-divider span {
-      font-family: var(--font-head);
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--coral);
-      white-space: nowrap;
-    }
-
-    .bundle-card {
-      background: var(--white);
-      border: 2px solid rgba(232,84,90,0.25);
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 8px;
-      cursor: pointer;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      position: relative;
-    }
-    .bundle-card:hover { border-color: var(--cta-coral); box-shadow: 0 4px 16px rgba(232,84,90,0.1); }
-    .bundle-card.selected {
-      border-color: var(--cta-coral);
-      box-shadow: 0 4px 20px rgba(232,84,90,0.15);
-      background: #fff5f5;
-    }
-    .bundle-badge {
-      position: absolute;
-      top: -1px; right: 16px;
-      background: var(--cta-coral);
-      color: white;
-      font-family: var(--font-head);
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 3px 10px;
-      border-radius: 0 0 6px 6px;
-    }
-    .bundle-inner { display: flex; align-items: flex-start; gap: 16px; }
-    .bundle-checkbox {
-      flex-shrink: 0;
-      width: 28px; height: 28px;
-      border: 2px solid rgba(232,84,90,0.3);
-      border-radius: 6px;
-      background: var(--white);
-      display: flex; align-items: center; justify-content: center;
-      margin-top: 2px;
-      transition: all 0.15s;
-    }
-    .bundle-card.selected .bundle-checkbox { background: var(--cta-coral); border-color: var(--cta-coral); }
-    .bundle-checkbox svg { display: none; }
-    .bundle-card.selected .bundle-checkbox svg { display: block; }
-    .bundle-covers { display: flex; gap: 8px; flex-shrink: 0; }
-    .bundle-covers img { width: 48px; border-radius: 5px; box-shadow: 0 2px 6px rgba(0,0,0,0.12); }
-    .bundle-text { flex: 1; }
-    .bundle-text h3 { font-family: var(--font-head); font-size: 15px; font-weight: 700; color: var(--black); margin-bottom: 4px; }
-    .bundle-text p { font-size: 13px; color: var(--gray-text); margin-bottom: 8px; }
-    .bundle-pricing { display: flex; align-items: center; gap: 10px; }
-    .bundle-price-now { font-family: var(--font-head); font-size: 20px; font-weight: 700; color: var(--cta-coral); }
-    .bundle-price-was { font-size: 13px; color: var(--gray-text); text-decoration: line-through; }
-    .bundle-saving { font-size: 12px; font-weight: 600; color: #2e7d32; background: #e8f5e9; padding: 2px 8px; border-radius: 10px; }
-    .bundle-note { font-size: 12px; color: var(--gray-text); text-align: center; margin-bottom: 24px; }
-
-    /* CTA */
-    .cta-section { margin: 24px 0 16px; }
-    .cta-btn {
-      display: block;
-      font-family: var(--font-head);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--white);
-      background: var(--cta-coral);
-      border: none;
-      padding: 20px 40px;
-      text-decoration: none;
-      cursor: pointer;
-      width: 100%;
-      text-align: center;
-      border-radius: 4px;
-      animation: pulse 2.5s ease-in-out infinite;
-      transition: all 0.2s ease;
-      margin-bottom: 10px;
-    }
-    .cta-btn:hover {
-      background: var(--cta-coral-dark);
-      animation: none;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(232,84,90,0.35);
-    }
-    .cta-btn .cta-sub {
-      display: block;
-      font-size: 13px;
-      font-weight: 400;
-      font-family: var(--font-body);
-      margin-top: 4px;
-      opacity: 0.85;
-    }
-    .cta-btn:disabled { opacity: 0.6; pointer-events: none; animation: none; }
-    @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.012)} }
-
-    .cta-meta { font-size: 12px; color: var(--gray-text); text-align: center; margin-bottom: 16px; }
-
-    .skip-link {
-      display: block;
-      text-align: center;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--blue);
-      text-decoration: underline;
-      cursor: pointer;
-      padding: 8px 0 40px;
-    }
-    .skip-link:hover { color: var(--blue-dark); }
-
-    /* FOOTER */
-    .page-footer {
-      background: var(--black);
-      color: rgba(255,255,255,0.5);
-      padding: 24px;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    @media (max-width: 500px) {
-      .oto-card-header { gap: 12px; }
-      .oto-cover { width: 56px; }
-      .bundle-covers img { width: 40px; }
-    }
-  </style>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '4612419208988268');
-fbq('track', 'PageView');
-fbq('track', 'Purchase');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
-</head>
-<body>
-
-<!-- Order Complete Bar -->
-<div class="order-complete-bar">
-  ✓ Order complete<span>Your app access is on its way to your inbox.</span>
-</div>
-
-<!-- Header -->
-<div class="page-header">
-  <img src="/logo.png" alt="Cultivating the Fruit">
-</div>
-
-<!-- Intro -->
-<div class="intro">
-  <div class="container">
-    <h1>One Optional Next Step</h1>
-    <p>Your purchase is done. Before you head to your welcome page, two more guides are available at a one-time price — not available anywhere else at this price.</p>
-  </div>
-</div>
-
-<!-- OTOs -->
-<div class="otos-section">
-  <div class="container">
-    <p class="section-label">Optional add-ons</p>
-
-    <!-- OTO 1: 10 Conversations -->
-    <div class="oto-card" id="oto1" onclick="toggleOTO(1)">
-      <div class="oto-card-header">
-        <div class="oto-checkbox" id="otoCheck1">
-          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-            <path d="M1 5L5 9L13 1" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <img src="/10-conversations-cover.png" class="oto-cover" alt="10 Conversations To Feel Close Again">
-        <div class="oto-text">
-          <h3>10 Conversations To Feel Close Again</h3>
-          <div class="oto-price-row">
-            <span class="price-tag">AU$47</span>
-            <span class="price-was">AU$67</span>
-          </div>
-        </div>
-      </div>
-      <div class="oto-card-body">
-        <p>Most nights, by the time you finally sit down together, there is nothing left but tiredness and the day's leftover admin. These ten guided conversations help you get past kids, calendars, and jobs to the things that made you feel close in the first place — without making it feel forced or like a counselling exercise.</p>
-        <p>Each one takes about twenty minutes and is built around the kinds of questions that open something up rather than create pressure.</p>
-        <ul class="inside-list">
-          <li>Ten guided conversations designed to move you past logistics</li>
-          <li>Questions that build understanding of each other's inner world</li>
-          <li>Prompts that revisit what brought you together</li>
-          <li>Conversations about what you each need to feel loved</li>
-          <li>Scripture woven through each conversation</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- OTO 2: Cherished Again -->
-    <div class="oto-card" id="oto2" onclick="toggleOTO(2)">
-      <div class="oto-card-header">
-        <div class="oto-checkbox" id="otoCheck2">
-          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-            <path d="M1 5L5 9L13 1" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <img src="/cherished-again-cover.png" class="oto-cover" alt="Cherished Again">
-        <div class="oto-text">
-          <h3>Cherished Again</h3>
-          <div class="oto-price-row">
-            <span class="price-tag">AU$67</span>
-            <span class="price-was">AU$87</span>
-          </div>
-        </div>
-      </div>
-      <div class="oto-card-body">
-        <p>A marriage can work and still feel thin. You may handle everything together — the children, the meals, the finances, the schedules. He may appreciate you completely. But you do not feel cherished. You feel useful.</p>
-        <p>This guide is honest about how that happens and practical about what helps. It looks at the difference between manager mode and wife mode — what each sounds and feels like, and how to begin moving from one to the other.</p>
-        <ul class="inside-list">
-          <li>Why wives stop feeling cherished — and why it is rarely one big thing</li>
-          <li>Manager mode vs wife mode: what each looks like in practice</li>
-          <li>How to invite instead of direct, correct, or carry</li>
-          <li>Affection, desire, and becoming more present again</li>
-          <li>A practical one-step-at-a-time plan to begin</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Bundle -->
-    <div class="bundle-divider"><span>Or save with the bundle</span></div>
-
-    <div class="bundle-card" id="otoBundle" onclick="toggleOTOBundle()">
-      <div class="bundle-badge">Best Value — Save AU$27</div>
-      <div class="bundle-inner">
-        <div class="bundle-checkbox" id="otoBundleCheck">
-          <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-            <path d="M1 5L5 9L13 1" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="bundle-covers">
-          <img src="/10-conversations-cover.png" alt="10 Conversations">
-          <img src="/cherished-again-cover.png" alt="Cherished Again">
-        </div>
-        <div class="bundle-text">
-          <h3>Both Companion Guides</h3>
-          <p>10 Conversations To Feel Close Again and Cherished Again. One opens up real conversation. The other helps you step back into being his wife, not just the one who runs everything.</p>
-          <div class="bundle-pricing">
-            <span class="bundle-price-now">AU$87</span>
-            <span class="bundle-price-was">AU$114</span>
-            <span class="bundle-saving">Save AU$27</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="bundle-note">Selecting the bundle replaces individual selections above.</p>
-
-    <!-- CTA -->
-    <div class="cta-section">
-      <button id="add-btn" class="cta-btn" onclick="proceedWithOTO()" disabled>
-        Select a guide above to add it
-        <span class="cta-sub">You will be taken to a separate secure payment page</span>
-      </button>
-      <p class="cta-meta">🔒 Separate secure payment · instant PDF delivery · 30-day money-back guarantee</p>
-      <a class="skip-link" onclick="skipOTOs()">No thanks — take me to my welcome page</a>
-    </div>
-
-  </div>
-</div>
-
-<!-- Footer -->
-<div class="page-footer">
-  <p>Cultivating the Fruit · <a href="/privacy" style="color:rgba(255,255,255,0.5);">Privacy Policy</a> · <a href="/refunds" style="color:rgba(255,255,255,0.5);">Refunds</a> · <a href="/terms" style="color:rgba(255,255,255,0.5);">Terms</a></p>
-  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
-</div>
-
-<script>
-  // ── Read params from URL ──
-  const params = new URLSearchParams(window.location.search);
-  const session_id = params.get('session_id') || '';
-
-  let state = { oto1: false, oto2: false, otoBundle: false };
-
-  function toggleOTO(n) {
-    if (state.otoBundle) {
-      state.otoBundle = false;
-      document.getElementById('otoBundle').classList.remove('selected');
-    }
-    state['oto' + n] = !state['oto' + n];
-    document.getElementById('oto' + n).classList.toggle('selected', state['oto' + n]);
-    // Auto-switch to bundle if both selected
-    if (state.oto1 && state.oto2) {
-      state.oto1 = false;
-      state.oto2 = false;
-      state.otoBundle = true;
-      document.getElementById('oto1').classList.remove('selected');
-      document.getElementById('oto2').classList.remove('selected');
-      document.getElementById('otoBundle').classList.add('selected');
-    }
-    updateUI();
-  }
-
-  function toggleOTOBundle() {
-    state.otoBundle = !state.otoBundle;
-    state.oto1 = false;
-    state.oto2 = false;
-    document.getElementById('oto1').classList.remove('selected');
-    document.getElementById('oto2').classList.remove('selected');
-    document.getElementById('otoBundle').classList.toggle('selected', state.otoBundle);
-    updateUI();
-  }
-
-  function getOTOSelection() {
-    if (state.otoBundle) return 'otoBundle';
-    if (state.oto1) return 'conversations';
-    if (state.oto2) return 'cherished';
-    return 'none';
-  }
-
-  function updateUI() {
-    const otos = getOTOSelection();
-    const btn = document.getElementById('add-btn');
-    const prices = { conversations: 47, cherished: 67, otoBundle: 87 };
-
-    if (otos !== 'none') {
-      btn.disabled = false;
-      btn.childNodes[0].textContent = 'Add to My Order — AU$' + prices[otos];
-    } else {
-      btn.disabled = true;
-      btn.childNodes[0].textContent = 'Select a guide above to add it';
-    }
-  }
-
-  async function proceedWithOTO() {
-    const otos = getOTOSelection();
-    if (otos === 'none') return;
-
-    const btn = document.getElementById('add-btn');
-    btn.disabled = true;
-    btn.childNodes[0].textContent = 'Redirecting to payment…';
-
-    try {
-      const response = await fetch('/api/create-oto-session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ otos: otos, session_id: session_id })
-      });
-
-      const data = await response.json();
-
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        throw new Error(data.error || 'No checkout URL returned');
+  <head>
+    <link rel="icon" href="/favicon.ico" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>One Optional Next Step | Cultivating the Fruit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --blue: #1f628e;
+        --blue-dark: #174b6d;
+        --pink-soft: #ffe4e5;
+        --coral: #f7838d;
+        --black: #231f20;
+        --off-white: #fffefa;
+        --white: #ffffff;
+        --gray-text: #5a5456;
+        --cta-coral: #e8545a;
+        --cta-coral-dark: #d4434a;
+        --font-head: "Montserrat", sans-serif;
+        --font-body: "Poppins", sans-serif;
       }
-    } catch (err) {
-      console.error('OTO checkout error:', err);
-      btn.disabled = false;
-      btn.childNodes[0].textContent = 'Add to My Order';
-      alert('Something went wrong. Please try again or skip to your welcome page.');
-    }
-  }
 
-  function skipOTOs() {
-    window.location.href = '/strengthen-wives/welcome?session_id=' + session_id;
-  }
-</script>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--black);
+        background: var(--off-white);
+        -webkit-font-smoothing: antialiased;
+      }
 
-</body>
+      /* ORDER COMPLETE BAR */
+      .order-complete-bar {
+        background: #2e7d32;
+        color: white;
+        padding: 10px 24px;
+        text-align: center;
+        font-family: var(--font-head);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+      .order-complete-bar span {
+        opacity: 0.85;
+        font-weight: 400;
+        margin-left: 8px;
+      }
+
+      /* HEADER */
+      .page-header {
+        background: var(--white);
+        border-bottom: 1px solid rgba(31, 98, 142, 0.1);
+        padding: 16px 24px;
+        text-align: center;
+      }
+      .page-header img {
+        max-width: 200px;
+        margin: 0 auto;
+        border-radius: 8px;
+      }
+
+      .container {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* INTRO */
+      .intro {
+        background: var(--blue);
+        color: var(--white);
+        padding: 32px 0;
+        text-align: center;
+      }
+      .intro h1 {
+        font-family: var(--font-head);
+        font-size: clamp(20px, 4vw, 28px);
+        font-weight: 700;
+        line-height: 1.25;
+        margin-bottom: 10px;
+      }
+      .intro p {
+        font-size: 15px;
+        opacity: 0.9;
+        max-width: 520px;
+        margin: 0 auto;
+      }
+
+      /* OTO CARDS */
+      .otos-section {
+        padding: 36px 0 0;
+      }
+      .section-label {
+        font-family: var(--font-head);
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--coral);
+        margin-bottom: 16px;
+        text-align: center;
+      }
+
+      .oto-card {
+        background: var(--white);
+        border: 2px solid rgba(31, 98, 142, 0.15);
+        border-radius: 12px;
+        margin-bottom: 16px;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        overflow: hidden;
+      }
+      .oto-card:hover {
+        border-color: var(--blue);
+        box-shadow: 0 4px 16px rgba(31, 98, 142, 0.1);
+      }
+      .oto-card.selected {
+        border-color: var(--blue);
+        box-shadow: 0 4px 20px rgba(31, 98, 142, 0.15);
+        background: #f0f7ff;
+      }
+
+      .oto-card-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+        padding: 20px 20px 0;
+      }
+      .oto-checkbox {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        border: 2px solid rgba(31, 98, 142, 0.3);
+        border-radius: 6px;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+        transition: all 0.15s;
+      }
+      .oto-card.selected .oto-checkbox {
+        background: var(--blue);
+        border-color: var(--blue);
+      }
+      .oto-checkbox svg {
+        display: none;
+      }
+      .oto-card.selected .oto-checkbox svg {
+        display: block;
+      }
+
+      .oto-cover {
+        flex-shrink: 0;
+        width: 70px;
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      }
+      .oto-text {
+        flex: 1;
+      }
+      .oto-text h3 {
+        font-family: var(--font-head);
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--blue);
+        margin-bottom: 4px;
+        line-height: 1.3;
+      }
+      .oto-price-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 6px;
+      }
+      .price-tag {
+        font-family: var(--font-head);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--blue);
+      }
+      .price-was {
+        font-size: 13px;
+        color: var(--gray-text);
+        text-decoration: line-through;
+      }
+
+      .oto-card-body {
+        padding: 12px 20px 20px 20px;
+      }
+      .oto-card-body p {
+        font-size: 14px;
+        color: var(--gray-text);
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+      .oto-card-body p:last-child {
+        margin-bottom: 0;
+      }
+
+      .inside-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 10px;
+      }
+      .inside-list li {
+        padding: 5px 0 5px 22px;
+        position: relative;
+        font-size: 13px;
+        color: var(--gray-text);
+        border-bottom: 1px solid rgba(31, 98, 142, 0.06);
+      }
+      .inside-list li:last-child {
+        border-bottom: none;
+      }
+      .inside-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--blue);
+        font-weight: 700;
+      }
+
+      /* BUNDLE */
+      .bundle-divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 8px 0 16px;
+      }
+      .bundle-divider::before,
+      .bundle-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: rgba(31, 98, 142, 0.15);
+      }
+      .bundle-divider span {
+        font-family: var(--font-head);
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--coral);
+        white-space: nowrap;
+      }
+
+      .bundle-card {
+        background: var(--white);
+        border: 2px solid rgba(232, 84, 90, 0.25);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        position: relative;
+      }
+      .bundle-card:hover {
+        border-color: var(--cta-coral);
+        box-shadow: 0 4px 16px rgba(232, 84, 90, 0.1);
+      }
+      .bundle-card.selected {
+        border-color: var(--cta-coral);
+        box-shadow: 0 4px 20px rgba(232, 84, 90, 0.15);
+        background: #fff5f5;
+      }
+      .bundle-badge {
+        position: absolute;
+        top: -1px;
+        right: 16px;
+        background: var(--cta-coral);
+        color: white;
+        font-family: var(--font-head);
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 3px 10px;
+        border-radius: 0 0 6px 6px;
+      }
+      .bundle-inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .bundle-checkbox {
+        flex-shrink: 0;
+        width: 28px;
+        height: 28px;
+        border: 2px solid rgba(232, 84, 90, 0.3);
+        border-radius: 6px;
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+        transition: all 0.15s;
+      }
+      .bundle-card.selected .bundle-checkbox {
+        background: var(--cta-coral);
+        border-color: var(--cta-coral);
+      }
+      .bundle-checkbox svg {
+        display: none;
+      }
+      .bundle-card.selected .bundle-checkbox svg {
+        display: block;
+      }
+      .bundle-covers {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .bundle-covers img {
+        width: 48px;
+        border-radius: 5px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      }
+      .bundle-text {
+        flex: 1;
+      }
+      .bundle-text h3 {
+        font-family: var(--font-head);
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 4px;
+      }
+      .bundle-text p {
+        font-size: 13px;
+        color: var(--gray-text);
+        margin-bottom: 8px;
+      }
+      .bundle-pricing {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .bundle-price-now {
+        font-family: var(--font-head);
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--cta-coral);
+      }
+      .bundle-price-was {
+        font-size: 13px;
+        color: var(--gray-text);
+        text-decoration: line-through;
+      }
+      .bundle-saving {
+        font-size: 12px;
+        font-weight: 600;
+        color: #2e7d32;
+        background: #e8f5e9;
+        padding: 2px 8px;
+        border-radius: 10px;
+      }
+      .bundle-note {
+        font-size: 12px;
+        color: var(--gray-text);
+        text-align: center;
+        margin-bottom: 24px;
+      }
+
+      /* CTA */
+      .cta-section {
+        margin: 24px 0 16px;
+      }
+      .cta-btn {
+        display: block;
+        font-family: var(--font-head);
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--white);
+        background: var(--cta-coral);
+        border: none;
+        padding: 20px 40px;
+        text-decoration: none;
+        cursor: pointer;
+        width: 100%;
+        text-align: center;
+        border-radius: 4px;
+        animation: pulse 2.5s ease-in-out infinite;
+        transition: all 0.2s ease;
+        margin-bottom: 10px;
+      }
+      .cta-btn:hover {
+        background: var(--cta-coral-dark);
+        animation: none;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(232, 84, 90, 0.35);
+      }
+      .cta-btn .cta-sub {
+        display: block;
+        font-size: 13px;
+        font-weight: 400;
+        font-family: var(--font-body);
+        margin-top: 4px;
+        opacity: 0.85;
+      }
+      .cta-btn:disabled {
+        opacity: 0.6;
+        pointer-events: none;
+        animation: none;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.012);
+        }
+      }
+
+      .cta-meta {
+        font-size: 12px;
+        color: var(--gray-text);
+        text-align: center;
+        margin-bottom: 16px;
+      }
+
+      .skip-link {
+        display: block;
+        text-align: center;
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--blue);
+        text-decoration: underline;
+        cursor: pointer;
+        padding: 8px 0 40px;
+      }
+      .skip-link:hover {
+        color: var(--blue-dark);
+      }
+
+      /* FOOTER */
+      .page-footer {
+        background: var(--black);
+        color: rgba(255, 255, 255, 0.5);
+        padding: 24px;
+        font-size: 12px;
+        text-align: center;
+      }
+
+      @media (max-width: 500px) {
+        .oto-card-header {
+          gap: 12px;
+        }
+        .oto-cover {
+          width: 56px;
+        }
+        .bundle-covers img {
+          width: 40px;
+        }
+      }
+    </style>
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "4612419208988268");
+      fbq("track", "PageView");
+      fbq("track", "Purchase");
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+  </head>
+  <body>
+    <!-- Order Complete Bar -->
+    <div class="order-complete-bar">
+      ✓ Order complete<span>Your app access is on its way to your inbox.</span>
+    </div>
+
+    <!-- Header -->
+    <div class="page-header">
+      <img src="/logo.png" alt="Cultivating the Fruit" />
+    </div>
+
+    <!-- Intro -->
+    <div class="intro">
+      <div class="container">
+        <h1>One Optional Next Step</h1>
+        <p>
+          Your purchase is done. Before you head to your welcome page, two more
+          guides are available at a one-time price — not available anywhere else
+          at this price.
+        </p>
+      </div>
+    </div>
+
+    <!-- OTOs -->
+    <div class="otos-section">
+      <div class="container">
+        <p class="section-label">Optional add-ons</p>
+
+        <!-- OTO 1: 10 Conversations -->
+        <div class="oto-card" id="oto1" onclick="toggleOTO(1)">
+          <div class="oto-card-header">
+            <div class="oto-checkbox" id="otoCheck1">
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                <path
+                  d="M1 5L5 9L13 1"
+                  stroke="white"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <img
+              src="/10-conversations-cover.png"
+              class="oto-cover"
+              alt="10 Conversations To Feel Close Again"
+            />
+            <div class="oto-text">
+              <h3>10 Conversations To Feel Close Again</h3>
+              <div class="oto-price-row">
+                <span class="price-tag">AU$47</span>
+                <span class="price-was">AU$67</span>
+              </div>
+            </div>
+          </div>
+          <div class="oto-card-body">
+            <p>
+              Most nights, by the time you finally sit down together, there is
+              nothing left but tiredness and the day's leftover admin. These ten
+              guided conversations help you get past kids, calendars, and jobs
+              to the things that made you feel close in the first place —
+              without making it feel forced or like a counselling exercise.
+            </p>
+            <p>
+              Each one takes about twenty minutes and is built around the kinds
+              of questions that open something up rather than create pressure.
+            </p>
+            <ul class="inside-list">
+              <li>
+                Ten guided conversations designed to move you past logistics
+              </li>
+              <li>
+                Questions that build understanding of each other's inner world
+              </li>
+              <li>Prompts that revisit what brought you together</li>
+              <li>Conversations about what you each need to feel loved</li>
+              <li>Scripture woven through each conversation</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- OTO 2: Cherished Again -->
+        <div class="oto-card" id="oto2" onclick="toggleOTO(2)">
+          <div class="oto-card-header">
+            <div class="oto-checkbox" id="otoCheck2">
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                <path
+                  d="M1 5L5 9L13 1"
+                  stroke="white"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <img
+              src="/cherished-again-cover.png"
+              class="oto-cover"
+              alt="Cherished Again"
+            />
+            <div class="oto-text">
+              <h3>Cherished Again</h3>
+              <div class="oto-price-row">
+                <span class="price-tag">AU$67</span>
+                <span class="price-was">AU$87</span>
+              </div>
+            </div>
+          </div>
+          <div class="oto-card-body">
+            <p>
+              A marriage can work and still feel thin. You may handle everything
+              together — the children, the meals, the finances, the schedules.
+              He may appreciate you completely. But you do not feel cherished.
+              You feel useful.
+            </p>
+            <p>
+              This guide is honest about how that happens and practical about
+              what helps. It looks at the difference between manager mode and
+              wife mode — what each sounds and feels like, and how to begin
+              moving from one to the other.
+            </p>
+            <ul class="inside-list">
+              <li>
+                Why wives stop feeling cherished — and why it is rarely one big
+                thing
+              </li>
+              <li>
+                Manager mode vs wife mode: what each looks like in practice
+              </li>
+              <li>How to invite instead of direct, correct, or carry</li>
+              <li>Affection, desire, and becoming more present again</li>
+              <li>A practical one-step-at-a-time plan to begin</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bundle -->
+        <div class="bundle-divider"><span>Or save with the bundle</span></div>
+
+        <div class="bundle-card" id="otoBundle" onclick="toggleOTOBundle()">
+          <div class="bundle-badge">Best Value — Save AU$27</div>
+          <div class="bundle-inner">
+            <div class="bundle-checkbox" id="otoBundleCheck">
+              <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
+                <path
+                  d="M1 5L5 9L13 1"
+                  stroke="white"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="bundle-covers">
+              <img src="/10-conversations-cover.png" alt="10 Conversations" />
+              <img src="/cherished-again-cover.png" alt="Cherished Again" />
+            </div>
+            <div class="bundle-text">
+              <h3>Both Companion Guides</h3>
+              <p>
+                10 Conversations To Feel Close Again and Cherished Again. One
+                opens up real conversation. The other helps you step back into
+                being his wife, not just the one who runs everything.
+              </p>
+              <div class="bundle-pricing">
+                <span class="bundle-price-now">AU$87</span>
+                <span class="bundle-price-was">AU$114</span>
+                <span class="bundle-saving">Save AU$27</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="bundle-note">
+          Selecting the bundle replaces individual selections above.
+        </p>
+
+        <!-- CTA -->
+        <div class="cta-section">
+          <button
+            id="add-btn"
+            class="cta-btn"
+            onclick="proceedWithOTO()"
+            disabled
+          >
+            Select a guide above to add it
+            <span class="cta-sub"
+              >You will be taken to a separate secure payment page</span
+            >
+          </button>
+          <p class="cta-meta">
+            🔒 Separate secure payment · instant PDF delivery · 30-day
+            money-back guarantee
+          </p>
+          <a class="skip-link" onclick="skipOTOs()"
+            >No thanks — take me to my welcome page</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+      <p>
+        Cultivating the Fruit ·
+        <a href="/privacy" style="color: rgba(255, 255, 255, 0.5)"
+          >Privacy Policy</a
+        >
+        ·
+        <a href="/refunds" style="color: rgba(255, 255, 255, 0.5)">Refunds</a> ·
+        <a href="/terms" style="color: rgba(255, 255, 255, 0.5)">Terms</a>
+      </p>
+      <p style="margin-top: 8px">© 2026. All Rights Reserved.</p>
+    </div>
+
+    <script>
+      // ── Read params from URL ──
+      const params = new URLSearchParams(window.location.search);
+      const session_id = params.get("session_id") || "";
+
+      let state = { oto1: false, oto2: false, otoBundle: false };
+
+      function toggleOTO(n) {
+        if (state.otoBundle) {
+          state.otoBundle = false;
+          document.getElementById("otoBundle").classList.remove("selected");
+        }
+        state["oto" + n] = !state["oto" + n];
+        document
+          .getElementById("oto" + n)
+          .classList.toggle("selected", state["oto" + n]);
+        // Auto-switch to bundle if both selected
+        if (state.oto1 && state.oto2) {
+          state.oto1 = false;
+          state.oto2 = false;
+          state.otoBundle = true;
+          document.getElementById("oto1").classList.remove("selected");
+          document.getElementById("oto2").classList.remove("selected");
+          document.getElementById("otoBundle").classList.add("selected");
+        }
+        updateUI();
+      }
+
+      function toggleOTOBundle() {
+        state.otoBundle = !state.otoBundle;
+        state.oto1 = false;
+        state.oto2 = false;
+        document.getElementById("oto1").classList.remove("selected");
+        document.getElementById("oto2").classList.remove("selected");
+        document
+          .getElementById("otoBundle")
+          .classList.toggle("selected", state.otoBundle);
+        updateUI();
+      }
+
+      function getOTOSelection() {
+        if (state.otoBundle) return "otoBundle";
+        if (state.oto1) return "conversations";
+        if (state.oto2) return "cherished";
+        return "none";
+      }
+
+      function updateUI() {
+        const otos = getOTOSelection();
+        const btn = document.getElementById("add-btn");
+        const prices = { conversations: 47, cherished: 67, otoBundle: 87 };
+
+        if (otos !== "none") {
+          btn.disabled = false;
+          btn.childNodes[0].textContent =
+            "Add to My Order — AU$" + prices[otos];
+        } else {
+          btn.disabled = true;
+          btn.childNodes[0].textContent = "Select a guide above to add it";
+        }
+      }
+
+      async function proceedWithOTO() {
+        const otos = getOTOSelection();
+        if (otos === "none") return;
+
+        const btn = document.getElementById("add-btn");
+        btn.disabled = true;
+        btn.childNodes[0].textContent = "Redirecting to payment…";
+
+        try {
+          const response = await fetch("/api/create-oto-session", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ otos: otos, session_id: session_id }),
+          });
+
+          const data = await response.json();
+
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            throw new Error(data.error || "No checkout URL returned");
+          }
+        } catch (err) {
+          console.error("OTO checkout error:", err);
+          btn.disabled = false;
+          btn.childNodes[0].textContent = "Add to My Order";
+          alert(
+            "Something went wrong. Please try again or skip to your welcome page.",
+          );
+        }
+      }
+
+      function skipOTOs() {
+        window.location.href =
+          "/strengthen-wives/welcome?session_id=" + session_id;
+      }
+    </script>
+  </body>
 </html>

@@ -1,73 +1,82 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Cultivating the Fruit</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cultivating the Fruit</title>
 
-  <script>
-    (function() {
-      var COOKIE_NAME = 'ctf_wives_ab_variant_v3_v4';
+    <script>
+      (function () {
+        var COOKIE_NAME = "ctf_wives_ab_variant_v3_v4";
 
-      function getCookie(name) {
-        var match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-        return match ? decodeURIComponent(match[1]) : null;
-      }
-
-      function setCookie(name, value) {
-        var expires = new Date();
-        expires.setFullYear(expires.getFullYear() + 1);
-
-        document.cookie =
-          name + '=' + encodeURIComponent(value) +
-          '; expires=' + expires.toUTCString() +
-          '; path=/; SameSite=Lax';
-      }
-
-      function isValidVariant(value) {
-        return value === 'v3' || value === 'v4';
-      }
-
-      var variants = ['v3', 'v4'];
-      var urlParams = new URLSearchParams(window.location.search);
-      var override = urlParams.get('v');
-      var variant;
-      var source;
-
-      // Manual testing override:
-      // /strengthen-wives/?v=v3
-      // /strengthen-wives/?v=v4
-      if (isValidVariant(override)) {
-        variant = override;
-        source = 'manual override';
-      } else {
-        variant = getCookie(COOKIE_NAME);
-
-        if (isValidVariant(variant)) {
-          source = 'existing cookie';
-        } else {
-          variant = variants[Math.floor(Math.random() * variants.length)];
-          setCookie(COOKIE_NAME, variant);
-          source = 'new random assignment';
+        function getCookie(name) {
+          var match = document.cookie.match(
+            new RegExp("(?:^|; )" + name + "=([^;]*)"),
+          );
+          return match ? decodeURIComponent(match[1]) : null;
         }
-      }
 
-      console.log('CTF wives A/B variant:', variant, 'Source:', source);
+        function setCookie(name, value) {
+          var expires = new Date();
+          expires.setFullYear(expires.getFullYear() + 1);
 
-      // Keep UTMs and other ad parameters, but remove manual v override.
-      urlParams.delete('v');
-      var query = urlParams.toString();
+          document.cookie =
+            name +
+            "=" +
+            encodeURIComponent(value) +
+            "; expires=" +
+            expires.toUTCString() +
+            "; path=/; SameSite=Lax";
+        }
 
-      var dest = '/strengthen-wives/' + variant + '/' + (query ? '?' + query : '');
+        function isValidVariant(value) {
+          return value === "v3" || value === "v4";
+        }
 
-      window.location.replace(dest);
-    })();
-  </script>
-</head>
+        var variants = ["v3", "v4"];
+        var urlParams = new URLSearchParams(window.location.search);
+        var override = urlParams.get("v");
+        var variant;
+        var source;
 
-<body>
-  <noscript>
-    <p>Please enable JavaScript or <a href="/strengthen-wives/v4/">continue here</a>.</p>
-  </noscript>
-</body>
+        // Manual testing override:
+        // /strengthen-wives/?v=v3
+        // /strengthen-wives/?v=v4
+        if (isValidVariant(override)) {
+          variant = override;
+          source = "manual override";
+        } else {
+          variant = getCookie(COOKIE_NAME);
+
+          if (isValidVariant(variant)) {
+            source = "existing cookie";
+          } else {
+            variant = variants[Math.floor(Math.random() * variants.length)];
+            setCookie(COOKIE_NAME, variant);
+            source = "new random assignment";
+          }
+        }
+
+        console.log("CTF wives A/B variant:", variant, "Source:", source);
+
+        // Keep UTMs and other ad parameters, but remove manual v override.
+        urlParams.delete("v");
+        var query = urlParams.toString();
+
+        var dest =
+          "/strengthen-wives/" + variant + "/" + (query ? "?" + query : "");
+
+        window.location.replace(dest);
+      })();
+    </script>
+  </head>
+
+  <body>
+    <noscript>
+      <p>
+        Please enable JavaScript or
+        <a href="/strengthen-wives/v4/">continue here</a>.
+      </p>
+    </noscript>
+  </body>
 </html>

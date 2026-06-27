@@ -1,266 +1,636 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Welcome | Cultivating the Fruit</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --blue: #1F628E; --blue-dark: #174b6d; --blue-light: #e8f2f9;
-      --pink-soft: #FFE4E5; --coral: #E8545A; --coral-dark: #D4434A;
-      --black: #231F20; --off-white: #FFFEFA; --white: #ffffff; --gray: #5a5456;
-      --font-head: 'Oswald', sans-serif; --font-body: 'Open Sans', sans-serif;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: var(--font-body); font-size: 16px; line-height: 1.7; color: var(--black); background: var(--off-white); -webkit-font-smoothing: antialiased; }
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Welcome | Cultivating the Fruit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --blue: #1f628e;
+        --blue-dark: #174b6d;
+        --blue-light: #e8f2f9;
+        --pink-soft: #ffe4e5;
+        --coral: #e8545a;
+        --coral-dark: #d4434a;
+        --black: #231f20;
+        --off-white: #fffefa;
+        --white: #ffffff;
+        --gray: #5a5456;
+        --font-head: "Oswald", sans-serif;
+        --font-body: "Open Sans", sans-serif;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.7;
+        color: var(--black);
+        background: var(--off-white);
+        -webkit-font-smoothing: antialiased;
+      }
 
-    .page-header { background: var(--white); border-bottom: 1px solid rgba(31,98,142,0.1); padding: 16px 24px; text-align: center; }
-    .page-header img { max-width: 200px; }
-    .container { max-width: 640px; margin: 0 auto; padding: 0 20px; }
+      .page-header {
+        background: var(--white);
+        border-bottom: 1px solid rgba(31, 98, 142, 0.1);
+        padding: 16px 24px;
+        text-align: center;
+      }
+      .page-header img {
+        max-width: 200px;
+      }
+      .container {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
 
-    /* HERO */
-    .welcome-hero { background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%); padding: 48px 0 40px; text-align: center; color: white; }
-    .welcome-hero .tick { width: 64px; height: 64px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 28px; }
-    .welcome-hero h1 { font-family: var(--font-head); font-size: clamp(22px, 4vw, 32px); font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 12px; line-height: 1.2; }
-    .welcome-hero p { font-size: 16px; opacity: 0.9; max-width: 480px; margin: 0 auto; }
+      /* HERO */
+      .welcome-hero {
+        background: linear-gradient(
+          135deg,
+          var(--blue) 0%,
+          var(--blue-dark) 100%
+        );
+        padding: 48px 0 40px;
+        text-align: center;
+        color: white;
+      }
+      .welcome-hero .tick {
+        width: 64px;
+        height: 64px;
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 28px;
+      }
+      .welcome-hero h1 {
+        font-family: var(--font-head);
+        font-size: clamp(22px, 4vw, 32px);
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        line-height: 1.2;
+      }
+      .welcome-hero p {
+        font-size: 16px;
+        opacity: 0.9;
+        max-width: 480px;
+        margin: 0 auto;
+      }
 
-    /* EMAIL NOTICE */
-    .email-notice { background: var(--pink-soft); border: 2px solid #F7838D; border-radius: 12px; padding: 20px 24px; margin: 32px 0 24px; text-align: center; }
-    .email-notice p { font-size: 15px; color: var(--black); margin-bottom: 6px; }
-    .email-notice p:last-child { margin: 0; font-size: 13px; color: var(--gray); }
-    .email-notice strong { color: var(--blue); }
+      /* EMAIL NOTICE */
+      .email-notice {
+        background: var(--pink-soft);
+        border: 2px solid #f7838d;
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin: 32px 0 24px;
+        text-align: center;
+      }
+      .email-notice p {
+        font-size: 15px;
+        color: var(--black);
+        margin-bottom: 6px;
+      }
+      .email-notice p:last-child {
+        margin: 0;
+        font-size: 13px;
+        color: var(--gray);
+      }
+      .email-notice strong {
+        color: var(--blue);
+      }
 
-    /* INVITE CODE */
-    .code-section { background: var(--white); border: 2px solid var(--blue); border-radius: 16px; padding: 28px 24px; margin-bottom: 28px; text-align: center; }
-    .code-label { font-family: var(--font-head); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; }
-    .code-display { font-family: var(--font-head); font-size: clamp(28px, 7vw, 44px); font-weight: 700; letter-spacing: 0.18em; color: var(--black); background: var(--blue-light); border-radius: 10px; padding: 12px 20px; display: inline-block; margin-bottom: 12px; min-width: 200px; }
-    .code-note { font-size: 13px; color: var(--gray); }
-    .copy-btn { margin-top: 12px; background: none; border: 1.5px solid var(--blue); color: var(--blue); font-family: var(--font-head); font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 20px; border-radius: 6px; cursor: pointer; transition: all 0.2s; display: inline-block; }
-    .copy-btn:hover { background: var(--blue); color: white; }
-    .copy-btn.copied { background: #2a9d5c; border-color: #2a9d5c; color: white; }
+      /* INVITE CODE */
+      .code-section {
+        background: var(--white);
+        border: 2px solid var(--blue);
+        border-radius: 16px;
+        padding: 28px 24px;
+        margin-bottom: 28px;
+        text-align: center;
+      }
+      .code-label {
+        font-family: var(--font-head);
+        font-size: 13px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin-bottom: 10px;
+      }
+      .code-display {
+        font-family: var(--font-head);
+        font-size: clamp(28px, 7vw, 44px);
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        color: var(--black);
+        background: var(--blue-light);
+        border-radius: 10px;
+        padding: 12px 20px;
+        display: inline-block;
+        margin-bottom: 12px;
+        min-width: 200px;
+      }
+      .code-note {
+        font-size: 13px;
+        color: var(--gray);
+      }
+      .copy-btn {
+        margin-top: 12px;
+        background: none;
+        border: 1.5px solid var(--blue);
+        color: var(--blue);
+        font-family: var(--font-head);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 8px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: inline-block;
+      }
+      .copy-btn:hover {
+        background: var(--blue);
+        color: white;
+      }
+      .copy-btn.copied {
+        background: #2a9d5c;
+        border-color: #2a9d5c;
+        color: white;
+      }
 
-    /* GET THE APP CTA */
-    .app-cta { background: var(--blue); border-radius: 16px; padding: 32px 28px; margin-bottom: 28px; text-align: center; color: white; }
-    .app-cta h2 { font-family: var(--font-head); font-size: 20px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 10px; }
-    .app-cta p { font-size: 14px; opacity: 0.9; margin-bottom: 20px; }
-    .btn-primary { display: inline-block; background: var(--coral); color: white; font-family: var(--font-head); font-size: 16px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 15px 36px; border-radius: 8px; text-decoration: none; animation: pulse 2.4s infinite; transition: background 0.2s; }
-    .btn-primary:hover { background: var(--coral-dark); animation: none; }
-    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(232,84,90,0.4); } 50% { box-shadow: 0 0 0 10px rgba(232,84,90,0); } }
-
-    /* STEPS */
-    .steps-section { padding: 8px 0 28px; }
-    .steps-section h2 { font-family: var(--font-head); font-size: 20px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blue); margin-bottom: 20px; text-align: center; }
-    .step-card { background: var(--white); border: 1px solid rgba(31,98,142,0.12); border-radius: 12px; padding: 20px 24px; margin-bottom: 12px; display: flex; gap: 16px; align-items: flex-start; }
-    .step-num { flex-shrink: 0; width: 36px; height: 36px; background: var(--blue); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 15px; font-weight: 700; }
-    .step-text h3 { font-family: var(--font-head); font-size: 15px; font-weight: 600; color: var(--blue); margin-bottom: 4px; letter-spacing: 0.02em; }
-    .step-text p { font-size: 14px; color: var(--gray); margin: 0; }
-
-    /* WORD BEFORE */
-    .whats-next { background: var(--blue-light); border: 1px solid rgba(31,98,142,0.15); border-radius: 16px; padding: 28px; margin-bottom: 28px; text-align: center; }
-    .whats-next h2 { font-family: var(--font-head); font-size: 18px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blue); margin-bottom: 12px; }
-    .whats-next p { font-size: 14px; color: var(--gray); margin-bottom: 8px; }
-    .whats-next p:last-child { margin: 0; }
-
-    /* SUPPORT */
-    .support-section { padding: 0 0 48px; text-align: center; }
-    .support-section p { font-size: 14px; color: var(--gray); }
-    .support-section a { color: var(--blue); }
-
-    .page-footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 24px; font-size: 12px; text-align: center; }
-    .page-footer a { color: rgba(255,255,255,0.5); }
-  </style>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '4612419208988268');
-fbq('track', 'PageView');
-fbq('track', 'Purchase', {currency: 'AUD', value: 79.00});
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"/></noscript>
-<!-- End Meta Pixel Code -->
-</head>
-<body>
-
-<div class="page-header">
-  <img src="/logo.png" alt="Cultivating the Fruit">
-</div>
-
-<div class="welcome-hero">
-  <div class="container">
-    <div class="tick">✓</div>
-    <h1>You Are In. Welcome.</h1>
-    <p>Your order is confirmed. Here is everything you need to get started.</p>
-  </div>
-</div>
-
-<div style="padding-top: 8px; padding-bottom: 8px;">
-  <div class="container">
-
-    <!-- EMAIL NOTICE -->
-    <div class="email-notice">
-      <p>📧 <strong>Check your email.</strong> A confirmation with your invite code and download link has been sent to the address you used at checkout.</p>
-      <p>If you do not see it within a few minutes, check your junk or spam folder and mark it as safe.</p>
-    </div>
-
-    <!-- INVITE CODE -->
-    <div class="code-section" id="codeSection">
-      <div class="code-label">Your Invite Code</div>
-      <div class="code-display" id="inviteCode">Loading...</div>
-      <div class="code-note">You will need this when you create your account in the app.</div>
-      <br>
-      <button class="copy-btn" onclick="copyCode()" id="copyBtn">Copy Code</button>
-    </div>
-
-    <!-- GET THE APP -->
-    <div class="app-cta">
-      <h2>Ready to Install the App?</h2>
-      <p>Tap the button below for step-by-step instructions to add Cultivating the Fruit to your phone's home screen. It only takes a minute and works on any phone.</p>
-      <a href="/strengthen-wives/get-the-app" class="btn-primary" id="getAppBtn">Get the App</a>
-    </div>
-
-    <!-- DESKTOP/MOBILE BOX (shown only on desktop) -->
-    <div id="desktopMobileBox" style="display:none; background:var(--blue-light); border:1px solid rgba(31,98,142,0.2); border-radius:16px; padding:24px 28px; margin-bottom:28px; text-align:center;">
-      <h2 style="font-family:var(--font-head); font-size:18px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--blue); margin-bottom:10px;">Opening this on your computer?</h2>
-      <p style="font-size:14px; color:var(--gray); margin-bottom:12px;">The app is designed for your phone. Open your confirmation email on your phone, or scan this QR code with your phone camera to continue on mobile.</p>
-      <div id="qrCode" style="width:180px; height:180px; margin:12px auto; display:flex; align-items:center; justify-content:center;"></div>
-    </div>
-
-    <!-- WHAT TO DO INSIDE -->
-    <div class="steps-section">
-      <h2>Your First Day</h2>
-
-      <div class="step-card">
-        <div class="step-num">1</div>
-        <div class="step-text">
-          <h3>Choose the Strengthen Your Marriage stream</h3>
-          <p>When you open the app for the first time, select this stream. You can explore others from within the app at any time.</p>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-num">2</div>
-        <div class="step-text">
-          <h3>Read today's Scripture anchor</h3>
-          <p>Each day opens with a verse and a quality from the Fruit of the Spirit. Read it slowly and let it settle before you choose your action.</p>
-        </div>
-      </div>
-
-      <div class="step-card">
-        <div class="step-num">3</div>
-        <div class="step-text">
-          <h3>Choose one action and do it</h3>
-          <p>You will see five options — something you say, something you do, a conversation, time together, or a moment with God first. Choose one. One is enough.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- A WORD BEFORE YOU BEGIN -->
-    <div class="whats-next">
-      <h2>A Word Before You Begin</h2>
-      <p>You do not need to do anything big today. You do not need your husband to be on board. You do not need to feel inspired or certain.</p>
-      <p>You just need to open the app, read the verse, and choose one thing to do today.</p>
-      <p>That is the whole practice. Small, faithful, consistent.</p>
-    </div>
-
-    <!-- SUPPORT -->
-    <div class="support-section">
-      <p>Questions? Email us at <a href="mailto:hello@cultivatingthefruit.com">hello@cultivatingthefruit.com</a></p>
-      <p style="margin-top:8px;">We will get back to you within one business day.</p>
-    </div>
-
-  </div>
-</div>
-
-<div class="page-footer">
-  <p>Cultivating the Fruit · <a href="/privacy">Privacy Policy</a> · <a href="/refunds">Refunds</a> · <a href="/terms">Terms</a></p>
-  <p style="margin-top:8px;">© 2026. All Rights Reserved.</p>
-</div>
-
-<script>
-  function copyCode() {
-    const code = document.getElementById('inviteCode').textContent.trim();
-    if (!code || code === 'Loading...' || code === 'Check your email') return;
-    navigator.clipboard.writeText(code).then(() => {
-      const btn = document.getElementById('copyBtn');
-      btn.textContent = 'Copied!';
-      btn.classList.add('copied');
-      setTimeout(() => {
-        btn.textContent = 'Copy Code';
-        btn.classList.remove('copied');
-      }, 2500);
-    });
-  }
-
-  function updateDesktopMobileBox() {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const box = document.getElementById('desktopMobileBox');
-    const qrContainer = document.getElementById('qrCode');
-    if (!isMobile && box && qrContainer) {
-      box.style.display = 'block';
-      const href = document.getElementById('getAppBtn').getAttribute('href') || '';
-      const appUrl = href.startsWith('http') ? href : 'https://www.cultivatingthefruit.com' + href;
-      qrContainer.innerHTML = '';
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
-      script.onload = function() {
-        new QRCode(qrContainer, {
-          text: appUrl,
-          width: 180,
-          height: 180,
-          colorDark: '#1F628E',
-          colorLight: '#ffffff',
-          correctLevel: QRCode.CorrectLevel.M
-        });
-      };
-      document.head.appendChild(script);
-    }
-  }
-
-  function applyCode(code) {
-    if (!code) return;
-    const upper = code.toUpperCase();
-    document.getElementById('inviteCode').textContent = upper;
-    document.getElementById('getAppBtn').href = '/strengthen-wives/get-the-app?code=' + encodeURIComponent(upper);
-    updateDesktopMobileBox();
-  }
-
-  function showCodeError() {
-    document.getElementById('codeSection').style.display = 'none';
-    const notice = document.querySelector('.email-notice');
-    notice.innerHTML = '<p>\uD83D\uDCE7 <strong>Your invite code has been sent to your email.</strong></p><p>Open your confirmation email on your phone to install the app and create your account.</p>';
-    document.getElementById('getAppBtn').href = '/strengthen-wives/get-the-app';
-    updateDesktopMobileBox();
-  }
-
-  const params = new URLSearchParams(window.location.search);
-  const sessionId = params.get('session_id');
-
-  if (sessionId) {
-    fetch('/api/get-invite-code?session_id=' + encodeURIComponent(sessionId))
-      .then(r => r.json())
-      .then(data => {
-        if (data.invite_code) {
-          applyCode(data.invite_code);
-        } else {
-          showCodeError();
+      /* GET THE APP CTA */
+      .app-cta {
+        background: var(--blue);
+        border-radius: 16px;
+        padding: 32px 28px;
+        margin-bottom: 28px;
+        text-align: center;
+        color: white;
+      }
+      .app-cta h2 {
+        font-family: var(--font-head);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .app-cta p {
+        font-size: 14px;
+        opacity: 0.9;
+        margin-bottom: 20px;
+      }
+      .btn-primary {
+        display: inline-block;
+        background: var(--coral);
+        color: white;
+        font-family: var(--font-head);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 15px 36px;
+        border-radius: 8px;
+        text-decoration: none;
+        animation: pulse 2.4s infinite;
+        transition: background 0.2s;
+      }
+      .btn-primary:hover {
+        background: var(--coral-dark);
+        animation: none;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(232, 84, 90, 0.4);
         }
-      })
-      .catch(() => showCodeError());
-  } else {
-    showCodeError();
-  }
-</script>
+        50% {
+          box-shadow: 0 0 0 10px rgba(232, 84, 90, 0);
+        }
+      }
 
-</body>
+      /* STEPS */
+      .steps-section {
+        padding: 8px 0 28px;
+      }
+      .steps-section h2 {
+        font-family: var(--font-head);
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .step-card {
+        background: var(--white);
+        border: 1px solid rgba(31, 98, 142, 0.12);
+        border-radius: 12px;
+        padding: 20px 24px;
+        margin-bottom: 12px;
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .step-num {
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        background: var(--blue);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-head);
+        font-size: 15px;
+        font-weight: 700;
+      }
+      .step-text h3 {
+        font-family: var(--font-head);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--blue);
+        margin-bottom: 4px;
+        letter-spacing: 0.02em;
+      }
+      .step-text p {
+        font-size: 14px;
+        color: var(--gray);
+        margin: 0;
+      }
+
+      /* WORD BEFORE */
+      .whats-next {
+        background: var(--blue-light);
+        border: 1px solid rgba(31, 98, 142, 0.15);
+        border-radius: 16px;
+        padding: 28px;
+        margin-bottom: 28px;
+        text-align: center;
+      }
+      .whats-next h2 {
+        font-family: var(--font-head);
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--blue);
+        margin-bottom: 12px;
+      }
+      .whats-next p {
+        font-size: 14px;
+        color: var(--gray);
+        margin-bottom: 8px;
+      }
+      .whats-next p:last-child {
+        margin: 0;
+      }
+
+      /* SUPPORT */
+      .support-section {
+        padding: 0 0 48px;
+        text-align: center;
+      }
+      .support-section p {
+        font-size: 14px;
+        color: var(--gray);
+      }
+      .support-section a {
+        color: var(--blue);
+      }
+
+      .page-footer {
+        background: var(--black);
+        color: rgba(255, 255, 255, 0.5);
+        padding: 24px;
+        font-size: 12px;
+        text-align: center;
+      }
+      .page-footer a {
+        color: rgba(255, 255, 255, 0.5);
+      }
+    </style>
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js",
+      );
+      fbq("init", "4612419208988268");
+      fbq("track", "PageView");
+      fbq("track", "Purchase", { currency: "AUD", value: 79.0 });
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=4612419208988268&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+  </head>
+  <body>
+    <div class="page-header">
+      <img src="/logo.png" alt="Cultivating the Fruit" />
+    </div>
+
+    <div class="welcome-hero">
+      <div class="container">
+        <div class="tick">✓</div>
+        <h1>You Are In. Welcome.</h1>
+        <p>
+          Your order is confirmed. Here is everything you need to get started.
+        </p>
+      </div>
+    </div>
+
+    <div style="padding-top: 8px; padding-bottom: 8px">
+      <div class="container">
+        <!-- EMAIL NOTICE -->
+        <div class="email-notice">
+          <p>
+            📧 <strong>Check your email.</strong> A confirmation with your
+            invite code and download link has been sent to the address you used
+            at checkout.
+          </p>
+          <p>
+            If you do not see it within a few minutes, check your junk or spam
+            folder and mark it as safe.
+          </p>
+        </div>
+
+        <!-- INVITE CODE -->
+        <div class="code-section" id="codeSection">
+          <div class="code-label">Your Invite Code</div>
+          <div class="code-display" id="inviteCode">Loading...</div>
+          <div class="code-note">
+            You will need this when you create your account in the app.
+          </div>
+          <br />
+          <button class="copy-btn" onclick="copyCode()" id="copyBtn">
+            Copy Code
+          </button>
+        </div>
+
+        <!-- GET THE APP -->
+        <div class="app-cta">
+          <h2>Ready to Install the App?</h2>
+          <p>
+            Tap the button below for step-by-step instructions to add
+            Cultivating the Fruit to your phone's home screen. It only takes a
+            minute and works on any phone.
+          </p>
+          <a
+            href="/strengthen-wives/get-the-app"
+            class="btn-primary"
+            id="getAppBtn"
+            >Get the App</a
+          >
+        </div>
+
+        <!-- DESKTOP/MOBILE BOX (shown only on desktop) -->
+        <div
+          id="desktopMobileBox"
+          style="
+            display: none;
+            background: var(--blue-light);
+            border: 1px solid rgba(31, 98, 142, 0.2);
+            border-radius: 16px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            text-align: center;
+          "
+        >
+          <h2
+            style="
+              font-family: var(--font-head);
+              font-size: 18px;
+              font-weight: 600;
+              letter-spacing: 0.04em;
+              text-transform: uppercase;
+              color: var(--blue);
+              margin-bottom: 10px;
+            "
+          >
+            Opening this on your computer?
+          </h2>
+          <p style="font-size: 14px; color: var(--gray); margin-bottom: 12px">
+            The app is designed for your phone. Open your confirmation email on
+            your phone, or scan this QR code with your phone camera to continue
+            on mobile.
+          </p>
+          <div
+            id="qrCode"
+            style="
+              width: 180px;
+              height: 180px;
+              margin: 12px auto;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          ></div>
+        </div>
+
+        <!-- WHAT TO DO INSIDE -->
+        <div class="steps-section">
+          <h2>Your First Day</h2>
+
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <div class="step-text">
+              <h3>Choose the Strengthen Your Marriage stream</h3>
+              <p>
+                When you open the app for the first time, select this stream.
+                You can explore others from within the app at any time.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <div class="step-text">
+              <h3>Read today's Scripture anchor</h3>
+              <p>
+                Each day opens with a verse and a quality from the Fruit of the
+                Spirit. Read it slowly and let it settle before you choose your
+                action.
+              </p>
+            </div>
+          </div>
+
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <div class="step-text">
+              <h3>Choose one action and do it</h3>
+              <p>
+                You will see five options — something you say, something you do,
+                a conversation, time together, or a moment with God first.
+                Choose one. One is enough.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- A WORD BEFORE YOU BEGIN -->
+        <div class="whats-next">
+          <h2>A Word Before You Begin</h2>
+          <p>
+            You do not need to do anything big today. You do not need your
+            husband to be on board. You do not need to feel inspired or certain.
+          </p>
+          <p>
+            You just need to open the app, read the verse, and choose one thing
+            to do today.
+          </p>
+          <p>That is the whole practice. Small, faithful, consistent.</p>
+        </div>
+
+        <!-- SUPPORT -->
+        <div class="support-section">
+          <p>
+            Questions? Email us at
+            <a href="mailto:hello@cultivatingthefruit.com"
+              >hello@cultivatingthefruit.com</a
+            >
+          </p>
+          <p style="margin-top: 8px">
+            We will get back to you within one business day.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <p>
+        Cultivating the Fruit · <a href="/privacy">Privacy Policy</a> ·
+        <a href="/refunds">Refunds</a> · <a href="/terms">Terms</a>
+      </p>
+      <p style="margin-top: 8px">© 2026. All Rights Reserved.</p>
+    </div>
+
+    <script>
+      function copyCode() {
+        const code = document.getElementById("inviteCode").textContent.trim();
+        if (!code || code === "Loading..." || code === "Check your email")
+          return;
+        navigator.clipboard.writeText(code).then(() => {
+          const btn = document.getElementById("copyBtn");
+          btn.textContent = "Copied!";
+          btn.classList.add("copied");
+          setTimeout(() => {
+            btn.textContent = "Copy Code";
+            btn.classList.remove("copied");
+          }, 2500);
+        });
+      }
+
+      function updateDesktopMobileBox() {
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const box = document.getElementById("desktopMobileBox");
+        const qrContainer = document.getElementById("qrCode");
+        if (!isMobile && box && qrContainer) {
+          box.style.display = "block";
+          const href =
+            document.getElementById("getAppBtn").getAttribute("href") || "";
+          const appUrl = href.startsWith("http")
+            ? href
+            : "https://www.cultivatingthefruit.com" + href;
+          qrContainer.innerHTML = "";
+          const script = document.createElement("script");
+          script.src =
+            "https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";
+          script.onload = function () {
+            new QRCode(qrContainer, {
+              text: appUrl,
+              width: 180,
+              height: 180,
+              colorDark: "#1F628E",
+              colorLight: "#ffffff",
+              correctLevel: QRCode.CorrectLevel.M,
+            });
+          };
+          document.head.appendChild(script);
+        }
+      }
+
+      function applyCode(code) {
+        if (!code) return;
+        const upper = code.toUpperCase();
+        document.getElementById("inviteCode").textContent = upper;
+        document.getElementById("getAppBtn").href =
+          "/strengthen-wives/get-the-app?code=" + encodeURIComponent(upper);
+        updateDesktopMobileBox();
+      }
+
+      function showCodeError() {
+        document.getElementById("codeSection").style.display = "none";
+        const notice = document.querySelector(".email-notice");
+        notice.innerHTML =
+          "<p>\uD83D\uDCE7 <strong>Your invite code has been sent to your email.</strong></p><p>Open your confirmation email on your phone to install the app and create your account.</p>";
+        document.getElementById("getAppBtn").href =
+          "/strengthen-wives/get-the-app";
+        updateDesktopMobileBox();
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+
+      if (sessionId) {
+        fetch(
+          "/api/get-invite-code?session_id=" + encodeURIComponent(sessionId),
+        )
+          .then((r) => r.json())
+          .then((data) => {
+            if (data.invite_code) {
+              applyCode(data.invite_code);
+            } else {
+              showCodeError();
+            }
+          })
+          .catch(() => showCodeError());
+      } else {
+        showCodeError();
+      }
+    </script>
+  </body>
 </html>
